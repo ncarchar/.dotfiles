@@ -6,6 +6,7 @@
         awscli2
         cargo
         cmake
+        docker
         eza
         fzf
         gcc
