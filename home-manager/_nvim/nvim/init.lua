@@ -75,20 +75,20 @@ require('lazy').setup(
                 end,
             },
         },
-        {
-            'navarasu/onedark.nvim',
-            lazy = false,
-            priority = 1000,
-            -- config = function()
-            --     vim.cmd.colorscheme 'onedark'
-            -- end,
-        },
+        -- {
+        --     'navarasu/onedark.nvim',
+        --     lazy = false,
+        --     priority = 1000,
+        --     -- config = function()
+        --     --     vim.cmd.colorscheme 'onedark'
+        --     -- end,
+        -- },
         {
             'ellisonleao/gruvbox.nvim',
             lazy = false,
             priority = 1000,
             config = function()
-                vim.cmd.colorscheme 'gruvbox'
+                vim.cmd.colorscheme 'gruvbox.nvim'
             end,
         },
         {
