@@ -21,7 +21,7 @@ if [[ -n "$WSL_DISTRO_NAME" ]]; then
 
     echo "Copying config files to Windows..."
     read -p "Enter Windows Users directory (e.g., /mnt/c/Users/<username>/): " windows_users_dir
-    sudo cp ./_alacritty/alacritty.toml "/mnt/c/Users/${windows_users_dir}/"
+    sudo cp ./home-manager/_alacritty/alacritty.toml "/mnt/c/Users/${windows_users_dir}/"
 else
     echo "Not running in WSL"
     sudo stow -t /etc/nixos/ nixos

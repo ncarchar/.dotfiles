@@ -13,6 +13,8 @@
     ".prettierrc".source = ./../_prettier/.prettierrc;
     ".scripts".source = ./../_scripts/.scripts;
     ".tmux.conf".source = ./../_tmux/.tmux.conf;
+    ".config/i3".source = ./../_i3/i3;
+    ".config/i3blocks".source = ./../_i3blocks/i3blocks;
   };
 
   home.sessionVariables = {
