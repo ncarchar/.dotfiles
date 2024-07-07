@@ -8,6 +8,7 @@
     initExtra = "export PATH=$HOME/.scripts:$PATH\neval \"$(zoxide init zsh)\"";
     history = {
       share = true;
+      extended = true;
     };
     oh-my-zsh = {
       theme = "robbyrussell";
