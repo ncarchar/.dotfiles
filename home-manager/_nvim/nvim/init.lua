@@ -75,21 +75,21 @@ require('lazy').setup(
                 end,
             },
         },
-        -- {
-        --     'navarasu/onedark.nvim',
-        --     lazy = false,
-        --     priority = 1000,
-        --     -- config = function()
-        --     --     vim.cmd.colorscheme 'onedark'
-        --     -- end,
-        -- },
+        {
+            'navarasu/onedark.nvim',
+            lazy = false,
+            priority = 1000,
+            config = function()
+                vim.cmd.colorscheme 'onedark'
+            end,
+        },
         {
             'ellisonleao/gruvbox.nvim',
             lazy = false,
             priority = 1000,
-            config = function()
-                vim.cmd.colorscheme 'gruvbox'
-            end,
+            -- config = function()
+            --     vim.cmd.colorscheme 'gruvbox'
+            -- end,
         },
         {
             -- Add indentation guides even on blank lines
@@ -199,10 +199,10 @@ require('lazy').setup(
     },
     {})
 -- theme
--- require('onedark').setup {
---    style = 'dark'
---}
---require('onedark').load()
+require('onedark').setup {
+    style = 'dark'
+}
+require('onedark').load()
 
 -- Generics
 require('generic.globals')
