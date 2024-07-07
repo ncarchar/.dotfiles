@@ -199,10 +199,10 @@ require('lazy').setup(
     },
     {})
 -- theme
-require('onedark').setup {
-    style = 'dark'
-}
-require('onedark').load()
+-- require('onedark').setup {
+--    style = 'dark'
+--}
+--require('onedark').load()
 
 -- Generics
 require('generic.globals')
