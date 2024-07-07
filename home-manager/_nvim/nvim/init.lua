@@ -79,20 +79,17 @@ require('lazy').setup(
             'navarasu/onedark.nvim',
             lazy = false,
             priority = 1000,
-            config = function()
-                vim.cmd.colorscheme 'onedark'
-            end,
-        },
-        {
-            'sainnhe/gruvbox-material',
-            lazy = false,
-            priority = 1000,
             -- config = function()
-            --     vim.cmd.colorscheme 'gruvbox-material'
+            --     vim.cmd.colorscheme 'onedark'
             -- end,
         },
         {
-            'ellisonleao/gruvbox.nvim'
+            'ellisonleao/gruvbox.nvim',
+            lazy = false,
+            priority = 1000,
+            config = function()
+                vim.cmd.colorscheme 'gruvbox'
+            end,
         },
         {
             -- Add indentation guides even on blank lines
