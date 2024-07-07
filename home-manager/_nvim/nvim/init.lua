@@ -88,7 +88,7 @@ require('lazy').setup(
             lazy = false,
             priority = 1000,
             config = function()
-                vim.cmd.colorscheme 'gruvbox.nvim'
+                vim.cmd.colorscheme 'gruvbox'
             end,
         },
         {
