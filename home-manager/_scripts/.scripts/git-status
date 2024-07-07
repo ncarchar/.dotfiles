@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+
+# Define the directory to start searching from
+if [ "$#" -eq 1 ]; then
+    SEARCH_DIR="$1"
+else
+    SEARCH_DIR="$PWD"
+fi
+
+# Function to check each git repo
+check_git_repo() {
+    local repo_path="$1"
+    pushd "$repo_path" > /dev/null || return
+
+    # Check if the repository has been initialized with at least one commit
+    if ! git rev-parse HEAD > /dev/null 2>&1; then
+        echo "Repository at $repo_path has no commits yet."
+        popd > /dev/null
+        return
+    fi
+
+    # Check for uncommitted changes
+    if ! git diff --quiet || ! git diff --cached --quiet; then
+        echo "Uncommitted changes in $repo_path"
+    fi
+
+    # Check for changes not pushed to remote
+    local current_branch
+    current_branch=$(git rev-parse --abbrev-ref HEAD)
+    local remote_name
+    remote_name=$(git for-each-ref --format='%(upstream:short)' "$(git symbolic-ref -q HEAD)")
+
+    if [ -n "$remote_name" ]; then
+        local remote_branch="${remote_name#*/}"
+        local commits_diff
+        commits_diff=$(git rev-list --count HEAD.."${remote_name}")
+
+        if [ "$commits_diff" -gt 0 ]; then
+            echo "Commits in $repo_path on branch $current_branch not pushed to $remote_branch"
+        fi
+    else
+        echo "No remote tracking branch for $repo_path on branch $current_branch"
+    fi
+
+    popd > /dev/null || return
+}
+
+export -f check_git_repo
+
+# Find all git repositories and check each one
+find "$SEARCH_DIR" -type d -name .git | while read -r gitdir; do
+    repo_path=$(dirname "$gitdir")
+    check_git_repo "$repo_path"
+done

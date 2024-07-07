@@ -1,0 +1,8 @@
+#!/usr/bin/env zsh
+
+selected=$(fc -ln | uniq | fzf --border --ansi --height 40%)
+
+if [[ -n $selected ]]; then
+    echo -n "$selected" | xclip -selection clipboard
+    echo "'$selected' copied to clipboard."
+fi
