@@ -5,6 +5,7 @@
         automake
         awscli2
         cargo
+        corretto21
         cmake
         docker
         eza
