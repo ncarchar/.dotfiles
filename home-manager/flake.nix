@@ -19,7 +19,15 @@
       ncarchar = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
-          ./nix/home.nix
+          ./nix/p/home.nix
+          ./nix/packages.nix
+          ./nix/zsh.nix
+        ];
+      };
+      cvhew = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        modules = [
+          ./nix/w/home.nix
           ./nix/packages.nix
           ./nix/zsh.nix
         ];
