@@ -6,6 +6,9 @@
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
     initExtra = "export PATH=$HOME/.scripts:$PATH\neval \"$(zoxide init zsh)\"";
+    history = {
+      share = true;
+    };
     oh-my-zsh = {
       theme = "robbyrussell";
       enable = true;
@@ -22,4 +25,3 @@
     };
   };
 }
-
