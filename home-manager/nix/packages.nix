@@ -3,6 +3,7 @@
     home.packages = with pkgs; [
         ansible
         automake
+        awscli2
         cargo
         cmake
         eza
