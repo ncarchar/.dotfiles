@@ -110,12 +110,14 @@
       };
       desktopManager = {
         xterm.enable = false;
+        wallpaper.mode = "fill";
       };
     };
     displayManager = {
       defaultSession = "none+i3";
     };
   };
+
   # Setup NVIDIA drivers
   hardware.nvidia.open = true;
   hardware.opengl.enable = true;

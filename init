@@ -25,6 +25,7 @@ if [[ -n "$WSL_DISTRO_NAME" ]]; then
 else
     echo "Not running in WSL"
     sudo stow -t /etc/nixos/ nixos
+    stow -t ~/.background-image wallpaper/.background-image
 fi
 
 ansible-playbook ssh/ssh.yml --ask-vault-pass
