@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-selected=$(fc -l -t '%F %T' | fzf --border --ansi --height 40% | awk '{$1=""; print $0}' | sed 's/^\s*//')
+selected=$(fc -ln -t '%F %T' | fzf --border --ansi --height 40% | awk '{$1=""; print $0}' | sed 's/^\s*//')
 
 if [[ -n $selected ]]; then
     echo -n "$selected" | xclip -selection clipboard
