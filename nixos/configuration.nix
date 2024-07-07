@@ -143,4 +143,7 @@
     nssmdns4 = true;
     openFirewall = true;
   };
+
+  programs.zsh.enable = true;
+  users.defaultUserShell = pkgs.zsh;
 }

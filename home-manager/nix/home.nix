@@ -15,7 +15,7 @@
     ".tmux.conf".source = ./../_tmux/.tmux.conf;
     ".config/i3".source = ./../_i3/i3;
     ".config/i3blocks".source = ./../_i3blocks/i3blocks;
-    "alacritty/".source = ./../_alacritty/alacritty;
+    ".alacritty.toml".source = ./../_alacritty/.alacritty.toml;
   };
 
   home.sessionVariables = {
