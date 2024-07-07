@@ -13,6 +13,7 @@
         jq
         neovim
         nodePackages."@angular/cli"
+        nodePackages."eslint"
         nodePackages."prettier"
         nodePackages."typescript"
         nodejs
