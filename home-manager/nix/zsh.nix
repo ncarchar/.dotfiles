@@ -5,7 +5,7 @@
     enableCompletion = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
-    initExtra = "export PATH=$HOME/.scripts:$PATH";
+    initExtra = "export PATH=$HOME/.scripts:$PATH\neval \"$(zoxide init zsh)\"";
     oh-my-zsh = {
       theme = "robbyrussell";
       enable = true;
