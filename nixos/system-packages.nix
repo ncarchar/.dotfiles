@@ -40,6 +40,7 @@
     pulseaudio
     python3
     ripgrep
+    redshift
     rustc
     scrot
     slurp
