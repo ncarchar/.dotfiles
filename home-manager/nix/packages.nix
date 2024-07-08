@@ -22,7 +22,6 @@
         nodejs
         python312
         ripgrep
-        sc-im
         tmux
         unzip
         xclip
