@@ -25,5 +25,5 @@ nix run nixpkgs#home-manager -- switch --flake ~/.config/home-manager/#$USER &> 
 echo "commiting to git..."
 check=$(tar -cf - ./ | md5sum);
 git add .
-git commit -am "$gen[$check]"
+git commit -am "$check$gen"
 echo "complete"
