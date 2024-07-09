@@ -14,6 +14,7 @@
         git
         go
         jq
+        maven
         neovim
         nodePackages."@angular/cli"
         nodePackages."eslint"

@@ -19,9 +19,11 @@ rm -r ~/.config/home-manager
 cp -r home-manager/ ~/.config/home-manager
 
 echo "rebuilding home-manager..."
+
 nix run nixpkgs#home-manager -- switch --flake ~/.config/home-manager/#$USER &> "$HOME_MANAGER_LOG" || (
  cat "$HOME_MANAGER_LOG" | grep --color error && false)
 echo "commiting to git..."
+check=$(tar -cf - ./ | md5sum);
 git add .
-git commit -am "$gen"
+git commit -am "$gen[$check]"
 echo "complete"
