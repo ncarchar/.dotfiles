@@ -36,7 +36,6 @@ local function format_buffer()
         json = 'prettier',
         yaml = 'prettier',
         markdown = 'prettier',
-        nix = 'prettier'
     }
 
     if formatters[filetype] then
