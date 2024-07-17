@@ -36,6 +36,7 @@ local function format_buffer()
         json = 'prettier',
         yaml = 'prettier',
         markdown = 'prettier',
+        nix = 'nixpkgs-fmt'
     }
 
     if formatters[filetype] then
