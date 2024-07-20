@@ -10,7 +10,6 @@
     bison
     dbus
     cargo
-    chromium
     cups
     cmake
     eza
