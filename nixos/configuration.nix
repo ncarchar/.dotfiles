@@ -84,6 +84,7 @@
   };
 
   # This value determines the NixOS release from which the default
+  # system.stateVersion = "24.05";
   system.stateVersion = "unstable";
 
   services.gnome.gnome-keyring.enable = true;
