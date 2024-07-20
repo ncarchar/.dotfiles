@@ -146,9 +146,11 @@
   programs.neovim.enable = true;
   programs.firefox.enable = true;
   programs.thunar.enable = true;
-
-  xdg.portal.enable = true;
-  services.flatpak.enable = true;
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = false;
+    dedicatedServer.openFirewall = true;
+  };
 
   # automatic updates and removal of old builds
   nix.gc = {
