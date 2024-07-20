@@ -152,6 +152,8 @@
     dedicatedServer.openFirewall = true;
   };
 
+  programs.gamemode.enable = true;
+
   # automatic updates and removal of old builds
   nix.gc = {
     automatic = true;
