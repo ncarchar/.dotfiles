@@ -129,6 +129,9 @@
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
+  hardware.opengl.driSupport32Bit = true;
+  hardware.pulseaudio.support32Bit = true;
+
   systemd.extraConfig = ''
     DefaultTimeoutStopSec=10s
   '';
