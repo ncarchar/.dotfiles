@@ -1,5 +1,5 @@
 {
-  description = "Ubuntu Nix";
+  description = "Nix";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
     home-manager = {
