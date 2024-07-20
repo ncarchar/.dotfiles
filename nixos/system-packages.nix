@@ -52,6 +52,9 @@
     swaylock
     tmux
     unzip
+    vulkan-tools
+    vulkan-validation-layers
+    vulkan-extension-layer
     waybar
     wf-recorder
     wget

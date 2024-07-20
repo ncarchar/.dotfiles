@@ -118,7 +118,6 @@
     };
   };
 
-  hardware.opengl.enable = true;
   # Setup NVIDIA drivers
   hardware.nvidia = {
     modesetting.enable = true;
@@ -129,7 +128,12 @@
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
-  hardware.opengl.driSupport32Bit = true;
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+  };
+
   hardware.pulseaudio.support32Bit = true;
 
   systemd.extraConfig = ''
