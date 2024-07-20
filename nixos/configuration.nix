@@ -10,6 +10,7 @@
       /etc/nixos/system-packages.nix
     ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  programs.nix-ld.enable = true;
 
   boot.loader = {
     timeout = 3;
