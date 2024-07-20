@@ -117,13 +117,15 @@
       defaultSession = "none+i3";
     };
   };
-
+  hardware = {
+    cpu.amd.updateMicrocode = true;
+  };
   # Setup NVIDIA drivers
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = false;
     powerManagement.finegrained = false;
-    open = true;
+    open = false;
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
     forceFullCompositionPipeline = true;
@@ -133,14 +135,7 @@
     enable = true;
     driSupport = true;
     driSupport32Bit = true;
-    extraPackages = with pkgs; [
-      vulkan-loader
-      vulkan-validation-layers
-      vulkan-tools
-    ];
   };
-
-  hardware.pulseaudio.support32Bit = true;
 
   systemd.extraConfig = ''
     DefaultTimeoutStopSec=10s
