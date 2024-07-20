@@ -45,7 +45,6 @@
     scrot
     slurp
     spotify
-    steam
     stow
     swaybg
     swayidle
