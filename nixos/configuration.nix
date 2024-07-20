@@ -148,7 +148,7 @@
   programs.thunar.enable = true;
   programs.steam = {
     enable = true;
-    remotePlay.openFirewall = false;
+    remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
   };
 
