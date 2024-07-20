@@ -119,6 +119,7 @@
   };
 
   # Setup NVIDIA drivers
+  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
   hardware.nvidia.open = true;
   hardware.opengl.enable = true;
   hardware.nvidia.modesetting.enable = true;
