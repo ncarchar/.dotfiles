@@ -118,11 +118,17 @@
     };
   };
 
-  # Setup NVIDIA drivers
-  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
-  hardware.nvidia.open = true;
   hardware.opengl.enable = true;
-  hardware.nvidia.modesetting.enable = true;
+  # Setup NVIDIA drivers
+  hardware.nvidia = {
+    modesetting.enable = true;
+    powerManagement.enable = false;
+    powerManagement.finegrained = false;
+    open = false;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };
+
   systemd.extraConfig = ''
     DefaultTimeoutStopSec=10s
   '';
