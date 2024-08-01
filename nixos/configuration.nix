@@ -96,7 +96,7 @@
       xkb.layout = "us";
       enable = true;
       exportConfiguration = true;
-      # videoDrivers = [ "nvidia" ];
+      videoDrivers = [ "nvidia" ];
       screenSection = ''
         Option "metamodes" "DP-2: 5120x2160+0+0"
       '';
@@ -109,41 +109,41 @@
           dmenu
         ];
       };
-      desktopManager = {
-        xterm.enable = false;
-        wallpaper.mode = "fill";
-      };
+      # desktopManager = {
+      #   xterm.enable = false;
+      #   wallpaper.mode = "fill";
+      # };
     };
-    displayManager = {
-      defaultSession = "none+i3";
-    };
+    # displayManager = {
+    #   defaultSession = "none+i3";
+    # };
   };
   hardware = {
     cpu.amd.updateMicrocode = true;
   };
   # Setup NVIDIA drivers
-  # hardware.nvidia = {
-  #   modesetting.enable = true;
-  #   powerManagement.enable = false;
-  #   powerManagement.finegrained = false;
-  #   open = false;
-  #   nvidiaSettings = true;
-  #   package = config.boot.kernelPackages.nvidiaPackages.stable;
-  #   forceFullCompositionPipeline = true;
-  # };
-  #
-  # hardware.opengl = {
-  #   enable = true;
-  #   driSupport = true;
-  #   driSupport32Bit = true;
-  # };
+  hardware.nvidia = {
+    modesetting.enable = true;
+    powerManagement.enable = false;
+    powerManagement.finegrained = false;
+    open = false;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    forceFullCompositionPipeline = true;
+  };
+
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+  };
 
   systemd.extraConfig = ''
     DefaultTimeoutStopSec=10s
   '';
 
   programs.seahorse.enable = true;
-  programs.dconf.enable = true;
+  # programs.dconf.enable = true;
   programs.neovim.enable = true;
   programs.firefox.enable = true;
   programs.thunar.enable = true;
