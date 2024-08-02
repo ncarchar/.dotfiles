@@ -22,7 +22,6 @@
           inherit pkgs;
           modules = [
             ./nix/home.nix
-            ./nix/packages.nix
           ];
         };
       };

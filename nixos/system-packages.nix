@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
+    acpi
     alacritty
     ansible
     autoconf
@@ -34,6 +35,11 @@
     mako
     neofetch
     networkmanagerapplet
+    nodePackages."@angular/cli"
+    nodePackages."eslint"
+    nodePackages."prettier"
+    nodePackages."typescript"
+    nodejs
     openvpn
     pavucontrol
     pkg-config
