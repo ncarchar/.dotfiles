@@ -150,9 +150,15 @@
   programs.neovim.enable = true;
   programs.firefox.enable = true;
   programs.thunar.enable = true;
+
+
+
   programs.steam = {
     enable = true;
-    package = with pkgs; steam.override { extraPkgs = pkgs: [ attr ]; };
+    package = with pkgs; steam.override {
+      extraPkgs = pkgs:
+        [ pkgs.openssl pkgs.nghttp2 pkgs.libidn2 pkgs.rtmpdump pkgs.libpsl pkgs.curl pkgs.krb5 pkgs.keyutils ];
+    };
   };
 
   programs.gamemode.enable = true;

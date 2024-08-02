@@ -43,7 +43,6 @@
     nodePackages."prettier"
     nodePackages."typescript"
     nodejs
-    openssl
     openvpn
     pavucontrol
     pciutils
