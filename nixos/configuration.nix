@@ -119,6 +119,12 @@
     };
   };
 
+  hardware.opengl = {
+      enable = true;
+      driSupport = true;
+      driSupport32Bit = true;
+  };
+
   # Setup NVIDIA drivers
   # hardware.nvidia = {
   #   modesetting.enable = true;
@@ -130,11 +136,6 @@
   #   forceFullCompositionPipeline = true;
   # };
 
-  # hardware.opengl = {
-  #   enable = true;
-  #   driSupport = true;
-  #   driSupport32Bit = true;
-  # };
 
   systemd.extraConfig = ''
     DefaultTimeoutStopSec=10s
