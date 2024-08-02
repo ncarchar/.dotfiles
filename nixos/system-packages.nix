@@ -42,6 +42,7 @@
     nodejs
     openvpn
     pavucontrol
+    pciutils
     pkg-config
     pulseaudio
     python3
@@ -55,7 +56,6 @@
     swaybg
     swayidle
     swaylock
-    # toybox
     tmux
     unzip
     waybar
