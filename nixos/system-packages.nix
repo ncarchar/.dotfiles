@@ -55,6 +55,7 @@
     swaybg
     swayidle
     swaylock
+    toybox
     tmux
     unzip
     waybar
