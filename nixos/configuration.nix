@@ -97,9 +97,9 @@
       enable = true;
       exportConfiguration = true;
       videoDrivers = [ "nouveau" ];
-      # screenSection = ''
-      #   Option "metamodes" "DP-2: 5120x2160+0+0"
-      # '';
+      screenSection = ''
+        Option "metamodes" "DP-2: 5120x2160+0+0"
+      '';
       windowManager.i3 = {
         enable = true;
         extraPackages = with pkgs; [
