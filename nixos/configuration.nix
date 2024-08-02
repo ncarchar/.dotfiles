@@ -97,9 +97,9 @@
       enable = true;
       exportConfiguration = true;
       # videoDrivers = [ "nvidia" ];
-      screenSection = ''
-        Option "metamodes" "DP-2: 5120x2160+0+0"
-      '';
+      # screenSection = ''
+      #   Option "metamodes" "DP-2: 5120x2160+0+0"
+      # '';
       windowManager.i3 = {
         enable = true;
         extraPackages = with pkgs; [
@@ -120,15 +120,15 @@
   };
 
   # Setup NVIDIA drivers
-  # hardware.nvidia = {
-  #   modesetting.enable = true;
-  #   powerManagement.enable = false;
-  #   powerManagement.finegrained = false;
-  #   open = false;
-  #   nvidiaSettings = true;
-  #   package = config.boot.kernelPackages.nvidiaPackages.stable;
-  #   forceFullCompositionPipeline = true;
-  # };
+  hardware.nvidia = {
+    modesetting.enable = true;
+    powerManagement.enable = false;
+    powerManagement.finegrained = false;
+    open = false;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    forceFullCompositionPipeline = true;
+  };
 
   # hardware.opengl = {
   #   enable = true;
