@@ -79,17 +79,17 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # fonts.packages = with pkgs; [
-  #   (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
-  # ];
-  #
-  # fonts.fontconfig = {
-  #   defaultFonts = {
-  #     serif = [ "Liberation Serif" "Vazirmatn" ];
-  #     sansSerif = [ "Ubuntu" "Vazirmatn" ];
-  #     monospace = [ "JetBrainsMono" ];
-  #   };
-  # };
+  fonts.packages = with pkgs; [
+    (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+  ];
+
+  fonts.fontconfig = {
+    defaultFonts = {
+      serif = [ "Liberation Serif" "Vazirmatn" ];
+      sansSerif = [ "Ubuntu" "Vazirmatn" ];
+      monospace = [ "JetBrainsMono" ];
+    };
+  };
 
   # This value determines the NixOS release from which the default
   system.stateVersion = "24.05";
