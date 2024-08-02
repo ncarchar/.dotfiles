@@ -9,6 +9,13 @@
       /etc/nixos/hardware-configuration.nix
       /etc/nixos/system-packages.nix
     ];
+  nixpkgs.config = {
+    packageOverrides = pkgs: {
+      unstable = import <nixos-unstable> {
+        config = config.nixpkgs.config;
+      };
+    };
+  };
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   programs.nix-ld.enable = true;
 
@@ -91,6 +98,8 @@
   security.pam.services.gdm.enableGnomeKeyring = true; # load gnome-keyrin
   security.pam.services.gdm-password.enableGnomeKeyring = true;
 
+
+  boot.kernelModules = [ "nouveau" ];
   services = {
     xserver = {
       xkb.layout = "us";
@@ -120,9 +129,9 @@
   };
 
   hardware.opengl = {
-      enable = true;
-      driSupport = true;
-      driSupport32Bit = true;
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
   };
 
   # Setup NVIDIA drivers
