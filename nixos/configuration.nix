@@ -128,11 +128,8 @@
     };
   };
 
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-  };
+  hardware.opengl.enable = true;
+
 
   # Setup NVIDIA drivers
   # hardware.nvidia = {
@@ -155,7 +152,10 @@
   programs.neovim.enable = true;
   programs.firefox.enable = true;
   programs.thunar.enable = true;
-  programs.steam.enable = true;
+  programs.steam = {
+    enable = true;
+    package = with pkgs; steam.override { extraPkgs = pkgs: [ attr ]; };
+  };
 
   programs.gamemode.enable = true;
 
