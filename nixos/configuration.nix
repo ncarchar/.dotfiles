@@ -96,7 +96,7 @@
       xkb.layout = "us";
       enable = true;
       exportConfiguration = true;
-      videoDrivers = [ "nouveau" ];
+      # videoDrivers = [ "nvidia" ];
       screenSection = ''
         Option "metamodes" "DP-2: 5120x2160+0+0"
       '';
