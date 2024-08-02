@@ -92,20 +92,20 @@
   };
 
   # This value determines the NixOS release from which the default
-  system.stateVersion = "unstable";
+  system.stateVersion = "24.05";
 
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.gdm.enableGnomeKeyring = true; # load gnome-keyrin
   security.pam.services.gdm-password.enableGnomeKeyring = true;
 
 
-  boot.kernelModules = [ "nouveau" ];
+  # boot.kernelModules = [ "nouveau" ];
   services = {
     xserver = {
       xkb.layout = "us";
       enable = true;
       exportConfiguration = true;
-      # videoDrivers = [ "nvidia" ];
+      videoDrivers = [ "nvidia" ];
       screenSection = ''
         Option "metamodes" "DP-2: 5120x2160+0+0"
       '';
@@ -130,17 +130,16 @@
 
   hardware.opengl.enable = true;
 
-
   # Setup NVIDIA drivers
-  # hardware.nvidia = {
-  #   modesetting.enable = true;
-  #   powerManagement.enable = false;
-  #   powerManagement.finegrained = false;
-  #   open = false;
-  #   nvidiaSettings = true;
-  #   package = config.boot.kernelPackages.nvidiaPackages.stable;
-  #   forceFullCompositionPipeline = true;
-  # };
+  hardware.nvidia = {
+    modesetting.enable = true;
+    powerManagement.enable = false;
+    powerManagement.finegrained = false;
+    open = false;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    forceFullCompositionPipeline = true;
+  };
 
 
   systemd.extraConfig = ''
