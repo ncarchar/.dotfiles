@@ -43,7 +43,6 @@
     nodePackages."prettier"
     nodePackages."typescript"
     nodejs
-    openrgb-with-all-plugins
     openvpn
     pavucontrol
     pciutils
