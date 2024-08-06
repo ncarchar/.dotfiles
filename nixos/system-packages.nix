@@ -29,6 +29,7 @@
     go
     grim
     home-manager
+    i2c-tools
     jq
     libiconv
     libsecret
