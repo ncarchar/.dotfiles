@@ -177,6 +177,13 @@
     openFirewall = true;
   };
 
+  services.redshift = {
+    enable = true;
+    latitude = "51.5074"; # Replace with your latitude
+    longitude = "-0.1278"; # Replace with your longitude
+  };
+  # services.geoclue2.enable = true;
+
   users.defaultUserShell = pkgs.zsh;
   programs.zsh = {
     enable = true;
