@@ -183,6 +183,10 @@
       day = 6500;
       night = 3700;
     };
+    brightness = {
+      day = "1";
+      night = "0.5";
+    };
   };
 
   location = {
