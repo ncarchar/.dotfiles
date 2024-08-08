@@ -187,6 +187,11 @@
       night = 3700;
     };
   };
+  location = {
+    provider = "manual";
+    latitude = 40.4406;
+    longitude = 79.9959;
+  };
 
   services.geoclue2.enable = true;
 
