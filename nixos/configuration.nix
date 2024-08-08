@@ -188,7 +188,7 @@
     };
     brightness = {
       day = "1.0";
-      night = "0.8";
+      night = "0.9";
     };
   };
 
