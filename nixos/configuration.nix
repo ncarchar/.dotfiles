@@ -179,11 +179,8 @@
 
   services.redshift = {
     enable = true;
-    # provider = "manual";
-    # latitude = "40.4406"; # Replace with your latitude
-    # longitude = "79.9959"; # Replace with your longitude
     temperature = {
-      day = 5500;
+      day = 6500;
       night = 3700;
     };
   };
