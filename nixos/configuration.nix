@@ -188,15 +188,9 @@
     };
     brightness = {
       day = "1.0";
-      night = "0.6";
+      night = "0.8";
     };
   };
-
-  # location = {
-  #   provider = "manual";
-  #   latitude = 40.4406;
-  #   longitude = 79.9959;
-  # };
 
   services.geoclue2.appConfig.redshift = {
     isAllowed = true;
