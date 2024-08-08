@@ -179,6 +179,9 @@
 
   services.redshift = {
     enable = true;
+    provider = "manual";
+    latitude = "40.4406";
+    longitude = "-79.9959";
     temperature = {
       day = 6500;
       night = 3700;
@@ -189,11 +192,11 @@
     };
   };
 
-  location = {
-    provider = "manual";
-    latitude = 40.4406;
-    longitude = 79.9959;
-  };
+  # location = {
+  #   provider = "manual";
+  #   latitude = 40.4406;
+  #   longitude = 79.9959;
+  # };
 
   services.geoclue2.appConfig.redshift = {
     isAllowed = true;
