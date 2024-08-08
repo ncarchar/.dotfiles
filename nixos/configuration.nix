@@ -195,6 +195,11 @@
     longitude = 79.9959;
   };
 
+  services.geoclue2.appConfig.redshift = {
+    isAllowed = true;
+    isSystem = true;
+  };
+
   users.defaultUserShell = pkgs.zsh;
   programs.zsh = {
     enable = true;
