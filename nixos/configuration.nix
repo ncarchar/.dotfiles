@@ -179,6 +179,7 @@
 
   services.redshift = {
     enable = true;
+    provider = "manual";
     latitude = "51.5074"; # Replace with your latitude
     longitude = "-0.1278"; # Replace with your longitude
   };
