@@ -184,11 +184,11 @@
     longitude = "-79.9959";
     temperature = {
       day = 6500;
-      night = 3700;
+      night = 4000;
     };
     brightness = {
       day = "1.0";
-      night = "0.9";
+      night = "0.85";
     };
   };
 
