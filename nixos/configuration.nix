@@ -192,6 +192,12 @@
     };
   };
 
+  location = {
+    provider = "manual";
+    latitude = 40.4406;
+    longitude = -79.9959;
+  };
+
   users.defaultUserShell = pkgs.zsh;
   programs.zsh = {
     enable = true;
