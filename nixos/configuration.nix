@@ -99,7 +99,6 @@
   security.pam.services.gdm-password.enableGnomeKeyring = true;
 
 
-  # boot.kernelModules = [ "nouveau" ];
   services = {
     xserver = {
       xkb.layout = "us";
