@@ -125,6 +125,9 @@
     displayManager = {
       defaultSession = "none+i3";
     };
+    picom = {
+      enable = true;
+    };
   };
 
   hardware.opengl.enable = true;
