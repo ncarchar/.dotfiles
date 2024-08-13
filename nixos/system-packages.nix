@@ -34,9 +34,8 @@
     jq
     libiconv
     libsecret
-    libstdcxx5
+    libgcc
     libtool
-    llvm_18
     lshw
     makeWrapper
     mako
