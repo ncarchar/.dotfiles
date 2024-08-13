@@ -33,6 +33,7 @@
     jq
     libiconv
     libsecret
+    libstdcxx5
     libtool
     lshw
     makeWrapper
