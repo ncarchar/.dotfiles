@@ -14,7 +14,7 @@
     bison
     dbus
     cargo
-    clang
+    clang_18
     cups
     cmake
     eza
