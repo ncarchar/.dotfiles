@@ -14,6 +14,7 @@
     bison
     dbus
     cargo
+    clang
     cups
     cmake
     eza
@@ -35,6 +36,7 @@
     libsecret
     libstdcxx5
     libtool
+    llvm_18
     lshw
     makeWrapper
     mako
