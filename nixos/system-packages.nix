@@ -39,6 +39,8 @@
     lshw
     makeWrapper
     mako
+    maven
+    jdk21_headless
     neofetch
     networkmanagerapplet
     nodePackages."@angular/cli"
