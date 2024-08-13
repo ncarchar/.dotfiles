@@ -42,9 +42,7 @@ end
 
 local servers = {
     bashls = {},
-    clangd = {
-        cmd = { 'clangd', '--query-driver=C:/msys64/mingw64/bin/g++.exe' },
-    },
+    clangd = {},
     cssls = {},
     jdtls = {},
     angularls = {},
