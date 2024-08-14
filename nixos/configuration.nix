@@ -153,7 +153,21 @@
   programs.firefox.enable = true;
   programs.thunar.enable = true;
 
-
+  programs.git = {
+    enable = true;
+    config = {
+      init = {
+        defaultBranch = "main";
+      };
+      user = {
+        email = "carsoncmiller@proton.me";
+        name = "ncarchar";
+      };
+      alias = {
+        gc = "git checkout $(git branch | fzf)";
+      };
+    };
+  };
 
   programs.steam = {
     enable = true;
@@ -210,7 +224,7 @@
     ohMyZsh = {
       theme = "robbyrussell";
       enable = true;
-      plugins = [ "git" "fzf-zsh-plugin" ];
+      plugins = [ ];
     };
     shellAliases = {
       ls = "exa --across --group-directories-first";

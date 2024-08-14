@@ -17,9 +17,4 @@
     EDITOR = "nvim";
   };
 
-  programs.git = {
-    enable = true;
-    userName = "ncarchar";
-    userEmail = "carsoncmiller@proton.me";
-  };
 }
