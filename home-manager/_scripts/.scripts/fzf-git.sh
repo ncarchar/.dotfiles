@@ -318,6 +318,7 @@ elif [[ -n "${ZSH_VERSION:-}" ]]; then
     local m o
     eval "bindkey '^B' undefined-key"
     eval "bindkey '^F' undefined-key"
+    eval "bindkey '^G' undefined-key"
     for o in "$@"; do
       eval "fzf-git-$o-widget() { local result=\$(_fzf_git_$o | __fzf_git_join); zle reset-prompt; LBUFFER+=\$result }"
       eval "zle -N fzf-git-$o-widget"
