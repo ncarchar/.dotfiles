@@ -39,12 +39,3 @@ style = "Regular"
 
 [window]
 opacity = 1
-
-[keyboard]
-bindings = [
-  # Unbind Ctrl+B
-  { key = "B", mods = "Control", action = "None" },
-
-  # Unbind Ctrl+F
-  { key = "F", mods = "Control", action = "None" }
-]
