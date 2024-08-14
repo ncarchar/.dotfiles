@@ -164,7 +164,7 @@
         name = "ncarchar";
       };
       alias = {
-        check = "git checkout $(git branch | fzf)";
+        check = "checkout $(git branch | fzf)";
       };
     };
   };
