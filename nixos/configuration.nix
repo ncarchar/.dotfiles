@@ -224,7 +224,7 @@
     ohMyZsh = {
       theme = "robbyrussell";
       enable = true;
-      plugins = [ ];
+      plugins = [ "fzf-git" ];
     };
     shellAliases = {
       ls = "exa --across --group-directories-first";
