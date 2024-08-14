@@ -220,11 +220,11 @@
     enableCompletion = true;
     autosuggestions.enable = true;
     syntaxHighlighting.enable = true;
-    promptInit = "export PATH=$HOME/.scripts:$PATH\neval \"$(zoxide init zsh)\" \n source $HOME/.scripts/fzf-git.sh";
+    promptInit = "export PATH=$HOME/.scripts:$PATH\neval \"$(zoxide init zsh)\"\nsource $HOME/.scripts/fzf-git.sh";
     ohMyZsh = {
       theme = "robbyrussell";
       enable = true;
-      plugins = [ "fzf-git" ];
+      plugins = [ ];
     };
     shellAliases = {
       ls = "exa --across --group-directories-first";
