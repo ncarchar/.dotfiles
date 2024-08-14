@@ -42,4 +42,6 @@ opacity = 1
 
 [keyboard]
 bindings = [
+  { key = "B", mods = "Shift", action = "None" },
+  { key = "F", mods = "Shift", action = "None" }
 ]
