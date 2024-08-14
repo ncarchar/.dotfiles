@@ -216,7 +216,7 @@ _fzf_git_hashes() {
   _fzf_git_check || return
   bash "$__fzf_git" hashes |
   _fzf_git_fzf --ansi --no-sort --bind 'ctrl-s:toggle-sort' \
-    --border-label '🍡 Hashes' \
+    --border-label '🚀 Hashes' \
     --header-lines 3 \
     --bind "ctrl-o:execute-silent:bash $__fzf_git commit {}" \
     --bind "ctrl-d:execute:grep -o '[a-f0-9]\{7,\}' <<< {} | head -n 1 | xargs git diff --color=$(__fzf_git_color) > /dev/tty" \
@@ -241,7 +241,7 @@ _fzf_git_remotes() {
 _fzf_git_stashes() {
   _fzf_git_check || return
   git stash list | _fzf_git_fzf \
-    --border-label '🥡 Stashes' \
+    --border-label '📦 Stashes' \
     --header $'CTRL-X (drop stash)\n\n' \
     --bind 'ctrl-x:reload(git stash drop -q {1}; git stash list)' \
     -d: --preview "git show --color=$(__fzf_git_color .) {1} | $(__fzf_git_pager)" "$@" |
