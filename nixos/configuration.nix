@@ -164,7 +164,7 @@
         name = "ncarchar";
       };
       alias = {
-        check = "checkout $(git branch | fzf)";
+        diff = "diff --no-pager";
       };
     };
   };
