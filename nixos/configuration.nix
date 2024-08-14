@@ -210,7 +210,7 @@
     ohMyZsh = {
       theme = "robbyrussell";
       enable = true;
-      plugins = [ ];
+      plugins = [ "git" ];
     };
     shellAliases = {
       ls = "exa --across --group-directories-first";
