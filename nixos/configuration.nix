@@ -163,8 +163,8 @@
         email = "carsoncmiller@proton.me";
         name = "ncarchar";
       };
-      alias = {
-        diff = "diff --no-pager";
+      core = {
+        pager = "less -F -X";
       };
     };
   };
