@@ -317,6 +317,7 @@ elif [[ -n "${ZSH_VERSION:-}" ]]; then
   __fzf_git_init() {
     local m o
     for o in "$@"; do
+      printf "fzf-git-$o-widget() { local result=\$(_fzf_git_$o | __fzf_git_join); zle reset-prompt; LBUFFER+=\$result }"
       eval "fzf-git-$o-widget() { local result=\$(_fzf_git_$o | __fzf_git_join); zle reset-prompt; LBUFFER+=\$result }"
       eval "zle -N fzf-git-$o-widget"
       for m in emacs vicmd viins; do
