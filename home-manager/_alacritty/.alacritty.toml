@@ -39,3 +39,9 @@ style = "Regular"
 
 [window]
 opacity = 1
+
+[keyboard]
+bindings = [
+  { key = "B", mods = "Control", action = "None" },
+  { key = "F", mods = "Control", action = "None" }
+]
