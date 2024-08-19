@@ -49,6 +49,7 @@
     nodePackages."prettier"
     nodePackages."typescript"
     nodejs
+    obsidian
     openrgb
     openvpn
     pavucontrol
