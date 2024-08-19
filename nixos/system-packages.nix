@@ -14,6 +14,7 @@
     bison
     dbus
     cargo
+    chromium
     clang_18
     cups
     cmake
