@@ -171,10 +171,10 @@
 
   programs.steam = {
     enable = true;
-    package = with pkgs; steam.override {
-      extraPkgs = pkgs:
-        [ pkgs.openssl_1_1 ];
-    };
+    # package = with pkgs; steam.override {
+    #   extraPkgs = pkgs:
+    #     [ pkgs.openssl_1_1 ];
+    # };
   };
 
   programs.gamemode.enable = true;
