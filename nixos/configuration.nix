@@ -200,7 +200,7 @@
     longitude = "-79.9959";
     temperature = {
       day = 6500;
-      night = 3750;
+      night = 3700;
     };
     brightness = {
       day = "1.0";
