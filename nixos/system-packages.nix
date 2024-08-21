@@ -1,16 +1,10 @@
 { config, pkgs, ... }:
 {
-  # nixpkgs.config.permittedInsecurePackages = [
-  #   "openssl-1.1.1w"
-  # ];
   environment.systemPackages = with pkgs; [
-    geekbench
     acpi
     alacritty
     ansible
     autoconf
-    autoconf
-    automake
     automake
     bison
     dbus
@@ -51,7 +45,6 @@
     nodePackages."typescript"
     nodejs
     obsidian
-    openrgb
     openvpn
     pavucontrol
     pciutils
