@@ -4,7 +4,8 @@
   #   "openssl-1.1.1w"
   # ];
   environment.systemPackages = with pkgs; [
-    phoronix-test-suite
+    furmark
+    geekbench
     acpi
     alacritty
     ansible
