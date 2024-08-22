@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
+    lm_sensors
+    fanctl
     acpi
     alacritty
     ansible

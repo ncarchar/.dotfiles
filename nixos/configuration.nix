@@ -19,20 +19,9 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   programs.nix-ld.enable = true;
 
-  boot.loader = {
-    timeout = 3;
-    efi = {
-      canTouchEfiVariables = true;
-    };
-    grub = {
-      gfxmodeEfi = "1920x1440,1280x1024,1024x768,auto";
-      enable = true;
-      efiSupport = true;
-      device = "nodev";
-      useOSProber = true;
-    };
-  };
-
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "/dev/nvme0n1";
+  boot.loader.grub.useOSProber = true;
   networking.hostName = "nixos";
 
   # Enable networking
@@ -104,7 +93,6 @@
       xkb.layout = "us";
       enable = true;
       exportConfiguration = true;
-      videoDrivers = [ "nvidia" ];
       screenSection = ''
         Option "metamodes" "DP-2: 5120x2160+0+0"
       '';
@@ -131,16 +119,6 @@
   };
 
   hardware.opengl.enable = true;
-
-  # Setup NVIDIA drivers
-  hardware.nvidia = {
-    modesetting.enable = true;
-    powerManagement.enable = false;
-    powerManagement.finegrained = false;
-    open = true;
-    nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
-  };
 
 
   systemd.extraConfig = ''
