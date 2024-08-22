@@ -31,6 +31,7 @@
     i2c-tools
     jq
     libiconv
+    libstdcxx5
     libsecret
     libgcc
     libtool
