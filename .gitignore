@@ -1,1 +1,2 @@
 .log/*
+nixos/hardware-configuration.nix
