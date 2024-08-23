@@ -8,6 +8,7 @@
     [
       /etc/nixos/hardware-configuration.nix
       /etc/nixos/system-packages.nix
+      /etc/nixos/vm.nix
     ];
   nixpkgs.config = {
     packageOverrides = pkgs: {
@@ -62,7 +63,7 @@
   users.users.ncarchar = {
     isNormalUser = true;
     description = "Carson Miller";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "libvirtd" ];
   };
 
   # Allow unfree packages
