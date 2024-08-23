@@ -88,6 +88,10 @@
   security.pam.services.gdm.enableGnomeKeyring = true; # load gnome-keyrin
   security.pam.services.gdm-password.enableGnomeKeyring = true;
 
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+  };
 
   services = {
     xserver = {
@@ -97,30 +101,18 @@
       screenSection = ''
         Option "metamodes" "DP-2: 5120x2160+0+0"
       '';
-      windowManager.i3 = {
-        enable = true;
-        extraPackages = with pkgs; [
-          i3status
-          i3blocks
-          i3lock
-          dmenu
-        ];
-      };
       desktopManager = {
-        xterm.enable = false;
         wallpaper.mode = "fill";
       };
-    };
-    displayManager = {
-      defaultSession = "none+i3";
-    };
-    picom = {
-      enable = true;
+      displayManager = {
+        sddm.enable = true;
+        sddm.wayland.enable = true;
+        sddm.theme = "where_is_my_sddm_theme";
+      };
     };
   };
 
   hardware.opengl.enable = true;
-
 
   systemd.extraConfig = ''
     DefaultTimeoutStopSec=10s
