@@ -16,15 +16,9 @@
         "tooltip": false
     },
     "network": {
-        "format": "{icon}",
-        "format-alt": "{ipaddr}/{cidr} {icon}",
-        "format-alt-click": "click-right",
-        "format-icons": {
-        "wifi": ["󰤟", "󰤢", "󰤥", "󰤨"],
-        "disconnected": [ "󰤫"]
-        },
+        "format": "{essid} ({signalStrength}%)",
         "on-click": "nm-connection-editor",
-    "tooltip": false
+        "tooltip": false
     },
     "pulseaudio": {
         "format": "VOL {volume}%",
