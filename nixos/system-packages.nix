@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
+    hyprpaper
     gammastep
     lm_sensors
     acpi
