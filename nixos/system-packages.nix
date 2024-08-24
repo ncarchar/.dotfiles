@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
-    globalprotect-openconnect
+    openconnect
     hyprpaper
     gammastep
     lm_sensors
