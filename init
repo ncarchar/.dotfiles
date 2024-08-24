@@ -1,31 +1,5 @@
 #!/usr/bin/env bash
-
-if [[ -n "$WSL_DISTRO_NAME" ]]; then
-    username=$(whoami)
-    echo "Running in WSL ($username)"
-
-    nix_conf="/etc/nix/nix.conf"
-    nix_features="experimental-features = nix-command flakes"
-    if ! grep -Fxq "$nix_features" "$nix_conf"; then
-        echo "Enabling nix features..."
-        echo "$nix_features" | sudo tee -a "$nix_conf" >/dev/null
-    fi
-
-    shells="/etc/shells"
-    nix_profile_shell="/home/$username/.nix-profile/bin/zsh"
-    if ! grep -Fxq "$nix_profile_shell" "$shells"; then
-        echo "Setting zsh as default shell..."
-        echo "$nix_profile_shell" | sudo tee -a "$shells" >/dev/null
-        sudo chsh -s "$nix_profile_shell" "$username"
-    fi
-
-    echo "Copying config files to Windows..."
-    read -p "Enter Windows Users directory (e.g., /mnt/c/Users/<username>/): " windows_users_dir
-    sudo cp ./home-manager/_alacritty/alacritty.toml "/mnt/c/Users/${windows_users_dir}/"
-else
-    echo "Not running in WSL"
-    sudo stow -t /etc/nixos/ nixos
-    stow -t ~/.background-image wallpaper/.background-image
-fi
+sudo stow -t /etc/nixos/ nixos
+stow -t ~/.background-image wallpaper/.background-image
 
 ansible-playbook ssh/ssh.yml --ask-vault-pass
