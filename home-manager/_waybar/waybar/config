@@ -39,7 +39,7 @@
         "interval": 5
     },
     "memory": {
-        "format": "MEM {percentage_used}%",
+        "format": "MEM {usage}%",
         "tooltip": false,
         "interval": 5
     },
