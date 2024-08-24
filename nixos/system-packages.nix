@@ -13,7 +13,7 @@
     dbus
     cargo
     chromium
-    clang_18
+    clang
     cups
     cmake
     eza
@@ -23,6 +23,7 @@
     fzf
     gammastep
     gcc
+    gcc11
     git
     gnome.gnome-keyring
     gnumake
