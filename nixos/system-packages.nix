@@ -1,9 +1,8 @@
 { config, pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
-    kitty
+    gammastep
     lm_sensors
-    fanctl
     acpi
     alacritty
     ansible
