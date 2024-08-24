@@ -142,10 +142,6 @@
 
   programs.steam = {
     enable = true;
-    # package = with pkgs; steam.override {
-    #   extraPkgs = pkgs:
-    #     [ pkgs.openssl_1_1 ];
-    # };
   };
 
   programs.gamemode.enable = true;
@@ -164,20 +160,20 @@
     openFirewall = true;
   };
 
-  services.redshift = {
-    enable = true;
-    provider = "manual";
-    latitude = "40.4406";
-    longitude = "-79.9959";
-    temperature = {
-      day = 6500;
-      night = 3700;
-    };
-    brightness = {
-      day = "1.0";
-      night = "0.85";
-    };
-  };
+  # services.redshift = {
+  #   enable = true;
+  #   provider = "manual";
+  #   latitude = "40.4406";
+  #   longitude = "-79.9959";
+  #   temperature = {
+  #     day = 6500;
+  #     night = 3700;
+  #   };
+  #   brightness = {
+  #     day = "1.0";
+  #     night = "0.85";
+  #   };
+  # };
 
   location = {
     provider = "manual";
