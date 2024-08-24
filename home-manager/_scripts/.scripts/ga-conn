@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# Prompt for VPN password
+read -s -p "Enter your VPN password: " vpn_password
+echo
+
+# Define other connection parameters
+username="cmiller427"
+twofactor="push1"
+gateway="DC Gateway"
+protocol="gp"
+server="vpn.gatech.edu"
+
+# Connect to VPN
+echo -e "$vpn_password\n$twofactor\n$gateway" | sudo openconnect --protocol=$protocol --user=$username --passwd-on-stdin $server
