@@ -160,23 +160,6 @@
     openFirewall = true;
   };
 
-  # services.redshift = {
-  #   enable = true;
-  #   provider = "manual";
-  #   latitude = "40.4406";
-  #   longitude = "-79.9959";
-  #   temperature = {
-  #     day = 6500;
-  #     night = 3700;
-  #   };
-  #   brightness = {
-  #     day = "1.0";
-  #     night = "0.85";
-  #   };
-  # };
-
-
-
   location = {
     provider = "manual";
     latitude = 40.4406;
@@ -200,6 +183,7 @@
       la = "exa --all --across  --group-directories-first";
       ll = "exa -l --all -g --icons --git --no-user --classify --group-directories-first";
       lt = "exa --level=1 --icons --tree --git --git-ignore --no-user --no-permissions --group-directories-first -a";
+      llt = "exa --level=2 --icons --tree --git --git-ignore --no-user --no-permissions --group-directories-first -a";
       lft = "exa --icons --tree --git --git-ignore --no-user --no-permissions --group-directories-first -a";
       hist = ". hist";
       tms = ". tms";
