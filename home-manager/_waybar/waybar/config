@@ -22,10 +22,7 @@
     },
     "pulseaudio": {
         "format": "VOL {volume}%",
-        "format-muted": "󰝟",
-        "format-icons": {
-            "default": ["", "", "", ""]
-        },
+        "interval": 1,
         "scroll-step": 10,
         "on-click": "pavucontrol",
         "tooltip": false
