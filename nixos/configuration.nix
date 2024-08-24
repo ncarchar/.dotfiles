@@ -59,11 +59,14 @@
     pulse.enable = true;
   };
 
+  # docker
+  virtualisation.docker.enable = true;
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ncarchar = {
     isNormalUser = true;
     description = "Carson Miller";
-    extraGroups = [ "networkmanager" "wheel" "libvirtd" ];
+    extraGroups = [ "networkmanager" "wheel" "libvirtd" "docker" ];
   };
 
   # Allow unfree packages
