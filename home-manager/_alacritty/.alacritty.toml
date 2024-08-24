@@ -39,6 +39,7 @@ style = "Regular"
 
 [window]
 opacity = 1
+padding = { x = 0, y = 20 }
 
 [keyboard]
 bindings = [
