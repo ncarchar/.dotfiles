@@ -39,6 +39,8 @@ style = "Regular"
 
 [window]
 opacity = 1
+dynamic_padding = true
+padding = { x = 3, y = 3 }
 
 [keyboard]
 bindings = [
