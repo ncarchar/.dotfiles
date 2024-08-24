@@ -5,7 +5,7 @@
 
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["sway/window"],
-    "modules-right": ["tray",  "pulseaudio", "network",  "clock"],
+    "modules-right": ["tray", "pulseaudio", "network", "cpu", "memory", "temperature", "clock"],
     "hyprland/workspaces": {
         "format": "{name}",
         "disable-scroll": true
@@ -32,5 +32,21 @@
     },
     "tray": {
         "icon-size": 18
+    },
+    "cpu": {
+        "format": "CPU {usage}%",
+        "tooltip": false,
+        "interval": 5
+    },
+    "memory": {
+        "format": "MEM {used}MiB/{total}MiB",
+        "tooltip": false,
+        "interval": 5
+    },
+    "temperature": {
+        "format": "TEMP {temperature}°C",
+        "tooltip": false,
+        "interval": 5,
+        "hwmon-path": "/sys/class/thermal/thermal_zone0/temp"
     }
 }
