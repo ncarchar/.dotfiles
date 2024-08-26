@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
+    openrgb
     geekbench
     bitwarden-cli
     openconnect
