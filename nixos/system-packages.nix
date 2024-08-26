@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
+    geekbench
     bitwarden-cli
     openconnect
     hyprpaper

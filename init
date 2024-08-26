@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
+mkdir ~/nixos_backup
+sudo cp /etc/nixos/* ~/nixos_backup/
+sudo rm -r /etc/nixos
 sudo stow -t /etc/nixos/ nixos
-stow -t ~/.background-image wallpaper/.background-image
-
+cp ./wallpaper/.background-image ~/.background-image
 ansible-playbook ssh/ssh.yml --ask-vault-pass
