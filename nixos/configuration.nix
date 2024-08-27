@@ -125,8 +125,7 @@
   programs.seahorse.enable = true;
   programs.dconf.enable = true;
   programs.neovim.enable = true;
-  programs.neovim.defaultEditor = true;
-  environment.variables.EDITOR = "neovim";
+  environment.variables.EDITOR = "nvim";
   programs.firefox.enable = true;
   programs.thunar.enable = true;
 
