@@ -3,6 +3,7 @@
   environment.systemPackages = with pkgs; [
     spring-boot-cli
     openrgb-with-all-plugins
+    bitwarden-cli
     openconnect
     hyprpaper
     gammastep
