@@ -9,6 +9,7 @@
     ".config/hypr".source = ./../_hypr/hypr;
     ".config/wofi".source = ./../_wofi/wofi;
     ".prettierrc".source = ./../_prettier/.prettierrc;
+    ".secrets".source = ./../_secrets/.secrets.json;
     ".scripts".source = ./../_scripts/.scripts;
     ".tmux.conf".source = ./../_tmux/.tmux.conf;
     ".config/i3".source = ./../_i3/i3;

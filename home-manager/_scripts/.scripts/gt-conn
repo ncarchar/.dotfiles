@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 
-username="cmiller427"
 twofactor="push1"
 gateway="DC Gateway"
 protocol="gp"
 server="vpn.gatech.edu"
 
 # Fetch the password from Bitwarden
+vpn_username=$(bw list items --search "Georgia Tech" | jq -r '.[0].login.username')
 vpn_password=$(bw list items --search "Georgia Tech" | jq -r '.[0].login.password')
 if [ -z "$vpn_password" ]; then
   echo "Error: Password not found in Bitwarden."
   exit 1
 fi
 
-echo -e "$vpn_password\n$twofactor\n$gateway" | sudo openconnect --protocol=$protocol --user=$username --passwd-on-stdin $server
+echo -e "$vpn_password\n$twofactor\n$gateway" | sudo openconnect --protocol=$protocol --user=$vpn_username --passwd-on-stdin $server
