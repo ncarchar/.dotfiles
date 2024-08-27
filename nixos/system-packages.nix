@@ -30,7 +30,6 @@
     gcc
     gcc11
     git
-    gnome.gnome-keyring
     gnumake
     go
     grim
@@ -67,9 +66,6 @@
     slurp
     spotify
     stow
-    swaybg
-    swayidle
-    swaylock
     tmux
     unzip
     waybar
