@@ -125,6 +125,7 @@
   programs.seahorse.enable = true;
   programs.dconf.enable = true;
   programs.neovim.enable = true;
+  programs.neovim.defaultEditor = true;
   programs.firefox.enable = true;
   programs.thunar.enable = true;
 
