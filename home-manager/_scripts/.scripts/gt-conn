@@ -5,10 +5,10 @@ gateway="DC Gateway"
 protocol="gp"
 server="vpn.gatech.edu"
 
-# Fetch the password from Bitwarden
 bw_secret=$(bw list items --search "Georgia Tech")
-username=$(echo "$bw_secret" | jq -r ".[0].login.username")
+username=$(echo "$bw_secret" | jq -r ".[0].login.username" | awk -F'@' '{print $1}')
 password=$(echo "$bw_secret" | jq -r ".[0].login.password")
+
 if [ -z "$password" ]; then
   echo "Error: Password not found in Bitwarden."
   exit 1
