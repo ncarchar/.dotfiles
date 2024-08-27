@@ -6,14 +6,12 @@ NIXOS_LOG="$LOG_DIR/nixos-switch.log"
 HOME_MANAGER_LOG="$LOG_DIR/home-manager.log"
 STOW_LOG="$LOG_DIR/stow.log"
 
-if ! [[ -n "$WSL_DISTRO_NAME" ]]; then
-    set -e
-    git --no-pager diff -U0 *.nix
-    echo "rebuilding nixos configuration..."
-    sudo nixos-rebuild switch &> "$NIXOS_LOG" || (
-     cat "$NIXOS_LOG" | grep --color error && false)
-    gen=$(nixos-rebuild list-generations | grep current)
-fi
+set -e
+git --no-pager diff -U0 *.nix
+echo "rebuilding nixos configuration..."
+sudo nixos-rebuild switch &> "$NIXOS_LOG" || (
+ cat "$NIXOS_LOG" | grep --color error && false)
+gen=$(nixos-rebuild list-generations | grep current)
 
 rm -r ~/.config/home-manager
 cp -r home-manager/ ~/.config/home-manager
