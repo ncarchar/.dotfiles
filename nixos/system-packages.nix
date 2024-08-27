@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
+    spring-boot-cli
     openrgb-with-all-plugins
     geekbench
     bitwarden-cli
