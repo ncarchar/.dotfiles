@@ -10,13 +10,6 @@ require('nvim-treesitter.configs').setup {
         highlight_definitions = { enable = true },
         highlight_current_scope = { enable = true },
     },
-    autotag = {
-        enable = true,
-        filetypes = {
-            'html', 'javascript', 'typescript', 'rescript',
-            'css', 'lua', 'xml', 'php', 'markdown'
-        },
-    },
     indent = { enable = true },
     incremental_selection = {
         enable = true,
