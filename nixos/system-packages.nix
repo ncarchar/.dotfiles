@@ -60,6 +60,7 @@
     pkg-config
     pulseaudio
     python3
+    python3Packages.i3ipc
     ripgrep
     rustc
     scrot
