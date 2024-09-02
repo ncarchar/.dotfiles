@@ -1,0 +1,98 @@
+{
+    "layer": "bottom",
+    "position": "top",
+    "height": 30,
+    "modules-left": [
+        "hyprland/workspaces"
+    ],
+    "modules-center": [
+        "sway/window"
+    ],
+    "modules-right": [
+        "tray",
+        "custom/cpu-label",
+        "cpu",
+        "custom/cpu-temp",
+        "custom/block",
+        "custom/gpu-label",
+        "custom/gpu-temp",
+        "custom/block",
+        "custom/memory-label",
+        "memory",
+        "custom/block",
+        "disk",
+        "custom/block",
+        "pulseaudio",
+        "custom/block",
+        "network",
+        "custom/block",
+        "clock"
+    ],
+    "hyprland/workspaces": {
+        "format": "{name}",
+        "disable-scroll": true
+    },
+    "clock": {
+        "format": "{:%a %d %b %H:%M:%S}",
+        "interval": 1,
+        "tooltip": false
+    },
+    "network": {
+        "format": "{essid}",
+        "on-click": "nm-connection-editor",
+        "tooltip": false
+    },
+    "pulseaudio": {
+        "format": "VOL {volume}%",
+        "interval": 1,
+        "scroll-step": 10,
+        "on-click": "pavucontrol",
+        "tooltip": false
+    },
+    "tray": {
+        "icon-size": 18
+    },
+    "custom/cpu-label": {
+        "format": "CPU",
+        "tooltip": false,
+        "interval": 120
+    },
+    "cpu": {
+        "format": "{usage}%",
+        "tooltip": false,
+        "interval": 2
+    },
+    "custom/cpu-temp": {
+        "exec": "awk '{printf \"[%.1f°C]\", $1/1000}' /sys/class/hwmon/hwmon1/temp1_input",
+        "interval": 10,
+    },
+    "custom/memory-label": {
+        "format": "MEM",
+        "tooltip": false,
+        "interval": 120
+    },
+    "memory": {
+        "format": "{percentage}%",
+        "tooltip": false,
+        "interval": 2
+    },
+    "custom/gpu-label": {
+        "format": "GPU",
+        "tooltip": false,
+        "interval": 120
+    },
+    "custom/gpu-temp": {
+        "exec": "awk '{printf \"[%.1f°C]\", $1/1000}' /sys/class/hwmon/hwmon5/temp1_input",
+        "interval": 10,
+    },
+    "custom/block": {
+        "format": "|",
+        "tooltip": false,
+        "interval": 120
+    },
+    "disk": {
+        "format": "DSK {percentage_used}%",
+        "tooltip": false,
+        "interval": 10,
+    }
+}
