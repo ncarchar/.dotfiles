@@ -1,7 +1,3 @@
-# i3 config file (v4)
-#
-# Please see https://i3wm.org/docs/userguide.html for a complete reference!
-
 set $mod Mod1
 
 font pango:monospace 12
@@ -13,18 +9,10 @@ exec_always ~/.config/waybar/waybar.sh
 
 output "*" bg ~/.background-image fill
 
-
-# Fade in
-for_window [app_id=.*] opacity 0.5
-for_window [app_id=.*] exec ~/.dotfiles/home-manager/_sway/sway/fadein.sh
+exec_always ~/.config/sway/start_fadews.sh
+for_window [app_id=.*] opacity 0.15
+for_window [app_id=.*] exec ~/.config/sway/fadein.sh
 for_window [app_id=.*] mark fade
-
-# Fade out
-# bindsym Mod4+Shift+q mark quit; exec fadeout.sh
-
-# Fadefix (uncoment if necessary)
-# exec fadefix.sh
-
 
 focus_follows_mouse no
 

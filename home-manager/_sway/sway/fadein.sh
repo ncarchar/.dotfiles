@@ -5,7 +5,7 @@ swaymsg '[con_mark=fade]' "mark $id"
 
 # TODO: Use args for fps and time values
 FPS=60
-TIME_S=0.1
+TIME_S=0.15
 
 frames=$(dc -e "$FPS $TIME_S * 1/ p")
 step_time=$(dc -e "3k 1 $FPS / p")
