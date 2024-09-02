@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
+    hyprlandPlugins.hy3
     spring-boot-cli
     openrgb-with-all-plugins
     bitwarden-cli
