@@ -15,7 +15,7 @@ require('telescope').setup {
                 ['<C-l>'] = actions.smart_add_to_qflist
             },
         },
-        winblend = 15,
+        winblend = 0,
         borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
     },
     pickers = {
@@ -41,6 +41,7 @@ vim.cmd [[
   highlight TelescopeBorder guifg=#808080
   highlight TelescopePromptBorder guifg=#808080
   highlight TelescopeResultsBorder guifg=#808080
+  highlight TelescopePreviewBorder guifg=#808080
   highlight TelescopePreviewBorder guifg=#808080
 ]]
 

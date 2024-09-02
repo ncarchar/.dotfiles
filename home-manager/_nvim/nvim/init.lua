@@ -30,6 +30,7 @@ require('lazy').setup(
         { 'folke/which-key.nvim' },
         -- Set lualine as statusline
         { 'nvim-lualine/lualine.nvim' },
+        { 'xiyaowong/transparent.nvim' },
         -- NOTE: This is where your plugins related to LSP can be installed.
         {
             -- LSP Configuration & Plugins
@@ -104,18 +105,13 @@ require('lazy').setup(
         },
         -- Quick file switcher
         { 'ThePrimeagen/harpoon',           dependencies = { 'nvim-lua/plenary.nvim' } },
-        -- Fuzzy Finder Algorithm which requires local dependencies to be built.
-        -- Only load if `make` is available. Make sure you have the system
         {
             'nvim-telescope/telescope-fzf-native.nvim',
-            -- NOTE: If you are having trouble with this installation,
-            --       refer to the README for telescope-fzf-native for more instructions.
             build = 'make',
             cond = function()
                 return vim.fn.executable 'make' == 1
             end,
         },
-        -- Highlight, edit, and navigate code
         {
             'nvim-treesitter/nvim-treesitter',
             dependencies = { 'nvim-treesitter/nvim-treesitter-textobjects', 'nvim-treesitter/nvim-treesitter-refactor' },
