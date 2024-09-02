@@ -13,6 +13,19 @@ exec_always ~/.config/waybar/waybar.sh
 
 output "*" bg ~/.background-image fill
 
+
+# Fade in
+for_window [app_id=.*] opacity 0.5
+for_window [app_id=.*] exec ~/.dotfiles/home-manager/_sway/sway/fadein.sh
+for_window [app_id=.*] mark fade
+
+# Fade out
+# bindsym Mod4+Shift+q mark quit; exec fadeout.sh
+
+# Fadefix (uncoment if necessary)
+# exec fadefix.sh
+
+
 focus_follows_mouse no
 
 gaps inner 10

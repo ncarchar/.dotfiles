@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
-    hyprlandPlugins.hy3
+    gavin-bc
     spring-boot-cli
     openrgb-with-all-plugins
     bitwarden-cli
@@ -59,9 +59,9 @@
     pciutils
     pkg-config
     pulseaudio
-    python3
-    python3Packages.pip
-    python3Packages.i3ipc
+    (python3.withPackages (ps: with ps; [
+      i3ipc
+    ]))
     ripgrep
     rustc
     scrot
