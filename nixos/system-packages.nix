@@ -61,6 +61,7 @@
     pulseaudio
     python3
     python3Packages.pip
+    python3Packages.i3ipc
     ripgrep
     rustc
     scrot
