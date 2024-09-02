@@ -5,7 +5,7 @@
 
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["sway/window"],
-    "modules-right": ["tray", "cpu", "memory", "pulseaudio", "network", "clock"],
+    "modules-right": ["tray", "cpu", "memory", "gpu-temp", "cpu-temp", "pulseaudio", "network", "clock"],
     "hyprland/workspaces": {
         "format": "{name}",
         "disable-scroll": true
@@ -40,4 +40,14 @@
         "tooltip": false,
         "interval": 5
     },
+    "cpu-temp": {
+        "exec": "awk '{printf \"CPU Temp: %.1f°C\", $1/1000}' /sys/class/hwmon/hwmon1/temp1_input",
+        "interval": 10,
+        "tooltip": false
+    },
+    "gpu-temp": {
+        "exec": "awk '{printf \"GPU Temp: %.1f°C\", $1/1000}' /sys/class/hwmon/hwmon5/temp1_input",
+        "interval": 10,
+        "tooltip": false
+    }
 }
