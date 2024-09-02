@@ -92,9 +92,14 @@
   security.pam.services.gdm.enableGnomeKeyring = true; # load gnome-keyrin
   security.pam.services.gdm-password.enableGnomeKeyring = true;
 
-  programs.hyprland = {
+  # programs.hyprland = {
+  #   enable = true;
+  #   xwayland.enable = true;
+  # };
+
+  programs.sway = {
     enable = true;
-    xwayland.enable = true;
+    wrapperFeatures.gtk = true;
   };
 
   services = {
