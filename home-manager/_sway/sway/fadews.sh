@@ -38,8 +38,18 @@ handle_workspace_event() {
     done
 }
 
+check_and_start_sway() {
+    if ! pgrep -x "sway" > /dev/null; then
+        exit 1
+    fi
+}
+
 while true; do
+    check_and_start_sway
+
     swaymsg -t subscribe '["workspace"]' | while read -r event; do
         handle_workspace_event "$event"
     done
+
+    sleep 0.05
 done
