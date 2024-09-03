@@ -103,21 +103,10 @@
   };
 
   services = {
-    xserver = {
-      xkb.layout = "us";
-      enable = true;
-      exportConfiguration = true;
-      screenSection = ''
-        Option "metamodes" "DP-2: 5120x2160+0+0"
-      '';
-      desktopManager = {
-        wallpaper.mode = "fill";
-      };
-      displayManager = {
-        sddm.enable = true;
-        sddm.wayland.enable = true;
-        sddm.theme = "where_is_my_sddm_theme";
-      };
+    displayManager = {
+      sddm.enable = true;
+      sddm.wayland.enable = true;
+      sddm.theme = "where_is_my_sddm_theme";
     };
   };
 
