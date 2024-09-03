@@ -7,13 +7,6 @@
       /etc/nixos/vm.nix
       /etc/nixos/zsh.nix
     ];
-  nixpkgs.config = {
-    packageOverrides = pkgs: {
-      unstable = import <nixos-unstable> {
-        config = config.nixpkgs.config;
-      };
-    };
-  };
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   programs.nix-ld.enable = true;

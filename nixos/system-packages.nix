@@ -3,10 +3,8 @@
   environment.systemPackages = with pkgs; [
     gavin-bc
     spring-boot-cli
-    openrgb-with-all-plugins
     bitwarden-cli
     openconnect
-    hyprpaper
     gammastep
     lm_sensors
     acpi
@@ -64,7 +62,6 @@
     ]))
     ripgrep
     rustc
-    scrot
     slurp
     spotify
     stow
@@ -74,7 +71,6 @@
     wf-recorder
     wget
     wl-clipboard
-    wofi
     xclip
     zig
     zip
