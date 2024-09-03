@@ -48,7 +48,7 @@
         "tooltip": false
     },
     "tray": {
-        "icon-size": 22
+        "icon-size": 24
     },
     "custom/cpu-label": {
         "format": "CPU",
