@@ -5,6 +5,7 @@ font pango:monospace 12
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
+exec --no-startup-id gammastep -l 40.4406:-79.9959 -b 1.0:0.90
 exec_always ~/.config/waybar/waybar.sh
 
 output "*" bg ~/.background-image fill
@@ -16,7 +17,7 @@ for_window [app_id=.*] mark fade
 
 focus_follows_mouse no
 
-gaps inner 10
+gaps inner 8
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -31,6 +32,9 @@ bindsym $mod+t exec alacritty
 
 # start firefox
 bindsym $mod+b exec firefox
+
+# start firefox
+bindsym $mod+Shift+p exec firefox --private-window
 
 # kill focused window
 bindsym $mod+Shift+q kill
