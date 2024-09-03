@@ -9,7 +9,6 @@
     //     "sway/window"
     // ],
     "modules-right": [
-        "tray",
         "custom/cpu-label",
         "cpu",
         "custom/cpu-temp",
@@ -24,9 +23,8 @@
         "custom/block",
         "pulseaudio",
         "custom/block",
-        "network",
-        "custom/block",
-        "clock"
+        "clock",
+        "tray"
     ],
     "hyprland/workspaces": {
         "format": "{name}",
@@ -50,7 +48,7 @@
         "tooltip": false
     },
     "tray": {
-        "icon-size": 18
+        "icon-size": 22
     },
     "custom/cpu-label": {
         "format": "CPU",
