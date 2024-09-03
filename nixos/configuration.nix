@@ -67,9 +67,7 @@
   environment.variables.EDITOR = "nvim";
   programs.firefox.enable = true;
   programs.thunar.enable = true;
-  programs.steam = {
-    enable = true;
-  };
+  programs.steam.enable = true;
 
   programs.git = {
     enable = true;
