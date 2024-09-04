@@ -1,6 +1,6 @@
 { pkgs }:
 pkgs.writeShellApplication {
-  name = "hist-nix";
+  name = "hist";
   runtimeInputs = [ pkgs.zsh pkgs.fzf pkgs.gnused pkgs.gawk pkgs.wl-clipboard ];
   text = ''
     #!/usr/bin/env zsh
