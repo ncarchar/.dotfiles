@@ -1,10 +1,10 @@
 { config, pkgs, ... }:
 let
-  test-script = import ./test-script.nix { inherit pkgs; };
+  script-hist = import ./scripts/script-hist.nix { inherit pkgs; };
 in
 {
   environment.systemPackages = with pkgs; [
-    test-script
+    script-hist
     gavin-bc
     spring-boot-cli
     bitwarden-cli
