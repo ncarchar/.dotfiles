@@ -1,5 +1,10 @@
 { pkgs }:
 
-pkgs.writeShellScriptBin "test-script" ''
-  echo "hello world" | ${pkgs.cowsay}/bin/cowsay | ${pkgs.lolcat}/bin/lolcat
-''
+pkgs.writeShellApplication {
+  name = "hello-world";
+  runtimeInputs = [ pkgs.cowsay pkgs.lolcat ];
+  text = ''
+    #!/usr/bin/env bash
+    echo "Hello, world!" | cowsay | lolcat
+  '';
+}
