@@ -5,6 +5,7 @@ in
 {
   environment.systemPackages = with pkgs; [
     script-hist
+    inotify-tools
     plantuml
     gavin-bc
     spring-boot-cli
