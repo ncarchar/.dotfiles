@@ -5,6 +5,7 @@ in
 {
   environment.systemPackages = with pkgs; [
     script-hist
+    plantuml
     gavin-bc
     spring-boot-cli
     bitwarden-cli
