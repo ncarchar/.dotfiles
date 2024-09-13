@@ -186,12 +186,6 @@ require('lazy').setup(
     },
     {})
 
--- vim.opt.background = 'dark'
--- require('onedark').setup {
---     style = 'dark'
--- }
--- require('onedark').load()
-
 -- Generics
 require('generic.globals')
 require('generic.vim-settings')
