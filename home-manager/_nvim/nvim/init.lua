@@ -93,6 +93,14 @@ require('lazy').setup(
             -- end,
         },
         {
+            'sainnhe/gruvbox-material',
+            lazy = false,
+            priority = 1000,
+            -- config = function()
+            --     vim.cmd.colorscheme 'gruvbox'
+            -- end,
+        },
+        {
             -- Add indentation guides even on blank lines
             'lukas-reineke/indent-blankline.nvim',
         },
