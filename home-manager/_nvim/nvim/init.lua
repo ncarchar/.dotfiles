@@ -85,22 +85,6 @@ require('lazy').setup(
             end,
         },
         {
-            'ellisonleao/gruvbox.nvim',
-            lazy = false,
-            priority = 1000,
-            -- config = function()
-            --     vim.cmd.colorscheme 'gruvbox'
-            -- end,
-        },
-        {
-            'sainnhe/gruvbox-material',
-            lazy = false,
-            priority = 1000,
-            -- config = function()
-            --     vim.cmd.colorscheme 'gruvbox'
-            -- end,
-        },
-        {
             -- Add indentation guides even on blank lines
             'lukas-reineke/indent-blankline.nvim',
         },
@@ -201,11 +185,12 @@ require('lazy').setup(
         }
     },
     {})
--- theme
-require('onedark').setup {
-    style = 'dark'
-}
-require('onedark').load()
+
+-- vim.opt.background = 'dark'
+-- require('onedark').setup {
+--     style = 'dark'
+-- }
+-- require('onedark').load()
 
 -- Generics
 require('generic.globals')
