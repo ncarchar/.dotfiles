@@ -27,6 +27,9 @@ bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +10%
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -10%
 
+# screen shot
+bindsym $mod+Shift+s exec grim -g "$(slurp)" - | wl-copy
+
 # start a terminal
 bindsym $mod+t exec alacritty
 
