@@ -44,17 +44,24 @@ require('lazy').setup(
                 { 'j-hui/fidget.nvim',       tag = 'legacy', opts = {} },
                 -- Additional lua configuration, makes nvim stuff amazing!
                 'folke/neodev.nvim',
+                'hrsh7th/cmp-nvim-lsp'
             },
         },
         {
-            -- Autocompletion
             'hrsh7th/nvim-cmp',
+            event = 'InsertEnter',
             dependencies = {
                 -- Snippet Engine & its associated nvim-cmp source
-                'L3MON4D3/LuaSnip',
+                {
+                    'L3MON4D3/LuaSnip',
+                    lazy = false,
+                    build = (function()
+                        return 'make install_jsregexp'
+                    end)()
+                },
                 'saadparwaiz1/cmp_luasnip',
-                -- Adds LSP completion capabilities
-                'hrsh7th/cmp-nvim-lsp'
+                'hrsh7th/cmp-nvim-lsp',
+                'hrsh7th/cmp-path',
             },
         },
         {
@@ -221,4 +228,3 @@ require('snips.html')
 require('snips.javascript')
 require('snips.java')
 require('snips.typescript')
-require('snips.template')

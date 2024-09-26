@@ -16,16 +16,20 @@ local sn = ls.sn
 
 
 local snippets = {
-    s("imp",
+    s(
+        {
+            trig = "inject",
+            name = "Inject | Angular Inject"
+        },
         fmta(
             [[
-                private readonly <name>: <import>
+                private readonly <name> = inject(<import>);
             ]],
             {
                 import = i(1),
-                name = d(2, function(args)
+                name = f(function(args)
                     local import = args[1][1]
-                    return sn(nil, c(1, {t(""),t(common.lower_first_letter(import))}) )
+                    return import ~= "" and common.lower_first_letter(import) or ""
                 end, { 1 })
             }
         ),
@@ -43,8 +47,7 @@ local snippets = {
     s(
         {
             trig = "constructor",
-            name = "Constructor | Angular Constructor",
-            desc = "Constructor for Angular."
+            name = "Constructor | Angular Constructor"
         },
         fmt(
             [[
@@ -60,8 +63,7 @@ local snippets = {
     s(
         {
             trig = "ng_on_init",
-            name = "On Init | Angular Lifecycle Hook",
-            desc = "Angular ngOnInit."
+            name = "On Init | Angular Lifecycle Hook"
         },
         fmt(
             [[
@@ -76,8 +78,7 @@ local snippets = {
     s(
         {
             trig = "ng_after_view_init",
-            name = "After View Init | Angular Lifecycle Hook",
-            desc = "Angular ngAfterViewInit."
+            name = "After View Init | Angular Lifecycle Hook"
         },
         fmt(
             [[
@@ -92,8 +93,7 @@ local snippets = {
     s(
         {
             trig = "ng_on_changes",
-            name = "On Changes | Angular Lifecycle Hook",
-            desc = "Angular ngOnChages with some simple templating."
+            name = "On Changes | Angular Lifecycle Hook"
         },
         fmta(
             [[
@@ -105,17 +105,6 @@ local snippets = {
                 ]],
             {
                 body = i(0)
-            })
-    ),
-    s(
-        {
-            trig = "until_destroy",
-            name = "Take Until ngOnDestroy",
-            desc = "Use with subscriptions to destroy with component."
-        },
-        fmt("{}",
-            {
-                c(1, { t(".pipe(takeUntil(onDestroy$))"), t(", takeUntil(onDestroy$)") })
             })
     ),
     s(

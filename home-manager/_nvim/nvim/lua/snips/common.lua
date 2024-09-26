@@ -4,7 +4,7 @@ local M = {}
 
 function M.refresh_snips(key, snippets)
     require("luasnip.session.snippet_collection").clear_snippets(key)
-    --ls.add_snippets(key, { table.unpack(snippets) })
+    ls.add_snippets(key, (snippets))
 end
 
 function M.lower_first_letter(value)

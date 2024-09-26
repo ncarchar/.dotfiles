@@ -16,8 +16,7 @@ local snippets = {
     s(
         {
             trig = "mat_button",
-            name = "Button | Angular Matieral",
-            desc = "Standard Angular Material button. Allows for button type and color customization"
+            name = "Button | Angular Matieral"
         },
         fmta(
             [[
@@ -54,7 +53,6 @@ local snippets = {
         {
             trig = "mat_card",
             name = "Card | Angular Matieral",
-            desc = "Standard Angular Material card."
         },
         fmta(
             [[
@@ -114,8 +112,7 @@ local snippets = {
     s(
         {
             trig = "mat_input",
-            name = "Input | Angular Matieral",
-            desc = "Standard Angular Material input."
+            name = "Input | Angular Matieral"
         },
         fmta([[
                 <<mat-form-field>>
@@ -151,30 +148,7 @@ local snippets = {
                 identifier_length = rep(2),
                 identifier_click = rep(2),
             })
-    ),
-    s(
-        {
-            trig = "mat_progress_bar",
-            name = "Progress Bar | Angular Matieral",
-            desc = "Angular Material progress bar wrapped with an if."
-        },
-        fmta([[
-                @if (<logic>) {
-                    <<mat-progress-bar mode="<mode>"<progress>>><</mat-progress-bar>>
-                }
-            ]],
-            {
-                logic = i(1),
-                mode = c(2, {t("indeterminate"), t("determinate")}),
-                progress = d(3, function(args)
-                    local mode = args[1][1]
-                    if (mode == "determinate") then
-                        return sn(nil, fmt("{}value=\"{}\"", { t(" "), i(1) }))
-                    end
-                    return sn(nil, t(""))
-                end, { 2 })
-            })
-    ),
+    )
 }
 
 common.refresh_snips("html", snippets)

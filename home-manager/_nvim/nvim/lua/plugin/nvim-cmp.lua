@@ -2,15 +2,15 @@
 -- See `:help cmp`
 local cmp = require 'cmp'
 local luasnip = require 'luasnip'
-require('luasnip.loaders.from_vscode').lazy_load()
+-- require('luasnip.loaders.from_vscode').lazy_load()
 local lspkind = require('lspkind')
 
 cmp.setup {
     formatting = {
         format = lspkind.cmp_format({
-            mode = 'symbol_text',  -- show only symbol annotations
-            maxwidth = 32,         -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-            ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+            mode = 'symbol_text',
+            maxwidth = 32,
+            ellipsis_char = '...',
         })
     },
     snippet = {
@@ -33,8 +33,8 @@ cmp.setup {
         end, { 'i', 's' }),
     },
     sources = {
-        { name = 'nvim_lsp' },
         { name = 'luasnip' },
+        { name = 'nvim_lsp' },
         { name = 'path' }
     },
     sorting = {

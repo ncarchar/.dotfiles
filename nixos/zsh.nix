@@ -13,6 +13,7 @@
       plugins = [ ];
     };
     shellAliases = {
+      cp = "cp -a";
       ls = "exa --across --group-directories-first";
       la = "exa --all --across  --group-directories-first";
       ll = "exa -l --all -g --icons --git --no-user --classify --group-directories-first";
