@@ -82,6 +82,9 @@
       core = {
         pager = "less -F -X";
       };
+      "includeIf \"gitdir:~/gatech/\"" = {
+        path = "~/gatech/.gitconfig";
+      };
     };
   };
 
