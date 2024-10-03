@@ -21,7 +21,7 @@
       llt = "exa --level=2 --icons --tree --git --git-ignore --no-user --no-permissions --group-directories-first -a";
       lft = "exa --icons --tree --git --git-ignore --no-user --no-permissions --group-directories-first -a";
       hist = "hist";
-      tms = ". tms";
+      tms = "tms";
     };
   };
 }
