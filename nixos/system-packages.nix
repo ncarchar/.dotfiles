@@ -4,7 +4,6 @@ let
 in
 {
   environment.systemPackages = with pkgs; [
-    wine
     wine64
     script-hist
     inotify-tools
