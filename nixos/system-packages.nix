@@ -5,6 +5,7 @@ in
 {
   environment.systemPackages = with pkgs; [
     wine64
+    wineWowPackages.waylandFull
     winetricks
     script-hist
     inotify-tools
