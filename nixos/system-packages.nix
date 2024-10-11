@@ -5,6 +5,7 @@ in
 {
   environment.systemPackages = with pkgs; [
     wine64
+    winetricks
     script-hist
     inotify-tools
     plantuml
