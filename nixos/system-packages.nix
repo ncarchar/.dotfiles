@@ -4,9 +4,6 @@ let
 in
 {
   environment.systemPackages = with pkgs; [
-    wineWowPackages.waylandFull
-    wineWowPackages.staging
-    winetricks
     script-hist
     inotify-tools
     plantuml
