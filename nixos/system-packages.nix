@@ -4,6 +4,7 @@ let
 in
 {
   environment.systemPackages = with pkgs; [
+    gparted
     script-hist
     inotify-tools
     plantuml
