@@ -62,7 +62,6 @@ local servers = {
     },
     marksman = {},
     rust_analyzer = {},
-    tsserver = {},
     zls = {}
 }
 
