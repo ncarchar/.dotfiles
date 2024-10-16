@@ -18,10 +18,10 @@
   networking.networkmanager.enable = true;
 
   networking.nameservers = [
-    "9.9.9.9"
-    "149.112.112.112"
-    "2620:fe::fe"
-    "2620:fe::9"
+    "45.90.28.0#894bc3.dns.nextdns.io"
+    "2a07:a8c0::#894bc3.dns.nextdns.io"
+    "45.90.30.0#894bc3.dns.nextdns.io"
+    "2a07:a8c1::#894bc3.dns.nextdns.io"
   ];
 
   services.resolved = {
@@ -30,8 +30,8 @@
     dnsovertls = "true";
     domains = [ "~." ];
     fallbackDns = [
-      "9.9.9.9"
-      "149.112.112.112"
+      "45.90.28.0#894bc3.dns.nextdns.io"
+      "2a07:a8c0::#894bc3.dns.nextdns.io"
     ];
   };
 
