@@ -17,11 +17,27 @@
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
 
+  # networking.nameservers = [
+  #   "45.90.28.0#894bc3.dns.nextdns.io"
+  #   "2a07:a8c0::#894bc3.dns.nextdns.io"
+  #   "45.90.30.0#894bc3.dns.nextdns.io"
+  #   "2a07:a8c1::#894bc3.dns.nextdns.io"
+  # ];
+  #
+  # services.resolved = {
+  #   enable = true;
+  #   dnssec = "true";
+  #   dnsovertls = "true";
+  #   domains = [ "~." ];
+  #   fallbackDns = [
+  #     "45.90.28.0#894bc3.dns.nextdns.io"
+  #     "2a07:a8c0::#894bc3.dns.nextdns.io"
+  #   ];
+  # };
+
   networking.nameservers = [
-    "45.90.28.0#894bc3.dns.nextdns.io"
-    "2a07:a8c0::#894bc3.dns.nextdns.io"
-    "45.90.30.0#894bc3.dns.nextdns.io"
-    "2a07:a8c1::#894bc3.dns.nextdns.io"
+    "8.8.8.8"
+    "8.8.4.4"
   ];
 
   services.resolved = {
@@ -30,8 +46,8 @@
     dnsovertls = "true";
     domains = [ "~." ];
     fallbackDns = [
-      "45.90.28.0#894bc3.dns.nextdns.io"
-      "2a07:a8c0::#894bc3.dns.nextdns.io"
+      "8.8.8.8"
+      "8.8.4.4"
     ];
   };
 
