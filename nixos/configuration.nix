@@ -115,7 +115,7 @@
       core = {
         pager = "less -F -X";
       };
-      "includeIf \"gitdir:/home/ncarchar/gatech/\"" = {
+      "includeIf \"gitdir:/home/ncarchar/gatech/**\"" = {
         path = "/home/narchar/gatech/.gitconfig";
       };
     };
