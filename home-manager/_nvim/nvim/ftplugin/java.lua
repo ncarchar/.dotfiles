@@ -23,7 +23,7 @@ local path_to_config = jdtls_package_path .. "/config_linux"
 local jar_path = find_jar_file(jdtls_package_path, "org.eclipse.equinox.launcher_")
 local lombok_path = jdtls_package_path .. "lombok.jar"
 
-local root_markers = { ".git", "mvnw", "gradlew", "pom.xml", "build.gradle" }
+local root_markers = { ".git", "mvnw", "gradlew", "pom.xml", "build.gradle", "Dockerfile" }
 local root_dir = require("jdtls.setup").find_root(root_markers)
 if root_dir == "" then
   return

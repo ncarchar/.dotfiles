@@ -17,27 +17,11 @@
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
 
-  # networking.nameservers = [
-  #   "45.90.28.0#894bc3.dns.nextdns.io"
-  #   "2a07:a8c0::#894bc3.dns.nextdns.io"
-  #   "45.90.30.0#894bc3.dns.nextdns.io"
-  #   "2a07:a8c1::#894bc3.dns.nextdns.io"
-  # ];
-  #
-  # services.resolved = {
-  #   enable = true;
-  #   dnssec = "true";
-  #   dnsovertls = "true";
-  #   domains = [ "~." ];
-  #   fallbackDns = [
-  #     "45.90.28.0#894bc3.dns.nextdns.io"
-  #     "2a07:a8c0::#894bc3.dns.nextdns.io"
-  #   ];
-  # };
-
   networking.nameservers = [
-    "8.8.8.8"
-    "8.8.4.4"
+    "45.90.28.0#894bc3.dns.nextdns.io"
+    "2a07:a8c0::#894bc3.dns.nextdns.io"
+    "45.90.30.0#894bc3.dns.nextdns.io"
+    "2a07:a8c1::#894bc3.dns.nextdns.io"
   ];
 
   services.resolved = {
@@ -46,10 +30,26 @@
     dnsovertls = "true";
     domains = [ "~." ];
     fallbackDns = [
-      "8.8.8.8"
-      "8.8.4.4"
+      "45.90.28.0#894bc3.dns.nextdns.io"
+      "2a07:a8c0::#894bc3.dns.nextdns.io"
     ];
   };
+
+  # networking.nameservers = [
+  #   "8.8.8.8"
+  #   "8.8.4.4"
+  # ];
+  #
+  # services.resolved = {
+  #   enable = true;
+  #   dnssec = "true";
+  #   dnsovertls = "true";
+  #   domains = [ "~." ];
+  #   fallbackDns = [
+  #     "8.8.8.8"
+  #     "8.8.4.4"
+  #   ];
+  # };
 
   time.timeZone = "America/New_York";
 
@@ -115,8 +115,8 @@
       core = {
         pager = "less -F -X";
       };
-      "includeIf \"gitdir:~/gatech/\"" = {
-        path = "~/gatech/.gitconfig";
+      "includeIf \"gitdir:/home/ncarchar/gatech/\"" = {
+        path = "/home/narchar/gatech/.gitconfig";
       };
     };
   };
