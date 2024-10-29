@@ -5,6 +5,7 @@ in
 {
   environment.systemPackages = with pkgs; [
     parted
+    ntfs3g
     script-hist
     inotify-tools
     plantuml
