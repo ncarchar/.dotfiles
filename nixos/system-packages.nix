@@ -4,6 +4,7 @@ let
 in
 {
   environment.systemPackages = with pkgs; [
+    xorg.xhost
     xwayland
     parted
     gptfdisk
