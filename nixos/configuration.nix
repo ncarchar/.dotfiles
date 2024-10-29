@@ -93,6 +93,7 @@
   programs.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
+    xwayland.enable = true;
   };
   programs.seahorse.enable = true;
   programs.dconf.enable = true;

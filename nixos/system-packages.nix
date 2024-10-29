@@ -4,6 +4,7 @@ let
 in
 {
   environment.systemPackages = with pkgs; [
+    xorg.xhost
     xwayland
     parted
     gptfdisk
@@ -53,7 +54,7 @@ in
     makeWrapper
     mako
     maven
-    jdk21_headless
+    jdk21
     neofetch
     networkmanagerapplet
     nodePackages."@angular/cli"

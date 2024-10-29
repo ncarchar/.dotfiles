@@ -23,7 +23,7 @@ gaps inner 8
 floating_modifier $mod
 
 # for_window [app_id="firefox"] floating enable
-bindsym $mod+Shift+Space floating toggle
+bindsym $mod+Shift+space floating toggle
 for_window [title="Picture-in-Picture"] floating enable, border none, sticky enable, resize set 620 px 355 px, move position 20 px 20 px
 
 # Volume controls
