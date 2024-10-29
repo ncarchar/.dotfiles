@@ -5,6 +5,7 @@ in
 {
   environment.systemPackages = with pkgs; [
     parted
+    gptfdisk
     ntfs3g
     script-hist
     inotify-tools
