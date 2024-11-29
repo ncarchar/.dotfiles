@@ -13,6 +13,7 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.systemd-boot.configurationLimit = 3;
 
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
@@ -50,7 +51,6 @@
       "8.8.4.4"
     ];
   };
-
   time.timeZone = "America/New_York";
 
   i18n.defaultLocale = "en_US.UTF-8";
@@ -108,10 +108,6 @@
     config = {
       init = {
         defaultBranch = "main";
-      };
-      user = {
-        email = "carsoncmiller@proton.me";
-        name = "ncarchar";
       };
       core = {
         pager = "less -F -X";
