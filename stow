@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 
-# Define the base directory for dotfiles
-BASE_DIR="$HOME/.dotfiles/home-manager"
+BASE_DIR="$HOME/.dotfiles/home"
 
-# Declare an array of directories to stow
 declare -a DIRECTORIES=(
     "_nvim"
     "_waybar"
@@ -14,10 +12,8 @@ declare -a DIRECTORIES=(
     "_alacritty"
 )
 
-# Change to the base directory
 cd "$BASE_DIR" || exit 1
 
-# Loop through each directory and stow it
 for DIR in "${DIRECTORIES[@]}"; do
     if [ -d "$DIR" ]; then
         echo "Stowing: $DIR"
