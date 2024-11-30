@@ -1,25 +1,11 @@
 #!/usr/bin/env bash
 
-DOTFILES=$HOME/.dotfiles
-LOG_DIR="$DOTFILES/.log"
-NIXOS_LOG="$LOG_DIR/nixos-switch.log"
-HOME_MANAGER_LOG="$LOG_DIR/home-manager.log"
-STOW_LOG="$LOG_DIR/stow.log"
-
 set -e
 git --no-pager diff -U0 *.nix
 echo "rebuilding nixos configuration..."
-sudo nixos-rebuild switch &> "$NIXOS_LOG" || (
- cat "$NIXOS_LOG" | grep --color error && false)
+sudo nixos-rebuild switch
 gen=$(nixos-rebuild list-generations | grep current)
 
-rm -r ~/.config/home-manager
-cp -r home-manager/ ~/.config/home-manager
-
-echo "rebuilding home-manager..."
-
-nix run nixpkgs#home-manager -- switch --flake ~/.config/home-manager/#$USER &> "$HOME_MANAGER_LOG" || (
- cat "$HOME_MANAGER_LOG" | grep --color error && false)
 echo "commiting to git..."
 check=$(tar -cf - ./ | md5sum);
 git add .

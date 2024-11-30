@@ -42,7 +42,6 @@ in
     gnumake
     go
     grim
-    home-manager
     i2c-tools
     jq
     libiconv
