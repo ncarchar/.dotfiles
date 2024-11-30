@@ -1,7 +1,4 @@
 { config, pkgs, ... }:
-let
-  script-hist = import ./scripts/script-hist.nix { inherit pkgs; };
-in
 {
   environment.systemPackages = with pkgs; [
     xorg.xhost
@@ -9,7 +6,6 @@ in
     parted
     gptfdisk
     ntfs3g
-    script-hist
     inotify-tools
     plantuml
     gavin-bc
