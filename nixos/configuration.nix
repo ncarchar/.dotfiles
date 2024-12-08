@@ -16,6 +16,7 @@ in {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.configurationLimit = 5;
+
   # boot.kernelModules = [ "vfio" "vfio_iommu_type1" "vfio_pci" "vfio_virqfd" ];
   # boot.kernelParams = [
   #   "vfio-pci.ids=${builtins.concatStringsSep "," vfioIds}"
