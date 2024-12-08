@@ -1,5 +1,7 @@
 { config, pkgs, ... }:
-{
+let
+  vfioIds = [ "1002:744c" "1002:ab30" ];
+in {
   imports =
     [
       /etc/nixos/hardware-configuration.nix
@@ -13,32 +15,27 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.systemd-boot.configurationLimit = 3;
+  boot.loader.systemd-boot.configurationLimit = 5;
+  # boot.kernelModules = [ "vfio" "vfio_iommu_type1" "vfio_pci" "vfio_virqfd" ];
+  # boot.kernelParams = [
+  #   "vfio-pci.ids=${builtins.concatStringsSep "," vfioIds}"
+  #   "amd_iommu=pt"
+  #   "iommu=pt"
+  # ];
 
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
-
-  # networking.nameservers = [
-  #   "45.90.28.0#894bc3.dns.nextdns.io"
-  #   "2a07:a8c0::#894bc3.dns.nextdns.io"
-  #   "45.90.30.0#894bc3.dns.nextdns.io"
-  #   "2a07:a8c1::#894bc3.dns.nextdns.io"
-  # ];
-  #
-  # services.resolved = {
-  #   enable = true;
-  #   dnssec = "true";
-  #   dnsovertls = "true";
-  #   domains = [ "~." ];
-  #   fallbackDns = [
-  #     "45.90.28.0#894bc3.dns.nextdns.io"
-  #     "2a07:a8c0::#894bc3.dns.nextdns.io"
-  #   ];
-  # };
+  hardware.opengl = {
+    enable = true;
+    extraPackages = with pkgs; [ mesa ];
+    driSupport32Bit = true;
+  };
 
   networking.nameservers = [
-    "8.8.8.8"
-    "8.8.4.4"
+    "45.90.28.0#894bc3.dns.nextdns.io"
+    "2a07:a8c0::#894bc3.dns.nextdns.io"
+    "45.90.30.0#894bc3.dns.nextdns.io"
+    "2a07:a8c1::#894bc3.dns.nextdns.io"
   ];
 
   services.resolved = {
@@ -47,10 +44,26 @@
     dnsovertls = "true";
     domains = [ "~." ];
     fallbackDns = [
-      "8.8.8.8"
-      "8.8.4.4"
+      "45.90.28.0#894bc3.dns.nextdns.io"
+      "2a07:a8c0::#894bc3.dns.nextdns.io"
     ];
   };
+
+  # networking.nameservers = [
+  #   "8.8.8.8"
+  #   "8.8.4.4"
+  # ];
+
+  # services.resolved = {
+  #   enable = true;
+  #   dnssec = "true";
+  #   dnsovertls = "true";
+  #   domains = [ "~." ];
+  #   fallbackDns = [
+  #     "8.8.8.8"
+  #     "8.8.4.4"
+  #   ];
+  # };
   time.timeZone = "America/New_York";
 
   i18n.defaultLocale = "en_US.UTF-8";
