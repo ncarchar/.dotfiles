@@ -16,6 +16,8 @@ command=echo "$(df -h / | awk 'NR==2{printf "DSK %s", $5}')"
 [volume]
 command=echo "$(pactl get-sink-volume @DEFAULT_SINK@ | grep -oP '\d+%' | head -1 | awk '{print "VOL: " $1}')"
 min_width=VOL: 00
+interval=once
+signal=2
 
 [time]
 command=echo "$(date '+%Y-%m-%d %H:%M:%S')"
