@@ -1,0 +1,21 @@
+separator_block_width=25
+
+# Global settings
+interval=1
+
+[cpu_usage]
+command=echo "CPU $(top -bn1 | grep "Cpu(s)" | awk '{print 100 - $8}' | xargs printf "%.1f")%"
+min_width=CPU 0.0%
+
+[memory]
+command=echo "$(free -m | awk 'NR==2{printf "MEM %d%%", $3*100/$2 }')"
+
+[disk]
+command=echo "$(df -h / | awk 'NR==2{printf "DSK %s", $5}')"
+
+[volume]
+command=echo "$(pactl get-sink-volume @DEFAULT_SINK@ | grep -oP '\d+%' | head -1 | awk '{print "VOL: " $1}')"
+min_width=VOL: 00
+
+[time]
+command=echo "$(date '+%Y-%m-%d %H:%M:%S')"

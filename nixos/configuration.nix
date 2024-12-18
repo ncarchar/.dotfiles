@@ -1,7 +1,5 @@
 { config, pkgs, ... }:
-let
-  vfioIds = [ "1002:744c" "1002:ab30" ];
-in {
+{
   imports =
     [
       /etc/nixos/hardware-configuration.nix
@@ -11,6 +9,7 @@ in {
     ];
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  system.stateVersion = "24.11";
   programs.nix-ld.enable = true;
 
   boot.loader.systemd-boot.enable = true;
@@ -19,51 +18,14 @@ in {
 
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
-  hardware.opengl = {
-    enable = true;
-    extraPackages = with pkgs; [ mesa ];
-    driSupport32Bit = true;
-  };
+  hardware.graphics.enable = true;
 
-  networking.nameservers = [
-    "45.90.28.0#894bc3.dns.nextdns.io"
-    "2a07:a8c0::#894bc3.dns.nextdns.io"
-    "45.90.30.0#894bc3.dns.nextdns.io"
-    "2a07:a8c1::#894bc3.dns.nextdns.io"
-  ];
-
-  services.resolved = {
-    enable = true;
-    dnssec = "true";
-    dnsovertls = "true";
-    domains = [ "~." ];
-    fallbackDns = [
-      "45.90.28.0#894bc3.dns.nextdns.io"
-      "2a07:a8c0::#894bc3.dns.nextdns.io"
-    ];
-  };
-
-  # networking.nameservers = [
-  #   "8.8.8.8"
-  #   "8.8.4.4"
-  # ];
-
-  # services.resolved = {
-  #   enable = true;
-  #   dnssec = "true";
-  #   dnsovertls = "true";
-  #   domains = [ "~." ];
-  #   fallbackDns = [
-  #     "8.8.8.8"
-  #     "8.8.4.4"
-  #   ];
-  # };
   time.timeZone = "America/New_York";
 
   i18n.defaultLocale = "en_US.UTF-8";
 
-  hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
+  hardware.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -75,8 +37,9 @@ in {
 
   users.users.ncarchar = {
     isNormalUser = true;
+    home = "/home/ncarchar";
     description = "Carson Miller";
-    extraGroups = [ "networkmanager" "wheel" "libvirtd" "docker" "qemu-libvirtd" ];
+    extraGroups = [ "networkmanager" "wheel" "libvirtd" "docker" ];
   };
 
   fonts.packages = with pkgs; [
@@ -91,19 +54,34 @@ in {
     };
   };
 
-  system.stateVersion = "24.05";
 
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.gdm.enableGnomeKeyring = true;
   security.pam.services.gdm-password.enableGnomeKeyring = true;
 
-  programs.sway = {
+  services.displayManager.defaultSession = "none+i3";
+  services.xserver = {
     enable = true;
-    wrapperFeatures.gtk = true;
-    xwayland.enable = true;
+    desktopManager = {
+      xterm.enable = false;
+    };
+    windowManager.i3 = {
+      enable = true;
+      extraPackages = with pkgs; [
+        dmenu
+        i3status
+        i3blocks
+      ];
+    };
   };
-  programs.seahorse.enable = true;
-  programs.dconf.enable = true;
+
+  # programs.waybar.enable = true;
+  # programs.sway = {
+  #   enable = true;
+  #   wrapperFeatures.gtk = true;
+  #   xwayland.enable = true;
+  # };
+
   programs.neovim.enable = true;
   environment.variables.EDITOR = "nvim";
   programs.firefox.enable = true;

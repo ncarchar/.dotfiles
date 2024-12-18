@@ -3,6 +3,8 @@
 BASE_DIR="$HOME/.dotfiles/home"
 
 declare -a DIRECTORIES=(
+    "_i3"
+    "_i3blocks"
     "_nvim"
     "_waybar"
     "_prettier"

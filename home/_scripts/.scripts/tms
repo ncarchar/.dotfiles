@@ -3,7 +3,7 @@
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(find ~/code ~/gatech -mindepth 0 -maxdepth 3 -type d -exec test -d '{}/.git' \; -print | fzf --border --ansi --height 40%  --preview 'exa --level=1 --icons --tree --git --git-ignore --no-user --no-permissions --group-directories-first {}')
+    selected=$(find ~/code ~/gatech -mindepth 0 -maxdepth 2 -type d -exec test -d '{}/.git' \; -print | fzf --border --ansi --height 40%  --preview 'exa --level=1 --icons --tree --git --git-ignore --no-user --no-permissions --group-directories-first {}')
 fi
 
 

@@ -10,7 +10,6 @@
     spice-protocol
     win-virtio
     win-spice
-    gnome.adwaita-icon-theme
   ];
 
   virtualisation = {

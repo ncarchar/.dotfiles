@@ -1,8 +1,8 @@
 { config, pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
+    waybar
     btop
-    xorg.xhost
     xwayland
     parted
     gptfdisk
@@ -60,7 +60,6 @@
     nodePackages."http-server"
     nodejs
     obsidian
-    openvpn
     pavucontrol
     pciutils
     pkg-config
@@ -75,7 +74,6 @@
     stow
     tmux
     unzip
-    waybar
     wf-recorder
     wget
     wl-clipboard
