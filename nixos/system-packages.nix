@@ -57,6 +57,7 @@
     nodePackages."eslint"
     nodePackages."prettier"
     nodePackages."typescript"
+    nodePackages."http-server"
     nodejs
     obsidian
     openvpn
