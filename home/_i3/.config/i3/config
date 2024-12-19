@@ -53,7 +53,7 @@ bindsym $mod+b exec firefox
 bindsym $mod+Shift+p exec firefox --private-window
 
 #start thundar file explorer
-bindsym $mod+f exec thunar
+bindsym $mod+f exec GTK_THEME=Adwaita:dark thunar
 
 # kill focused window
 bindsym $mod+Shift+q kill
