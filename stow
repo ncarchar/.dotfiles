@@ -3,6 +3,7 @@
 BASE_DIR="$HOME/.dotfiles/home"
 
 declare -a DIRECTORIES=(
+    "_picom"
     "_i3"
     "_i3blocks"
     "_nvim"

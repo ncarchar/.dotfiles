@@ -62,6 +62,10 @@
   services.displayManager.defaultSession = "none+i3";
   services.picom = {
     enable = true;
+    settings = {
+      backend = "glx";
+      vsync = true;
+    };
   };
   services.xserver = {
     enable = true;
