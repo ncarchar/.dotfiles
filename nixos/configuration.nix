@@ -97,7 +97,7 @@
   };
   services.redshift = {
     enable = true;
-    temperature.night = 4500;
+    temperature.night = 5000;
     temperature.day = 6500;
     brightness.night = "0.9";
     brightness.day = "1";
