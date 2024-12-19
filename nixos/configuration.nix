@@ -12,6 +12,7 @@
   system.stateVersion = "24.11";
   programs.nix-ld.enable = true;
 
+  hardware.amdgpu.initrd.enable = true;
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.configurationLimit = 5;
@@ -54,12 +55,14 @@
     };
   };
 
-
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.gdm.enableGnomeKeyring = true;
   security.pam.services.gdm-password.enableGnomeKeyring = true;
 
   services.displayManager.defaultSession = "none+i3";
+  services.picom = {
+    enable = true;
+  };
   services.xserver = {
     enable = true;
     desktopManager = {
@@ -87,6 +90,14 @@
   programs.firefox.enable = true;
   programs.thunar.enable = true;
   programs.steam.enable = true;
+  location.provider = "geoclue2";
+  services.redshift = {
+    enable = true;
+    temperature.night = 3700;
+    temperature.day = 5500;
+    brightness.night = "0.8";
+    brightness.day = "1";
+  };
 
   programs.git = {
     enable = true;
