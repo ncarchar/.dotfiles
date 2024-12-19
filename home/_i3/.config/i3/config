@@ -1,19 +1,19 @@
 set $mod Mod1
 
 # Font for window titles. Will also be used by the bar unless a different font
-font pango:monospace 16
+# font pango:monospace 16
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-#font pango:DejaVu Sans Mono 8
+ 
+# font pango:JetBrainsMono 16
+font pango:DejaVu Sans Mono 16
 
-# Start XDG autostart .desktop files using dex. See also
-# https://wiki.archlinux.org/index.php/XDG_Autostart
 exec --no-startup-id dex --autostart --environment i3
 
 focus_follows_mouse no
 
-gaps inner 8
+gaps inner 6
 for_window [title="Picture-in-Picture"] floating enable, border none, sticky enable, resize set 680 px 390 px, move position 20 px 25 px
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
@@ -58,8 +58,10 @@ bindsym $mod+f exec thunar
 # kill focused window
 bindsym $mod+Shift+q kill
 
+bindsym $mod+d exec dmenu_run -fn 'DejaVu Sans Mono-18' -nb '#282C34' -nf '#61AFEF' -sb '#98C379' -sf '#282C34'
+
 # start dmenu (a program launcher)
-bindsym $mod+d exec --no-startup-id dmenu_run
+# bindsym $mod+d exec --no-startup-id dmenu_run -fn 'FiraCode-16'
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 # There also is i3-dmenu-desktop which only displays applications shipping a
