@@ -90,7 +90,11 @@
   programs.firefox.enable = true;
   programs.thunar.enable = true;
   programs.steam.enable = true;
-  location.provider = "geoclue2";
+  location = {
+    provider = "manual";
+    longitude = -80.0;
+    latitude = 40.0;
+  };
   services.redshift = {
     enable = true;
     temperature.night = 3700;
