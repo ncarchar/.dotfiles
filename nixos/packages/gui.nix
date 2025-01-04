@@ -7,6 +7,7 @@
     feh
     networkmanagerapplet
     obsidian
+    pulseaudio
     pavucontrol
     protonvpn-gui
     spotify
