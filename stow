@@ -1,27 +1,3 @@
 #!/usr/bin/env bash
 
-BASE_DIR="$HOME/.dotfiles/home"
-
-declare -a DIRECTORIES=(
-    "_picom"
-    "_i3"
-    "_i3blocks"
-    "_nvim"
-    "_waybar"
-    "_prettier"
-    "_scripts"
-    "_tmux"
-    "_sway"
-    "_alacritty"
-)
-
-cd "$BASE_DIR" || exit 1
-
-for DIR in "${DIRECTORIES[@]}"; do
-    if [ -d "$DIR" ]; then
-        echo "Stowing: $DIR"
-        stow -v -R -d "$BASE_DIR" -t "$HOME" "$DIR"
-    else
-        echo "Skipping: $DIR does not exist."
-    fi
-done
+find ~/.dotfiles/home -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | xargs -I {} stow -d ~/.dotfiles/home -t ~ -v -R {}

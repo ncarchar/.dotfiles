@@ -3,9 +3,11 @@
   imports =
     [
       /etc/nixos/hardware-configuration.nix
-      /etc/nixos/system-packages.nix
       /etc/nixos/vm.nix
-      /etc/nixos/zsh.nix
+      /etc/nixos/packages/cpp.nix
+      /etc/nixos/packages/core.nix
+      /etc/nixos/packages/lang.nix
+      /etc/nixos/packages/gui.nix
     ];
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -59,6 +61,7 @@
   security.pam.services.gdm.enableGnomeKeyring = true;
   security.pam.services.gdm-password.enableGnomeKeyring = true;
 
+  # i3 + picom
   services.displayManager.defaultSession = "none+i3";
   services.picom = {
     enable = true;
@@ -81,13 +84,6 @@
       ];
     };
   };
-
-  # programs.waybar.enable = true;
-  # programs.sway = {
-  #   enable = true;
-  #   wrapperFeatures.gtk = true;
-  #   xwayland.enable = true;
-  # };
 
   programs.neovim.enable = true;
   environment.variables.EDITOR = "nvim";
