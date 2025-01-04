@@ -3,7 +3,6 @@
   imports =
     [
       /etc/nixos/hardware-configuration.nix
-      /etc/nixos/vm.nix
       /etc/nixos/packages/cpp.nix
       /etc/nixos/packages/core.nix
       /etc/nixos/packages/lang.nix
