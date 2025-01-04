@@ -10,6 +10,7 @@ set $mod Mod1
 font pango:DejaVu Sans Mono 16
 
 exec --no-startup-id dex --autostart --environment i3
+exec feh --bg-center ~/.background-image
 
 focus_follows_mouse no
 

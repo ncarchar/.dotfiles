@@ -30,7 +30,6 @@ require('lazy').setup(
         { 'folke/which-key.nvim' },
         -- Set lualine as statusline
         { 'nvim-lualine/lualine.nvim' },
-        { 'xiyaowong/transparent.nvim' },
         -- NOTE: This is where your plugins related to LSP can be installed.
         {
             -- LSP Configuration & Plugins
@@ -85,7 +84,6 @@ require('lazy').setup(
         },
         {
             'navarasu/onedark.nvim',
-            lazy = false,
             priority = 1000,
             config = function()
                 vim.cmd.colorscheme 'onedark'
@@ -102,7 +100,6 @@ require('lazy').setup(
             dependencies = {
                 'nvim-lua/plenary.nvim' }
         },
-        -- Quick file switcher
         { 'ThePrimeagen/harpoon',           dependencies = { 'nvim-lua/plenary.nvim' } },
         {
             'nvim-telescope/telescope-fzf-native.nvim',
@@ -142,9 +139,7 @@ require('lazy').setup(
         -- Enables and visualizes undo branches
         { 'mbbill/undotree' },
         { 'sbdchd/neoformat' },
-        -- { 'wakatime/vim-wakatime',          lazy = false },
         { 'romainl/vim-qf' },
-        -- { 'kevinhwang91/nvim-bqf',          ft = 'qf' },
         {
             "epwalsh/obsidian.nvim",
             version = "*",
