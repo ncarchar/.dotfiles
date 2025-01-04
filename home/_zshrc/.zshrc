@@ -16,7 +16,6 @@ if [ -d "$ZSH" ]; then
   source $ZSH/oh-my-zsh.sh
 fi
 
-# Enable autosuggestions
 if [ -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ]; then
   source "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
 fi
