@@ -2,6 +2,7 @@
 {
   environment.systemPackages = with pkgs; [
     ansible
+    btop
     cups
     dbus
     eza
