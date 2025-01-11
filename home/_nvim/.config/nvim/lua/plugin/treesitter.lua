@@ -1,14 +1,15 @@
-require('nvim-treesitter.configs').setup {
+require('nvim-treesitter.configs').setup({
     -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = { 'bash', 'c', 'c_sharp', 'cmake', 'cpp', 'css', 'csv', 'git_config', 'git_rebase', 'gitattributes', 'gitcommit', 'gitignore', 'go', 'graphql', 'html', 'http', 'hyprlang', 'java', 'javascript', 'jq', 'jsdoc', 'json', 'json5', 'kotlin', 'llvm', 'lua', 'make', 'markdown', 'nginx', 'ocaml', 'python', 'regex', 'sql', 'tmux', 'tsv', 'tsx', 'typescript', 'vim', 'xml', 'zig' },
-    -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
+    ensure_installed = { 'bash', 'c', 'cmake', 'cpp', 'css', 'csv', 'git_config', 'git_rebase', 'gitattributes', 'gitcommit', 'gitignore', 'go', 'html', 'http', 'java', 'javascript', 'jq', 'jsdoc', 'json', 'json5', 'kotlin', 'lua', 'make', 'markdown', 'nginx', 'ocaml', 'regex', 'sql', 'tmux', 'tsv', 'tsx', 'typescript', 'vim', 'xml', 'zig' },
+    sync_install = {},
+    modules = {},
     auto_install = true,
     highlight = {
         enable = true,
     },
     refactor = {
         highlight_definitions = { enable = true },
-        highlight_current_scope = { enable = true },
+        -- highlight_current_scope = { enable = true, disable = { 'python' } },
     },
     indent = { enable = true },
     incremental_selection = {
@@ -64,4 +65,4 @@ require('nvim-treesitter.configs').setup {
             },
         },
     },
-}
+})

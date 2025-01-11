@@ -124,8 +124,6 @@ require('lazy').setup(
         },
         -- Quick switcher for Angular
         { 'Everduin94/nvim-quick-switcher', lazy = true },
-        -- Center code
-        { 'shortcuts/no-neck-pain.nvim',    lazy = true },
         -- Adds symbols to LSP
         { 'onsails/lspkind.nvim' },
         -- Auto comment with `gc` and `gcc`
@@ -203,7 +201,6 @@ require('plugin.mason')
 require('plugin.lualine')
 require('plugin.luasnip')
 require('plugin.neoformat')
-require('plugin.no-neck-pain')
 require('plugin.nvim-autopairs')
 require('plugin.nvim-cmp')
 require('plugin.nvim-quick-switcher')
