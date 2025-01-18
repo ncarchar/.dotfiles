@@ -15,6 +15,7 @@
     zig
     (python3.withPackages (ps: with ps; [
       pip
+      "huggingface_hub[cli]"
       i3ipc
     ]))
   ];
