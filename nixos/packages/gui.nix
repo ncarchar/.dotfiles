@@ -11,5 +11,6 @@
     pavucontrol
     protonvpn-gui
     spotify
+    vlc
   ];
 }
