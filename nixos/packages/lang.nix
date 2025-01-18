@@ -16,7 +16,6 @@
     python312Packages.huggingface-hub
     (python3.withPackages (ps: with ps; [
       pip
-      i3ipc
     ]))
   ];
 }
