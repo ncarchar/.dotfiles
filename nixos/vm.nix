@@ -22,6 +22,7 @@
         ovmf.packages = [ pkgs.OVMFFull.fd ];
       };
     };
+    vmware.host.enable = true;
     spiceUSBRedirection.enable = true;
   };
   services.spice-vdagentd.enable = true;
