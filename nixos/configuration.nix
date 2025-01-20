@@ -37,9 +37,10 @@
   };
 
   virtualisation.docker.enable = true;
-  hardware.sane.enable = true;
-  # hardware.sane.dsseries.enable = true;
-  hardware.sane.brscan5.enable = true;
+  hardware.sane = {
+    enable = true;
+    brscan5.enable = true;
+  };
 
   users.users.ncarchar = {
     isNormalUser = true;
