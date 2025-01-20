@@ -5,6 +5,7 @@
     chromium
     cups
     feh
+    gimp
     networkmanagerapplet
     obsidian
     pulseaudio
