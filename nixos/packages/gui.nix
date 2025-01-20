@@ -10,8 +10,6 @@
     pulseaudio
     pavucontrol
     protonvpn-gui
-    xsane
-    spotify
     vlc
   ];
 }
