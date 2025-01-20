@@ -220,3 +220,17 @@ require('snips.html')
 require('snips.javascript')
 require('snips.java')
 require('snips.typescript')
+
+
+
+function RunCommandForDir()
+    local cwd = vim.fn.getcwd()
+    local run_sh_path = cwd .. "/run.sh"
+    if vim.fn.filereadable(run_sh_path) == 1 then
+        vim.cmd("! bash " .. run_sh_path)
+    else
+        print("No run.sh found in the current directory.")
+    end
+end
+
+vim.api.nvim_set_keymap('n', '<leader>rr', ':lua RunCommandForDir()<CR>', { noremap = true, silent = true })

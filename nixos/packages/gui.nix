@@ -10,6 +10,7 @@
     pulseaudio
     pavucontrol
     protonvpn-gui
+    simple-scan
     spotify
     vlc
   ];
