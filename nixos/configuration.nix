@@ -39,7 +39,9 @@
   virtualisation.docker.enable = true;
   hardware.sane = {
     enable = true;
+    snapshot = true;
     brscan5.enable = true;
+    brscan4.enable = true;
     dsseries.enable = true;
   };
 
