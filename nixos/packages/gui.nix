@@ -11,7 +11,6 @@
     pavucontrol
     protonvpn-gui
     simple-scan
-    brscan5
     spotify
     vlc
   ];
