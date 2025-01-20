@@ -19,6 +19,7 @@
     stow
     tmux
     unzip
+    usbutils
     wget
     xclip
     zip
