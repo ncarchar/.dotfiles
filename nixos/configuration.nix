@@ -40,7 +40,7 @@
   hardware.sane = {
     enable = true;
     brscan5.enable = true;
-    extraBackends = [ pkgs.dsseries ];
+    dsseries.enable = true;
   };
 
   users.users.ncarchar = {
