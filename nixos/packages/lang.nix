@@ -13,8 +13,7 @@
     nodejs
     rustc
     zig
-    python312Packages.huggingface-hub
-    (python3.withPackages (ps: with ps; [
+    (python3Full.withPackages (ps: with ps; [
       pip
     ]))
   ];
