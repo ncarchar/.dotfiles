@@ -37,4 +37,10 @@ alias hist=". hist"
 alias tms="tms"
 alias bash="zsh"
 
+alias nix-shell='nix-shell --run zsh'
+
+if [[ -n "$IN_NIX_SHELL" ]]; then
+    PROMPT="(nix) ${PROMPT}"
+fi
+
 source <(ng completion script)
