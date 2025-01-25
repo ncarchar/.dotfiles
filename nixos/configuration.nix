@@ -113,6 +113,7 @@
   programs.neovim.enable = true;
   environment.variables.EDITOR = "nvim";
   environment.variables.GTK_THEME = "Adwaita:dark";
+  environment.variables.NIX_SHELL_PRESERVE_PROMPT = "1";
   environment.sessionVariables.NIX_SHELL_PRESERVE_PROMPT = "1";
   programs.firefox.enable = true;
   programs.thunar.enable = true;
