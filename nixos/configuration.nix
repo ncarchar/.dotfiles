@@ -21,7 +21,6 @@
 
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
-  hardware.graphics.enable = true;
 
   time.timeZone = "America/New_York";
 
@@ -81,8 +80,7 @@
       vsync = true;
     };
   };
-  hardware.amdgpu.opencl.enable = true;
-  hardware.amdgpu.amdvlk.enable = true;
+
   services.xserver.videoDrivers = [ "amdgpu" ];
   services.xserver = {
     enable = true;
@@ -147,6 +145,10 @@
     };
   };
 
+  hardware.graphics.enable = true;
+  hardware.amdgpu.opencl.enable = true;
+  hardware.amdgpu.amdvlk.enable = true;
+  hardware.graphics.extraPackages = with pkgs; [ rocmPackages.clr.icd amdvlk ];
   services.ollama = {
     enable = true;
     acceleration = "rocm";
