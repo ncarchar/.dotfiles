@@ -1,5 +1,7 @@
 local harpoon = require('harpoon')
+
 harpoon:setup()
+
 -- Harpoon mark file
 vim.keymap.set("n", "<leader>hf", function() harpoon:list():add() end, { desc = '[H]arpoon [F]ile' })
 -- Harpoon open GUI

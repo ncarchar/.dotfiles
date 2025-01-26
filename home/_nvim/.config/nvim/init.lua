@@ -92,11 +92,6 @@ require('lazy').setup(
             dependencies = { 'nvim-treesitter/nvim-treesitter-textobjects', 'nvim-treesitter/nvim-treesitter-refactor' },
             build = ':TSUpdate',
         },
-        -- {
-        --     'ThePrimeagen/harpoon',
-        --     dependencies = { 'nvim-lua/plenary.nvim' },
-        --     branch = "harpoon2"
-        -- },
         {
             "letieu/harpoon-lualine",
             dependencies = { { "ThePrimeagen/harpoon", branch = "harpoon2", } },

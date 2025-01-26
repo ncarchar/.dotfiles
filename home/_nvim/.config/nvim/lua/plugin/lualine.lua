@@ -1,5 +1,4 @@
 local palette = require('onedark.palette').dark
-local test = ""
 
 require("lualine").setup {
     options = {
