@@ -81,6 +81,9 @@
       vsync = true;
     };
   };
+  hardware.amdgpu.opencl.enable = true;
+  hardware.amdgpu.amdvlk.enable = true;
+  services.xserver.videoDrivers = [ "amdgpu" ];
   services.xserver = {
     enable = true;
     desktopManager = {
@@ -146,7 +149,9 @@
 
   services.ollama = {
     enable = true;
+    loadModels = [ "codellama" "llama3.2:8b" ];
     acceleration = "rocm";
+    rocmOverrideGfx = "10.3.0";
   };
 
   nix.gc = {
