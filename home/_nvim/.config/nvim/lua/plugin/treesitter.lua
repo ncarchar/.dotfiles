@@ -3,13 +3,13 @@ require('nvim-treesitter.configs').setup({
     ensure_installed = { 'bash', 'c', 'cmake', 'cpp', 'css', 'csv', 'git_config', 'git_rebase', 'gitattributes', 'gitcommit', 'gitignore', 'go', 'html', 'http', 'java', 'javascript', 'jq', 'jsdoc', 'json', 'json5', 'kotlin', 'lua', 'make', 'markdown', 'nginx', 'ocaml', 'regex', 'sql', 'tmux', 'tsv', 'tsx', 'typescript', 'vim', 'xml', 'zig' },
     sync_install = {},
     modules = {},
+    ignore_install = {},
     auto_install = true,
     highlight = {
         enable = true,
     },
     refactor = {
         highlight_definitions = { enable = true },
-        -- highlight_current_scope = { enable = true, disable = { 'python' } },
     },
     indent = { enable = true },
     incremental_selection = {

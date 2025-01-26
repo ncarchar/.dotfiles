@@ -193,11 +193,13 @@ require('generic.netrw')
 require('generic.powershell-clipboard')
 require('generic.key-bindings')
 
+-- LSP
+require('lsp.mason')
+
 -- Plugins
 require('plugin.Comment')
 require('plugin.harpoon')
 require('plugin.indent-blankline')
-require('plugin.mason')
 require('plugin.lualine')
 require('plugin.luasnip')
 require('plugin.neoformat')
@@ -209,7 +211,6 @@ require('plugin.obsidian-nvim')
 require('plugin.telescope')
 require('plugin.toggleterm')
 require('plugin.treesitter')
-require('plugin.taskwarrior')
 require('plugin.undotree')
 require('plugin.which-key')
 require('plugin.window-picker')

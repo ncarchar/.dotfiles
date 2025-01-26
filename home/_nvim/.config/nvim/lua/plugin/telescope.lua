@@ -52,6 +52,29 @@ local telescope_and_center = function(telescope_func)
     end
 end
 
+local function find_project_files()
+    local opts = {}
+    if vim.fn.filereadable(".gitignore") == 1 then
+        opts.find_command = {
+            "rg",
+            "--files",
+            "--ignore-file", ".gitignore",
+            "--hidden",
+            "--glob", "!.git"
+        }
+    else
+        opts.find_command = {
+            "rg",
+            "--files",
+            "--hidden",
+            "--glob", "!.git"
+        }
+    end
+    require('telescope.builtin').find_files(opts)
+end
+vim.keymap.set('n', '<tab><tab>', telescope_and_center(find_project_files),
+    { desc = 'Search Files' })
+
 vim.keymap.set('n', '<leader><leader>t', telescope_and_center(require('telescope.builtin').builtin),
     { desc = '[T]elescope Builtins' })
 vim.keymap.set('n', '<leader>?', telescope_and_center(require('telescope.builtin').oldfiles),
@@ -65,8 +88,8 @@ vim.keymap.set('n', '<C-f>', telescope_and_center(function()
         borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
     })
 end), { desc = '[S]earch [B]uffer' })
-vim.keymap.set('n', '<tab><tab>', telescope_and_center(require('telescope.builtin').find_files),
-    { desc = 'Search Files' })
+vim.keymap.set('n', '<leader>sf', telescope_and_center(require('telescope.builtin').find_files),
+    { desc = '[S]earch [F]iles' })
 vim.keymap.set('n', '<leader>sh', telescope_and_center(require('telescope.builtin').help_tags),
     { desc = '[S]earch [H]elp' })
 vim.keymap.set('n', '<leader>sw', telescope_and_center(require('telescope.builtin').grep_string),
