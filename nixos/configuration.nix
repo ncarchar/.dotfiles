@@ -150,7 +150,7 @@
   services.ollama = {
     enable = true;
     acceleration = "rocm";
-    rocmOverrideGfx = "gfx1100";
+    rocmOverrideGfx = "10.1.0";
   };
 
   nix.gc = {
