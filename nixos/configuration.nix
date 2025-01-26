@@ -181,6 +181,29 @@
     [
       "L+    /opt/rocm   -    -    -     -    ${rocmEnv}"
     ];
+
+  environment.variables = {
+    ROCM_PATH = "/run/current-system/sw";
+    HIP_PATH = "/run/current-system/sw";
+    HSA_PATH = "/run/current-system/sw";
+    ROCM_INSTALL_DIR = "/run/current-system/sw";
+    HSA_OVERRIDE_GFX_VERSION = "11.0.0"; # For 7900XTX
+    ROCR_VISIBLE_DEVICES = "0";
+    HIP_VISIBLE_DEVICES = "0";
+    HSA_ENABLE_SDMA = "0";
+    PYTORCH_ROCM_ARCH = "gfx1100"; # For PyTorch with ROCm
+  };
+
+  # Create systemd service for ROCm initialization
+  systemd.services.rocm-init = {
+    description = "Initialize ROCm";
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStart = "${pkgs.rocmPackages.rocm-smi}/bin/rocm-smi";
+    };
+  };
   services.ollama = {
     enable = true;
     acceleration = "rocm";
