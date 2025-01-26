@@ -35,13 +35,12 @@ for word in io.open(path, 'r'):lines() do
 end
 
 local servers = {
+    angularls = {},
     bashls = {},
     clangd = {},
+    cmake = {},
     cssls = {},
     jdtls = {},
-    angularls = {},
-    ts_ls = {},
-    cmake = {},
     jsonls = {},
     lua_ls = {
         Lua = {
@@ -54,6 +53,7 @@ local servers = {
         },
     },
     marksman = {},
+    ts_ls = {},
     zls = {}
 }
 

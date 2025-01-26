@@ -71,7 +71,6 @@ M.setup = function(_on_attach, _capabilities)
     local lombok_path = jdtls_package_path .. "lombok.jar"
     local root_markers = { ".git", "mvnw", "gradlew", "pom.xml", "build.gradle", "Dockerfile" }
     local root_dir = require("jdtls.setup").find_root(root_markers)
-    print("root: " .. root_dir)
     if root_dir == "" then
         return
     end

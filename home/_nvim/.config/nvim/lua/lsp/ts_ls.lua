@@ -29,8 +29,8 @@ M.setup = function(_on_attach, _capabilities)
         })
     end
 
-    local on_attach = function(_, bufnr)
-        _on_attach(_, bufnr)
+    local on_attach = function(client, bufnr)
+        _on_attach(client, bufnr)
         nmap("<leader>oi", organize_imports, "[O]rganize [I]mports", bufnr)
         nmap("<leader>ru", remove_unused, "[R]emove [U]nused", bufnr)
     end
@@ -38,6 +38,7 @@ M.setup = function(_on_attach, _capabilities)
     require('lspconfig').ts_ls.setup {
         on_attach = on_attach,
         capabilities = _capabilities,
+        inlay_hits = true,
         commands = {
             LspOrganizeImports = {
                 organize_imports
@@ -46,7 +47,22 @@ M.setup = function(_on_attach, _capabilities)
                 remove_unused
             },
         },
-        settings = {},
+        settings = {
+            typescript = {
+                tsserver = {
+                    useSyntaxServer = false,
+                },
+                inlayHints = {
+                    includeInlayParameterNameHints = "none",
+                    includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                    includeInlayFunctionParameterTypeHints = true,
+                    includeInlayVariableTypeHints = true,
+                    includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+                    includeInlayPropertyDeclarationTypeHints = false,
+                    includeInlayFunctionLikeReturnTypeHints = false,
+                },
+            },
+        },
     }
 end
 
