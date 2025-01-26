@@ -149,7 +149,6 @@
 
   services.ollama = {
     enable = true;
-    loadModels = [ "codellama" "llama3.2:8b" ];
     acceleration = "rocm";
     rocmOverrideGfx = "10.3.0";
   };
