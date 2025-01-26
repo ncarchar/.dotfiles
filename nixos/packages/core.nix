@@ -15,6 +15,7 @@
     ntfs3g
     parted
     pciutils
+    ollama
     ripgrep
     stow
     tmux
