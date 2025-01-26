@@ -13,6 +13,7 @@
     lshw
     neofetch
     ntfs3g
+    nvtop
     parted
     pciutils
     ripgrep
