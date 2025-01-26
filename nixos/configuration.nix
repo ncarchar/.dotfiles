@@ -144,9 +144,24 @@
   };
 
   hardware.graphics.enable = true;
+  hardware.graphics.enable32Bit = true;
   hardware.amdgpu.initrd.enable = true;
   hardware.amdgpu.opencl.enable = true;
   hardware.amdgpu.amdvlk.enable = true;
+  systemd.tmpfiles.rules =
+    let
+      rocmEnv = pkgs.symlinkJoin {
+        name = "rocm-combined";
+        paths = with pkgs.rocmPackages; [
+          rocblas
+          hipblas
+          clr
+        ];
+      };
+    in
+    [
+      "L+    /opt/rocm   -    -    -     -    ${rocmEnv}"
+    ];
   hardware.graphics.extraPackages = with pkgs; [ rocmPackages.clr.icd amdvlk ];
   services.ollama = {
     enable = true;
