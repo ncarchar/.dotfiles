@@ -164,6 +164,7 @@
           hipblas
           clr
           rpp
+          rocm-smi
         ];
       };
     in
