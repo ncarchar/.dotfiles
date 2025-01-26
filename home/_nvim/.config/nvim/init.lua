@@ -1,11 +1,5 @@
--- See `:help mapleader`
--- NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
-
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
--- Install Lazy package manager
--- https://github.com/folke/lazy.nvim
---`:help lazy.nvim.txt` for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
     vim.fn.system {
@@ -13,26 +7,14 @@ if not vim.loop.fs_stat(lazypath) then
         'clone',
         '--filter=blob:none',
         'https://github.com/folke/lazy.nvim.git',
-        '--branch=stable', -- latest stable release
+        '--branch=stable',
         lazypath,
     }
 end
 vim.opt.rtp:prepend(lazypath)
 require('lazy').setup(
     {
-        -- Git related plugins
-        { 'tpope/vim-fugitive' },
-        { 'tpope/vim-rhubarb' },
-        -- Improves netrw
-        { 'tpope/vim-vinegar' },
-        -- { 'stevearc/oil.nvim' },
-        -- Useful plugin to show you pending keybinds.
-        { 'folke/which-key.nvim' },
-        -- Set lualine as statusline
-        { 'nvim-lualine/lualine.nvim' },
-        -- NOTE: This is where your plugins related to LSP can be installed.
         {
-            -- LSP Configuration & Plugins
             'neovim/nvim-lspconfig',
             dependencies = {
                 { 'williamboman/mason.nvim',          config = true },
@@ -79,9 +61,9 @@ require('lazy').setup(
                     changedelete = { text = '~' },
                 },
                 on_attach = function(bufnr)
-                    vim.keymap.set('n', '<leader>gp', require('gitsigns').prev_hunk,
+                    vim.keymap.set('n', '<leader>gp', function() require('gitsigns').nav_hunk('next') end,
                         { buffer = bufnr, desc = '[G]o to [P]revious Hunk' })
-                    vim.keymap.set('n', '<leader>gn', require('gitsigns').next_hunk,
+                    vim.keymap.set('n', '<leader>gn', function() require('gitsigns').nav_hunk('next') end,
                         { buffer = bufnr, desc = '[G]o to [N]ext Hunk' })
                 end,
             },
@@ -94,17 +76,10 @@ require('lazy').setup(
             end,
         },
         {
-            -- Add indentation guides even on blank lines
-            'lukas-reineke/indent-blankline.nvim',
-        },
-        -- Fuzzy Finder (files, lsp, etc)
-        {
             'nvim-telescope/telescope.nvim',
             branch = '0.1.x',
-            dependencies = {
-                'nvim-lua/plenary.nvim' }
+            dependencies = { 'nvim-lua/plenary.nvim' }
         },
-        { 'ThePrimeagen/harpoon',           dependencies = { 'nvim-lua/plenary.nvim' } },
         {
             'nvim-telescope/telescope-fzf-native.nvim',
             build = 'make',
@@ -117,85 +92,41 @@ require('lazy').setup(
             dependencies = { 'nvim-treesitter/nvim-treesitter-textobjects', 'nvim-treesitter/nvim-treesitter-refactor' },
             build = ':TSUpdate',
         },
-        -- Autocloses tags
+        -- {
+        --     'ThePrimeagen/harpoon',
+        --     dependencies = { 'nvim-lua/plenary.nvim' },
+        --     branch = "harpoon2"
+        -- },
         {
-            'windwp/nvim-ts-autotag',
-            event = 'InsertEnter'
+            "letieu/harpoon-lualine",
+            dependencies = { { "ThePrimeagen/harpoon", branch = "harpoon2", } },
         },
-        {
-            'windwp/nvim-autopairs',
-            event = "InsertEnter",
-        },
-        -- Quick switcher for Angular
-        { 'Everduin94/nvim-quick-switcher', lazy = true },
-        -- Adds symbols to LSP
+        { 'tpope/vim-fugitive' },
+        { 'tpope/vim-rhubarb' },
+        { 'tpope/vim-vinegar' },
+        { 'folke/which-key.nvim',               opts = {} },
+        { 'nvim-lualine/lualine.nvim' },
+        { 'lukas-reineke/indent-blankline.nvim' },
+        { 'windwp/nvim-ts-autotag',             event = 'InsertEnter' },
+        { 'windwp/nvim-autopairs',              event = "InsertEnter" },
+        { 'Everduin94/nvim-quick-switcher',     lazy = true },
         { 'onsails/lspkind.nvim' },
-        -- Auto comment with `gc` and `gcc`
-        { 'numToStr/Comment.nvim',          lazy = true },
-        -- Quick window switcher
-        { 's1n7ax/nvim-window-picker',      lazy = true },
-        -- JDTLS advanced LSP
-        { 'mfussenegger/nvim-jdtls',        ft = 'java' },
-        -- Toggle terminal
-        { 'akinsho/toggleterm.nvim',        lazy = true },
-        -- Enables and visualizes undo branches
+        { 'numToStr/Comment.nvim',              lazy = true },
+        { 's1n7ax/nvim-window-picker',          lazy = true },
+        { 'mfussenegger/nvim-jdtls',            ft = 'java' },
+        { 'akinsho/toggleterm.nvim',            lazy = true },
         { 'mbbill/undotree' },
-        { 'sbdchd/neoformat' },
         { 'romainl/vim-qf' },
-        {
-            "epwalsh/obsidian.nvim",
-            version = "*",
-            lazy = true,
-            ft = "markdown",
-            dependencies = {
-                "nvim-lua/plenary.nvim",
-            },
-            opts = {
-                workspaces = {
-                    {
-                        name = "work",
-                        path = "~/vault",
-                    },
-                },
-                mappings = {
-                    ["gf"] = {
-                        action = function()
-                            return require("obsidian").util.gf_passthrough()
-                        end,
-                        opts = { noremap = false, expr = true, buffer = true },
-                    },
-                    ["<leader>ch"] = {
-                        action = function()
-                            return require("obsidian").util.toggle_checkbox()
-                        end,
-                        opts = { buffer = true },
-                    },
-                    ["<tab><tab>"] = {
-                        action = function()
-                            vim.cmd("ObsidianQuickSwitch")
-                        end,
-                        opts = { buffer = true },
-                    },
-                    ["<leader>pi"] = {
-                        action = function()
-                            local filename = vim.fn.expand("%:t:r")
-                            local timestamp = os.date("%Y%m%d%H%M%S")
-                            vim.cmd("ObsidianPasteImg " .. filename .. "_" .. timestamp)
-                        end,
-                        opts = { buffer = true },
-                    },
-                },
-            },
-        }
+        { 'sbdchd/neoformat' },
     },
     {})
 
 -- Generics
 require('generic.globals')
-require('generic.vim-settings')
+require('generic.key-bindings')
 require('generic.netrw')
 require('generic.powershell-clipboard')
-require('generic.key-bindings')
+require('generic.vim-settings')
 
 -- LSP
 require('lsp.mason')
@@ -211,31 +142,16 @@ require('plugin.nvim-autopairs')
 require('plugin.nvim-cmp')
 require('plugin.nvim-quick-switcher')
 require('plugin.nvim-ts-autotag')
-require('plugin.obsidian-nvim')
 require('plugin.telescope')
 require('plugin.toggleterm')
 require('plugin.treesitter')
 require('plugin.undotree')
-require('plugin.which-key')
+require('plugin.vim-qf')
 require('plugin.window-picker')
 
 -- Snips
 require('snips.all')
 require('snips.html')
-require('snips.javascript')
 require('snips.java')
+require('snips.javascript')
 require('snips.typescript')
-
-
-
-function RunCommandForDir()
-    local cwd = vim.fn.getcwd()
-    local run_sh_path = cwd .. "/run.sh"
-    if vim.fn.filereadable(run_sh_path) == 1 then
-        vim.cmd("! bash " .. run_sh_path)
-    else
-        print("No run.sh found in the current directory.")
-    end
-end
-
-vim.api.nvim_set_keymap('n', '<leader>rr', ':lua RunCommandForDir()<CR>', { noremap = true, silent = true })

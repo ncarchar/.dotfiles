@@ -11,11 +11,6 @@ vim.keymap.set("n", "<leader><leader>g", ":tab Git<CR>", { noremap = true, silen
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
 
--- Quick fix
-vim.keymap.set("n", "<C-j>", "<cmd>:cnext<CR>")
-vim.keymap.set("n", "<C-k>", "<cmd>:cprev<CR>")
-vim.keymap.set("n", "<C-q>", "<cmd>:copen<CR>")
-
 -- Move line
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
@@ -24,7 +19,7 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 vim.keymap.set("x", "<leader>p", [["_dP]])
 
 -- tmux sessionizer
-vim.keymap.set("n", "<leader><leader>s", "<cmd>silent !tmux neww tms<CR>", {desc = "Tmux [S]essionizer"})
+vim.keymap.set("n", "<leader><leader>s", "<cmd>silent !tmux neww tms<CR>", { desc = "Tmux [S]essionizer" })
 
 -- Keeps current row at the center of the screen as you navigate
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { noremap = true, silent = true })
@@ -66,3 +61,16 @@ vim.keymap.set("n", "<leader>%", function()
     vim.cmd(":w")
     vim.cmd("source %")
 end, { desc = "[S]ource [%]" })
+
+
+local function run_command()
+    local cwd = vim.fn.getcwd()
+    local run_sh_path = cwd .. "/run.sh"
+    if vim.fn.filereadable(run_sh_path) == 1 then
+        vim.cmd("! bash " .. run_sh_path)
+    else
+        print("No run.sh found in the current directory.")
+    end
+end
+
+vim.keymap.set('n', '<leader>rr', run_command, { noremap = true, silent = true })
