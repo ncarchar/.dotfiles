@@ -153,6 +153,7 @@
     rocmPackages.rpp
     rocmPackages.hipblas
     rocmPackages.rocblas
+    rocmPackages.rocm-smi
     amdvlk
   ];
   systemd.tmpfiles.rules =
