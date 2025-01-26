@@ -14,7 +14,6 @@
   system.stateVersion = "24.11";
   programs.nix-ld.enable = true;
 
-  hardware.amdgpu.initrd.enable = true;
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.configurationLimit = 5;
@@ -81,7 +80,6 @@
     };
   };
 
-  services.xserver.videoDrivers = [ "amdgpu" ];
   services.xserver = {
     enable = true;
     desktopManager = {
@@ -146,6 +144,7 @@
   };
 
   hardware.graphics.enable = true;
+  hardware.amdgpu.initrd.enable = true;
   hardware.amdgpu.opencl.enable = true;
   hardware.amdgpu.amdvlk.enable = true;
   hardware.graphics.extraPackages = with pkgs; [ rocmPackages.clr.icd amdvlk ];
