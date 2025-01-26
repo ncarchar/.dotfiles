@@ -25,5 +25,12 @@
     xclip
     zip
     zoxide
+
+    rocmPackages.clr
+    rocmPackages.rpp
+    rocmPackages.hipblas
+    rocmPackages.rocblas
+    rocmPackages.rocm-smi
+    amdvlk
   ];
 }

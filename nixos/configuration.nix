@@ -148,14 +148,14 @@
   hardware.amdgpu.initrd.enable = true;
   hardware.amdgpu.opencl.enable = true;
   hardware.amdgpu.amdvlk.enable = true;
-  hardware.graphics.extraPackages = with pkgs; [
-    rocmPackages.clr
-    rocmPackages.rpp
-    rocmPackages.hipblas
-    rocmPackages.rocblas
-    rocmPackages.rocm-smi
-    amdvlk
-  ];
+  # hardware.graphics.extraPackages = with pkgs; [
+  #   rocmPackages.clr
+  #   rocmPackages.rpp
+  #   rocmPackages.hipblas
+  #   rocmPackages.rocblas
+  #   rocmPackages.rocm-smi
+  #   amdvlk
+  # ];
   systemd.tmpfiles.rules =
     let
       rocmEnv = pkgs.symlinkJoin {
