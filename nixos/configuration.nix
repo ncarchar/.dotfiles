@@ -144,6 +144,11 @@
     };
   };
 
+  services.ollama = {
+    enable = false;
+    acceleration = "rocm";
+  };
+
   nix.gc = {
     automatic = true;
     dates = "weekly";
