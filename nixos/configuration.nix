@@ -160,12 +160,21 @@
     let
       rocmEnv = pkgs.symlinkJoin {
         name = "rocm-combined";
-        paths = with pkgs.rocmPackages; [
-          rocblas
-          hipblas
-          clr
-          rpp
-          rocm-smi
+        paths = with pkgs; [
+          rocmPackages.rocm-runtime
+          rocmPackages.rocm-device-libs
+          rocmPackages.rocm-core
+          rocmPackages.rocm-cmake
+          rocmPackages.rocm-smi
+          rocmPackages.rocminfo
+          rocmPackages.clr
+          rocmPackages.hip-common
+          rocmPackages.hipcc
+          rocmPackages.rocblas
+          rocmPackages.hipblas
+          rocmPackages.rocsparse
+          rocmPackages.roctracer
+          rocmPackages.rocprofiler
         ];
       };
     in
