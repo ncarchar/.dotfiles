@@ -38,7 +38,7 @@ M.setup = function(_on_attach, _capabilities)
                 enabled = true,
             },
         },
-        signatureHelp = { enabled = true },
+        signatureHelp = { enabled = false },
         completion = {
             importOrder = {
                 "java",
@@ -102,11 +102,11 @@ M.setup = function(_on_attach, _capabilities)
     local on_attach = function(client, bufnr)
         _on_attach(client, bufnr)
         client.server_capabilities.semanticTokensProvider = nil
-
         nmap('<leader>oi', require('jdtls').organize_imports, '[O]rganize [I]mports', bufnr)
     end
 
 
+    _capabilities.textDocument.completion.completionItem.snippetSupport = false
     require('lspconfig').jdtls.setup {
         cmd = cmd,
         on_attach = on_attach,
