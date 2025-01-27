@@ -157,31 +157,6 @@
     rocmPackages.rocm-smi
     amdvlk
   ];
-  # systemd.tmpfiles.rules =
-  #   let
-  #     rocmEnv = pkgs.symlinkJoin {
-  #       name = "rocm-combined";
-  #       paths = with pkgs; [
-  #         rocmPackages.rocm-runtime
-  #         rocmPackages.rocm-device-libs
-  #         rocmPackages.rocm-core
-  #         rocmPackages.rocm-cmake
-  #         rocmPackages.rocm-smi
-  #         rocmPackages.rocminfo
-  #         rocmPackages.clr
-  #         rocmPackages.hip-common
-  #         rocmPackages.hipcc
-  #         rocmPackages.rocblas
-  #         rocmPackages.hipblas
-  #         rocmPackages.rocsparse
-  #         rocmPackages.roctracer
-  #         rocmPackages.rocprofiler
-  #       ];
-  #     };
-  #   in
-  #   [
-  #     "L+    /opt/rocm   -    -    -     -    ${rocmEnv}"
-  #   ];
 
   services.ollama = {
     enable = true;
