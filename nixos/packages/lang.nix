@@ -13,8 +13,8 @@
     nodejs
     rustc
     zig
-    (python3.withPackages (ps: with ps; [
-      pip
-    ]))
+    # (python3.withPackages (ps: with ps; [
+    #   pip
+    # ]))
   ];
 }
