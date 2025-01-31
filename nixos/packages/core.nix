@@ -2,6 +2,7 @@
 {
   environment.systemPackages = with pkgs; [
     ansible
+    busybox
     btop
     cups
     dbus
