@@ -6,7 +6,6 @@
     cups
     feh
     gimp
-    insomnia
     networkmanagerapplet
     obsidian
     pulseaudio
