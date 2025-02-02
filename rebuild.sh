@@ -10,4 +10,5 @@ echo "commiting to git..."
 check=$(tar --exclude='.git' -cf - ./ | md5sum)
 git add .
 git commit -am "$check$gen"
+git push origin
 echo "complete"
