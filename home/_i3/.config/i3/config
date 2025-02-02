@@ -150,6 +150,10 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 
+# disable scroll to switch
+bindsym button4 nop
+bindsym button5 nop
+
 # resize window (you can also use the mouse for that)
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
@@ -171,6 +175,8 @@ bindsym $mod+r mode "resize"
 bar {
         status_command i3blocks -c ~/.config/i3blocks/config
         position top
+        bindsym button4 nop
+        bindsym button5 nop
         colors {
             focused_workspace  #282C34 #61AFEF #282C34
             active_workspace   #282C34 #282C34 #ABB2BF
