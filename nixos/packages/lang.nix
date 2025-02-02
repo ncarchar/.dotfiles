@@ -11,7 +11,7 @@
     nodejs
     rustc
     zig
-    (python310.withPackages (ps: with ps; [
+    (python3.withPackages (ps: with ps; [
       pip
     ]))
   ];
