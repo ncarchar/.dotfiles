@@ -113,6 +113,7 @@ require('lazy').setup(
         { 'mbbill/undotree' },
         { 'romainl/vim-qf' },
         { 'sbdchd/neoformat' },
+        { 'wakatime/vim-wakatime',              lazy = false }
     },
     {})
 
