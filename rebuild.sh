@@ -6,17 +6,13 @@ echo "rebuilding nixos configuration..."
 sudo nixos-rebuild switch
 gen=$(nixos-rebuild list-generations | grep current)
 
-check=$(git ls-tree -r HEAD | md5sum | awk '{print $1}')
-
-last_commit_msg=$(git log -1 --pretty=%B)
-last_hash=$(echo "$last_commit_msg" | awk '{print $1}')
-
-if [[ "$check" == "$last_hash" ]]; then
-    echo "no changes - skipping commit..."
-else
+if [[ -n $(git status --porcelain) ]]; then
+    check=$(git ls-tree -r HEAD | md5sum | awk '{print $1}')
     echo "committing to git..."
     git add .
     git commit -am "$check $gen"
     git push origin
     echo "commit and push complete..."
+else
+    echo "no changes - nothing to commit..."
 fi
