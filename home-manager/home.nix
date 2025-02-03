@@ -22,7 +22,7 @@ in
     {
       enable = true;
       dotDir = ".zsh-nix";
-      profileExtra = "source ~/.zshrc";
+      loginExtra = "source ~/.zshrc";
       autosuggestion.enable = true;
       oh-my-zsh = {
         enable = true;
