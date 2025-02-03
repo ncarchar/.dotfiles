@@ -9,11 +9,10 @@ if [[ -f "/etc/NIXOS" ]]; then
     sudo nixos-rebuild switch
     gen=$(nixos-rebuild list-generations | grep current)
 else
-    echo "not on nixos - skipping system rebuild..."
+    echo "upgrading sys packages..."
     # nix profile install --profile ~/.nix-sys/default "path:./_nix#sysPkgs"
     nix profile upgrade --profile ~/.nix-sys/default sysPkgs
     nix profile wipe-history --profile ~/.nix-sys/default
-    nix store gc
     gen="__"
 fi
 
