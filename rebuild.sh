@@ -10,6 +10,7 @@ if [[ -f "/etc/NIXOS" ]]; then
     gen=$(nixos-rebuild list-generations | grep current)
 else
     echo "rebuilding home-manager..."
+    cat ./home-manager/home.nix > ~/.config/home-manager/home.nix
     home-manager switch
     gen="__"
 fi
