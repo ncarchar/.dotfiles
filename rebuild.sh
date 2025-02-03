@@ -10,7 +10,7 @@ if [[ -f "/etc/NIXOS" ]]; then
     gen=$(nixos-rebuild list-generations | grep current)
 else
     echo "not on nixos - skipping system rebuild..."
-    nix profile install "path:./nix"
+    nix profile install --profile ~/.nix-default "path:./nix"
     gen="__"
 fi
 
@@ -19,7 +19,7 @@ if [[ -n $(git status --porcelain) ]]; then
     echo "committing to git..."
     git add .
     git commit -am "$check $gen"
-    git push origin
+    # git push origin
     echo "commit and push complete..."
 else
     echo "no changes - nothing to commit..."
