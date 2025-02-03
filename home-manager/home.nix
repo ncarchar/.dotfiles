@@ -25,7 +25,7 @@ in
       initExtra = "export PATH=\"$HOME/.nix-profile/bin:$PATH\"\nsource ~/.zshrc";
       autosuggestion = {
         enable = true;
-        strategy = [ "completion" "history" ];
+        strategy = [ "completion" ];
       };
       syntaxHighlighting.enable = true;
       oh-my-zsh = {
