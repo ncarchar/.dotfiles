@@ -20,6 +20,7 @@
           pkgs.git
           pkgs.ripgrep
           pkgs.fzf
+          pkgs.nodejs_22
         ];
       };
     };
