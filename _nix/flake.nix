@@ -11,13 +11,17 @@
   in {
     packages.${system} = {
       default = pkgs.neovim;
-      sysPkgs = [
-        pkgs.neovim
-	    pkgs.cargo
-        pkgs.git
-        pkgs.ripgrep
-        pkgs.fzf
-      ];
+
+      sysPkgs = pkgs.buildEnv {
+        name = "sysPkgs";
+        paths = [
+          pkgs.neovim
+          pkgs.cargo
+          pkgs.git
+          pkgs.ripgrep
+          pkgs.fzf
+        ];
+      };
     };
   };
 }

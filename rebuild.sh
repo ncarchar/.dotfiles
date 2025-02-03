@@ -10,7 +10,8 @@ if [[ -f "/etc/NIXOS" ]]; then
     gen=$(nixos-rebuild list-generations | grep current)
 else
     echo "not on nixos - skipping system rebuild..."
-    nix profile install --profile ~/.nix-default "path:./nix"
+    # nix profile install --profile ~/.nix-default "path:./_nix"
+    nix profile install --profile ~/.nix-default "path:./_nix#sysPkgs"
     gen="__"
 fi
 
