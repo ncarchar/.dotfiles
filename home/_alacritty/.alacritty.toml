@@ -44,5 +44,9 @@ dynamic_padding = true
 [keyboard]
 bindings = [
   { key = "B", mods = "Control|Shift", action = "None" },
-  { key = "F", mods = "Control|Shift", action = "None" }
+  { key = "F", mods = "Control|Shift", action = "None" },
+  { key = "PageUp",   mods = "Shift", action = "ScrollHalfPageUp" },
+  { key = "PageDown", mods = "Shift", action = "ScrollHalfPageDown" },
+  { key = "Up",   mods = "Shift", action = "ScrollLineUp" },
+  { key = "Down", mods = "Shift", action = "ScrollLineDown" }
 ]
