@@ -1,6 +1,6 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 {
-  environment.systemPackages = with pkgs; [
+  corePackages = with pkgs; [
     ansible
     busybox
     btop
@@ -14,7 +14,6 @@
     lshw
     neofetch
     ntfs3g
-    nvtop
     parted
     pciutils
     ripgrep

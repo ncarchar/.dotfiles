@@ -9,7 +9,8 @@ if [[ -f "/etc/NIXOS" ]]; then
     sudo nixos-rebuild switch
     gen=$(nixos-rebuild list-generations | grep current)
 else
-    echo "upgrading sys packages..."
+    echo "rebuilding home-manager..."
+    home-manager switch
     gen="__"
 fi
 

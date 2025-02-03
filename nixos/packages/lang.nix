@@ -1,6 +1,6 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 {
-  environment.systemPackages = with pkgs; [
+  langPackages = with pkgs; [
     cargo
     jdk21
     maven
@@ -9,7 +9,6 @@
     nodePackages."prettier"
     nodePackages."typescript"
     nodejs
-    rustc
     zig
     (python3.withPackages (ps: with ps; [
       pip
