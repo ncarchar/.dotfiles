@@ -28,6 +28,7 @@ in
         strategy = [ "match_prev_cmd" ];
       };
       syntaxHighlighting.enable = true;
+      history.extended = true;
       oh-my-zsh = {
         enable = true;
         plugins = [ "git" ];
