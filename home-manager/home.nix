@@ -21,7 +21,7 @@ in
   programs.zsh =
     {
       enable = true;
-      dotDir = "~";
+      dotDir = "~/.zsh-nix";
       initExtra = "source ~/.zshrc";
       autosuggestion.enable = true;
       oh-my-zsh = {
