@@ -23,7 +23,11 @@ in
       enable = true;
       dotDir = ".zsh-nix";
       initExtra = "export PATH=\"$HOME/.nix-profile/bin:$PATH\"\nsource ~/.zshrc";
-      autosuggestion.enable = true;
+      autosuggestion = {
+        enable = true;
+        strategy = [ "completion" "history" ];
+      };
+      syntaxHighlighting.enable = true;
       oh-my-zsh = {
         enable = true;
         plugins = [ "git" ];
