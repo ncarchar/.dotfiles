@@ -5,6 +5,7 @@
     busybox
     btop
     cups
+    curl
     dbus
     eza
     fzf
