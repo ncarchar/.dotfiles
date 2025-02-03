@@ -77,7 +77,7 @@ mason_lspconfig.setup_handlers {
         if server_name == "ts_ls" then
             _ts_ls.setup(on_attach, capabilities)
         elseif server_name == "jdtls" then
-            _jdtls.setup(on_attach, capabilities)
+            -- _jdtls.setup(on_attach, capabilities)
         else
             -- Default setup for all other servers
             require('lspconfig')[server_name].setup {

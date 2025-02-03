@@ -25,14 +25,6 @@ require('lazy').setup(
             },
         },
         {
-            "MysticalDevil/inlay-hints.nvim",
-            event = "LspAttach",
-            dependencies = { "neovim/nvim-lspconfig" },
-            config = function()
-                require("inlay-hints").setup()
-            end
-        },
-        {
             'hrsh7th/nvim-cmp',
             event = 'InsertEnter',
             dependencies = {

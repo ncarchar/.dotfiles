@@ -1,10 +1,17 @@
 #!/usr/bin/env bash
 
 set -e
+
 git --no-pager diff -U0
-echo "rebuilding nixos configuration..."
-sudo nixos-rebuild switch
-gen=$(nixos-rebuild list-generations | grep current)
+
+if [[ -f "/etc/NIXOS" ]]; then
+    echo "tebuilding NixOS configuration..."
+    sudo nixos-rebuild switch
+    gen=$(nixos-rebuild list-generations | grep current)
+else
+    echo "not on nixos - skipping system rebuild..."
+    gen="__"
+fi
 
 if [[ -n $(git status --porcelain) ]]; then
     check=$(git ls-tree -r HEAD | md5sum | awk '{print $1}')
