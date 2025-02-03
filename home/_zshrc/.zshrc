@@ -1,4 +1,7 @@
+export HOSTNAME=$(hostname)
 HOSTNAME=$HOSTNAME
+
+IGNORE_FILES=()
 
 if [[ ! "$HOSTNAME" == COV* ]]; then
     IGNORE_FILES=("_cov.zsh")
