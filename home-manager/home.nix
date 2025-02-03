@@ -2,8 +2,8 @@
 let
   user = builtins.getEnv "USER";
   homeDir = "/home/${user}";
-  core = import ~/.dotfiles/nixos/packages/core.nix { pkgs = pkgs; };
-  lang = import ~/.dotfiles/nixos/packages/lang.nix { pkgs = pkgs; };
+  core = import "${homeDir}/.dotfiles/nixos/packages/core.nix" { pkgs = pkgs; };
+  lang = import "${homeDir}/.dotfiles/nixos/packages/lang.nix" { pkgs = pkgs; };
 in
 {
   home.username = user;
