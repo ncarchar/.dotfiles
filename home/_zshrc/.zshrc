@@ -10,3 +10,5 @@ for file in ~/.zsh/*.zsh; do
         source "$file"
     fi
 done
+
+if [ -e /home/cvhew/.nix-profile/etc/profile.d/nix.sh ]; then . /home/cvhew/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
