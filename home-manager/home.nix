@@ -2,8 +2,7 @@
 let
   user = builtins.getEnv "USER";
   homeDir = "/home/${user}";
-  core = import "${homeDir}/.dotfiles/nixos/packages/core.nix" { pkgs = pkgs; };
-  lang = import "${homeDir}/.dotfiles/nixos/packages/lang.nix" { pkgs = pkgs; };
+  packages = import "${homeDir}/.dotfiles/nixos/nix/packages.nix" { pkgs = pkgs; };
 in
 {
   home.username = user;
@@ -11,7 +10,7 @@ in
 
   home.stateVersion = "24.11";
 
-  home.packages = core.corePackages ++ lang.langPackages;
+  home.packages = packages.dev ++ packages.lang;
 
   home.sessionVariables = {
     EDITOR = "neovim";

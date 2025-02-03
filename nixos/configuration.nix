@@ -1,13 +1,12 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
+let
+  packages = import "/etc/nixos/nix/packages.nix" { pkgs = pkgs; };
+in
 {
   imports =
     [
       /etc/nixos/hardware-configuration.nix
-      /etc/nixos/vm.nix
-      /etc/nixos/packages/cpp.nix
-      /etc/nixos/packages/core.nix
-      /etc/nixos/packages/lang.nix
-      /etc/nixos/packages/gui.nix
+      /etc/nixos/nix/vm.nix
     ];
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -34,6 +33,7 @@
     pulse.enable = true;
   };
 
+  environment.systemPackages = packages.dev ++ packages.core ++ packages.lang ++ packages.gui;
   virtualisation.docker.enable = true;
   services.saned = {
     enable = true;
@@ -65,7 +65,6 @@
       monospace = [ "JetBrainsMono" ];
     };
   };
-
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.gdm.enableGnomeKeyring = true;
   security.pam.services.gdm-password.enableGnomeKeyring = true;
