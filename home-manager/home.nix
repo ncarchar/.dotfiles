@@ -1,11 +1,13 @@
 { pkgs, ... }:
 let
-  core = import /home/cvhew/.dotfiles/nixos/packages/core.nix { pkgs = pkgs; };
-  lang = import /home/cvhew/.dotfiles/nixos/packages/lang.nix { pkgs = pkgs; };
+  user = builtins.getEnv "USER";
+  homeDir = "/home/${user}";
+  core = import ~/.dotfiles/nixos/packages/core.nix { pkgs = pkgs; };
+  lang = import ~/.dotfiles/nixos/packages/lang.nix { pkgs = pkgs; };
 in
 {
-  home.username = "cvhew";
-  home.homeDirectory = "/home/cvhew";
+  home.username = user;
+  home.homeDirectory = homeDir;
 
   home.stateVersion = "24.11";
 
