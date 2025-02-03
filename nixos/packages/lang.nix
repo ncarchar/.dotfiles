@@ -8,6 +8,7 @@
     nodePackages."eslint"
     nodePackages."prettier"
     nodePackages."typescript"
+    nodePackages."aws-cdk"
     nodejs
     zig
     (python3.withPackages (ps: with ps; [
