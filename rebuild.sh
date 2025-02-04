@@ -11,7 +11,7 @@ if [[ -f "/etc/NIXOS" ]]; then
 else
     echo "rebuilding home-manager..."
     cat ./home-manager/home.nix > ~/.config/home-manager/home.nix
-    home-manager switch
+    SKIP_CERTS=1 home-manager switch
     gen="__"
 fi
 
@@ -20,7 +20,7 @@ if [[ -n $(git status --porcelain) ]]; then
     echo "committing to git..."
     git add .
     git commit -am "$check $gen"
-    # git push origin
+    git push origin
     echo "commit and push complete..."
 else
     echo "no changes - nothing to commit..."

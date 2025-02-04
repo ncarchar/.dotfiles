@@ -1,8 +1,10 @@
 export HOSTNAME=$(hostname)
 HOSTNAME=$HOSTNAME
 
-zstyle ':completion::complete:*' use-cache on
-zstyle ':completion::complete:*' cache-path ~/.zsh_cache
+autoload -U compinit promptinit
+compinit
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
+fpath=(/usr/local/share/zsh-completions $fpath)
 
 IGNORE_FILES=()
 

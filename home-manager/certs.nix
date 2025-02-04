@@ -18,6 +18,10 @@ in
 
   home.activation.createCerts = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     echo "Initializing custom CA certificates..."
+    if [ -n "$SKIP_CERTS" ]; then
+        echo "Skipping certificate fetching due to SKIP_CERTS flag."
+        exit 0
+    fi
     mkdir -p ${certsDir}
     if [[ $HOSTNAME != COV* ]]; then
       exit 0
