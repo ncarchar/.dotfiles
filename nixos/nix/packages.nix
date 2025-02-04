@@ -5,28 +5,31 @@
     bat
     busybox
     btop
-    cups
     curl
-    dbus
     eza
     fzf
     git
-    gptfdisk
     jq
-    lshw
     neofetch
-    ntfs3g
-    parted
-    pciutils
     ripgrep
     stow
     tmux
     unzip
-    usbutils
     wget
     xclip
     zip
     zoxide
+  ];
+
+  desktop = with pkgs; [
+    cups
+    dbus
+    gptfdisk
+    lshw
+    ntfs3g
+    parted
+    pciutils
+    usbutils
   ];
 
   core = with pkgs; [
@@ -55,7 +58,6 @@
     nodePackages."typescript"
     nodePackages."aws-cdk"
     nodejs
-    zig
     (python3.withPackages (ps: with ps; [
       pip
     ]))
