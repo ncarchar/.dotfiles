@@ -19,8 +19,10 @@ in
     echo "Initializing custom CA certificates..."
 
     mkdir -p ${certsDir}
-    
-    echo $HOSTNAME
+
+    if [[ $HOSTNAME != COV* ]]; then
+        exit 0
+    fi
     # Use absolute paths for curl and keytool from nixpkgs
     CURL=${pkgs.curl}/bin/curl
     KEYTOOL=${pkgs.jdk21}/bin/keytool
