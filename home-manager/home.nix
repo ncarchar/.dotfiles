@@ -23,10 +23,10 @@ in
       enable = true;
       dotDir = ".zsh-nix";
       initExtra = "export PATH=\"$HOME/.nix-profile/bin:$PATH\"\nsource ~/.zshrc";
-      autosuggestion = {
-        enable = true;
-        strategy = [ "match_prev_cmd" ];
-      };
+      # autosuggestion = {
+      #   enable = true;
+      #   strategy = [ "match_prev_cmd" ];
+      # };
       syntaxHighlighting.enable = true;
       history.extended = true;
       oh-my-zsh = {
