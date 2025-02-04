@@ -1,6 +1,7 @@
-alias hist=". hist"
-alias tms="tms"
-alias bash="zsh"
+alias hist=". hist.sh"
+alias tms="tms.sh"
+alias bash="zsh.sh"
+alias started="started.sh"
 alias cp="cp -a"
 
 command -v exa >/dev/null 2>&1 && {
