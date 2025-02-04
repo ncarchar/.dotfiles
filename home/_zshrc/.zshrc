@@ -1,6 +1,9 @@
 export HOSTNAME=$(hostname)
 HOSTNAME=$HOSTNAME
 
+zstyle ':completion::complete:*' use-cache on
+zstyle ':completion::complete:*' cache-path ~/.zsh_cache
+
 IGNORE_FILES=()
 
 if [[ ! "$HOSTNAME" == COV* ]]; then
