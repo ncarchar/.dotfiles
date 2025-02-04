@@ -15,6 +15,5 @@ command -v exa >/dev/null 2>&1 && {
 
 command -v bat >/dev/null 2>&1 && {
     alias cat="bat"
+    export BAT_THEME=base16
 }
-
-export BAT_THEME=onedark
