@@ -8,11 +8,14 @@ if [[ -f "/etc/NIXOS" ]]; then
     echo "rebuilding nixos configuration..."
     sudo nixos-rebuild switch
     gen=$(nixos-rebuild list-generations | grep current)
-else
+elif [[ "$HOSTNAME" == COV* ]]; then
     echo "rebuilding home-manager..."
-    cat ./home-manager/home.nix > ~/.config/home-manager/home.nix
+    cat ./home-manager/home.nix >~/.config/home-manager/home.nix
     SKIP_CERTS=1 home-manager switch
     gen="__"
+else
+    echo "unknown machine exiting..."
+    exit 0
 fi
 
 if [[ -n $(git status --porcelain) ]]; then
