@@ -33,21 +33,8 @@ in
     pulse.enable = true;
   };
 
-  programs.bash.completion.enable = true;
-
   environment.systemPackages = packages.dev ++ packages.core ++ packages.lang ++ packages.gui ++ packages.desktop;
   virtualisation.docker.enable = true;
-  services.saned = {
-    enable = true;
-    extraConfig = ''
-      usb 0x04f9 0x0468
-    '';
-  };
-  hardware.sane = {
-    enable = true;
-    brscan5.enable = true;
-    dsseries.enable = true;
-  };
 
   users.users.ncarchar = {
     isNormalUser = true;
@@ -103,11 +90,11 @@ in
     enableCompletion = true;
     autosuggestions.enable = true;
     syntaxHighlighting.enable = true;
-    ohMyZsh = {
-      theme = "robbyrussell";
-      enable = true;
-      plugins = [ ];
-    };
+    # ohMyZsh = {
+    #   theme = "robbyrussell";
+    #   enable = true;
+    #   plugins = [ ];
+    # };
   };
 
   programs.neovim.enable = true;

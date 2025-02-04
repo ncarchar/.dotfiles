@@ -1,4 +1,6 @@
 export ZSH="$HOME/.oh-my-zsh"
+
+ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd)
 ZSH_THEME="robbyrussell"
 
 if [ -d "$ZSH" ]; then

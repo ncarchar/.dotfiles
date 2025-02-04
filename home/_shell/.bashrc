@@ -1,3 +1,12 @@
+#!/bin/sh
+
+export PATH="$HOME/.scripts:$PATH"
+
+source ~/.shell/alias.sh
+
+export HOSTNAME=$(hostname)
+HOSTNAME=$HOSTNAME
+
 BLUE='\e[1;34m'
 CYAN='\e[1;36m'
 GREEN='\e[1;32m'
