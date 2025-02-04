@@ -41,6 +41,14 @@ style = "Regular"
 opacity = 0.95
 dynamic_padding = true
 
+[cursor.style]
+shape = "Underline"
+blinking = "On"
+
+[cursor.vi_mode_style]
+shape = "Block"
+blinking = "On"
+
 [keyboard]
 bindings = [
   { key = "B", mods = "Control|Shift", action = "None" },
@@ -48,5 +56,6 @@ bindings = [
   { key = "PageUp",   mods = "Shift", action = "ScrollHalfPageUp" },
   { key = "PageDown", mods = "Shift", action = "ScrollHalfPageDown" },
   { key = "Up",   mods = "Shift", action = "ScrollLineUp" },
-  { key = "Down", mods = "Shift", action = "ScrollLineDown" }
+  { key = "Down", mods = "Shift", action = "ScrollLineDown" },
+  { key = "Space", mods = "Control", chars = "\u0000" }
 ]
