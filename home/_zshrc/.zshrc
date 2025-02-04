@@ -15,3 +15,7 @@ for file in ~/.zsh/*.zsh; do
 done
 
 if [ -e /home/cvhew/.nix-profile/etc/profile.d/nix.sh ]; then . /home/cvhew/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+
+if [[ -n "$IN_NIX_SHELL" ]]; then
+    export PS1="(nix) $PS1"
+fi

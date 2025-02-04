@@ -5,6 +5,7 @@ let
   packages = import "${homeDir}/.dotfiles/nixos/nix/packages.nix" { pkgs = pkgs; };
 in
 {
+  imports = [ "${homeDir}/.dotfiles/home-manager/certs.nix" ];
   home.username = user;
   home.homeDirectory = homeDir;
 

@@ -109,6 +109,9 @@ require('lazy').setup(
     },
     {})
 
+require('onedark').setup({ style = 'dark' })
+require('onedark').load()
+
 -- Generics
 require('generic.globals')
 require('generic.key-bindings')

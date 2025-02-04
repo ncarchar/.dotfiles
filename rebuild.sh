@@ -20,7 +20,7 @@ if [[ -n $(git status --porcelain) ]]; then
     echo "committing to git..."
     git add .
     git commit -am "$check $gen"
-    git push origin
+    # git push origin
     echo "commit and push complete..."
 else
     echo "no changes - nothing to commit..."
