@@ -8,4 +8,4 @@ run_pv() {
 }
 
 zle -N run_pv
-bindkey "^I^I" run_pv
+# bindkey "^I^I" run_pv

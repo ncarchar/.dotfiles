@@ -33,6 +33,8 @@ in
     pulse.enable = true;
   };
 
+  programs.bash.completion.enable = true;
+
   environment.systemPackages = packages.dev ++ packages.core ++ packages.lang ++ packages.gui ++ packages.desktop;
   virtualisation.docker.enable = true;
   services.saned = {
