@@ -13,6 +13,7 @@
     jq
     neofetch
     ripgrep
+    starship
     stow
     tmux
     unzip
