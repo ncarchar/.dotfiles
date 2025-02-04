@@ -1,6 +1,10 @@
 local harpoon = require('harpoon')
 
-harpoon:setup()
+local settings = {
+    save_on_toggle = true,
+    sync_on_ui_close = true
+}
+harpoon:setup({ settings = settings })
 
 -- Harpoon mark file
 vim.keymap.set("n", "<leader>hf", function() harpoon:list():add() end, { desc = '[H]arpoon [F]ile' })
