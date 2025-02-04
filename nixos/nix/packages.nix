@@ -2,6 +2,7 @@
 {
   dev = with pkgs; [
     ansible
+    bat
     busybox
     btop
     cups

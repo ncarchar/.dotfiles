@@ -12,3 +12,9 @@ command -v exa >/dev/null 2>&1 && {
     alias llt="exa --level=2 --icons --tree --git --git-ignore --no-user --no-permissions --group-directories-first -a"
     alias lft="exa --icons --tree --git --git-ignore --no-user --no-permissions --group-directories-first -a"
 }
+
+command -v bat >/dev/null 2>&1 && {
+    alias cat="bat"
+}
+
+export BAT_THEME=onedark

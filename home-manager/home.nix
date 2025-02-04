@@ -17,7 +17,6 @@ in
     EDITOR = "neovim";
   };
 
-  programs.git.diff-so-fancy.enable = true;
   programs.neovim.enable = true;
   programs.zsh =
     {
@@ -32,7 +31,7 @@ in
       history.extended = true;
       oh-my-zsh = {
         enable = true;
-        plugins = [ "git" "colorize" ];
+        plugins = [ "git" ];
         theme = "robbyrussell";
       };
     };
