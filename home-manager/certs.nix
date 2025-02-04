@@ -1,5 +1,4 @@
 { config, pkgs, lib, ... }:
-
 let
   certsDir = "${config.xdg.configHome}/.certs";
   javaTrustStore = "${certsDir}/cacerts";
@@ -24,22 +23,26 @@ in
     # Use absolute paths for curl and keytool from nixpkgs
     CURL=${pkgs.curl}/bin/curl
     KEYTOOL=${pkgs.jdk21}/bin/keytool
+    TODAY=$(date +%s)
 
     for url in ${lib.concatStringsSep " " (map (u: "\"${u}\"") certUrls)}; do
       filename=$(basename "$url")
       alias="cert-$(basename "$filename" .crt)"
       dest="${certsDir}/$filename"
-      
+
       echo "Downloading certificate from $url..."
       $CURL -k -o "$dest" "$url"
 
       if [ -f "$dest" ]; then
         echo "Checking if alias $alias already exists in keystore..."
-        
+
         if $KEYTOOL -list -keystore "${javaTrustStore}" -storepass changeit -alias "$alias" >/dev/null 2>&1; then
-          echo "Certificate $alias already exists in keystore. Skipping import."
+          echo "Certificate $alias already exists in keystore."
+          $KEYTOOL -delete -alias "$alias" -keystore "${javaTrustStore}" -storepass changeit
+          echo "Re-importing $filename into Java keystore..."
+          $KEYTOOL -importcert -trustcacerts -keystore "${javaTrustStore}" -storepass changeit -noprompt -alias "$alias" -file "$dest"
         else
-          echo "Importing $filename into Java keystore..."
+          echo "Importing new certificate: $filename into Java keystore..."
           $KEYTOOL -importcert -trustcacerts -keystore "${javaTrustStore}" -storepass changeit -noprompt -alias "$alias" -file "$dest"
         fi
       else
