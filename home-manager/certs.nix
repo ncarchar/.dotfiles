@@ -27,7 +27,7 @@ in
     OPENSSL=${pkgs.openssl}/bin/openssl
 
     for url in ${lib.concatStringsSep " " (map (u: "\"${u}\"") certUrls)}; do
-      if [ "$url" = "https://repo.maven.apache.org/maven2/" ]; then
+      if [[ "$url" != *.crt && "$url" != *.cer ]]; then
         echo "Fetching certificate from $url using openssl..."
         alias="cert-repo-maven"
         dest="${certsDir}/repo.maven.apache.org.pem"
