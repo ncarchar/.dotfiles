@@ -7,7 +7,7 @@ $git_branch\
 $git_status
 """
 
-add_newline = false
+add_newline = true
 
 [directory]
 format = '[ $path](bold cyan) '
