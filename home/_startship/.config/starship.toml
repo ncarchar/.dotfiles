@@ -10,19 +10,18 @@ $git_status
 add_newline = false
 
 [directory]
-format = '[$path](bold cyan) '
+format = '[ $path](bold cyan) '
 truncate_to_repo = true
-truncation_length = 2
+truncation_length = 0
 truncation_symbol = ""
 
 [git_branch]
 format = '[\($branch(:$remote_branch)\)](bold red) '
 
-# format = '\[[(x$all_status)]\[$ahead_behind]\](darkgrey) '
 [git_status]
 format = '[(\[$ahead_behind\] )]()[(✗$all_status)](bold yellow)'
-conflicted = ' '
 up_to_date = ''
+conflicted = ' '
 untracked = ' '
 stashed = ' '
 modified = ' '
