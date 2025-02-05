@@ -22,18 +22,21 @@ in
     enable = true;
     enableZshIntegration = true;
   };
-  programs.zsh =
-    {
+
+  programs.zsh = {
+    enable = true;
+    dotDir = ".zsh-nix";
+    initExtra = ''
+      export PATH="$HOME/.nix-profile/bin:${pkgs.starship}/bin:$PATH"
+      source ~/.zshrc
+    '';
+    autosuggestion = {
       enable = true;
-      dotDir = ".zsh-nix";
-      initExtra = "export PATH=\"$HOME/.nix-profile/bin:$PATH\"\nsource ~/.zshrc";
-      autosuggestion = {
-        enable = true;
-        strategy = [ "match_prev_cmd" ];
-      };
-      syntaxHighlighting.enable = true;
-      history.extended = true;
+      strategy = [ "match_prev_cmd" ];
     };
+    syntaxHighlighting.enable = true;
+    history.extended = true;
+  };
 
   programs.home-manager.enable = true;
 }
