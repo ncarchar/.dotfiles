@@ -25,7 +25,7 @@ eval "$(zoxide init zsh)"
 source <(ng completion script)
 
 bindkey '^F' autosuggest-execute
-bindkey '^E' end-of-line
+bindkey '^E' autosuggest-accept
 bindkey "^[[H" beginning-of-line
 bindkey "^[[F" end-of-line
 bindkey "^[OH" beginning-of-line

@@ -1,13 +1,8 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
-format = """
-$nix_shell\
-$directory\
-$git_branch\
-$git_status
-"""
+format = "$nix_shell$directory$git_branch$git_status"
 
-add_newline = true
+add_newline = false
 
 [directory]
 format = '[ $path](bold cyan) '
