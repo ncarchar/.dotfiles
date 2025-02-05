@@ -90,11 +90,6 @@ in
     enableCompletion = true;
     autosuggestions.enable = true;
     syntaxHighlighting.enable = true;
-    # ohMyZsh = {
-    #   theme = "robbyrussell";
-    #   enable = true;
-    #   plugins = [ ];
-    # };
   };
 
   programs.neovim.enable = true;
