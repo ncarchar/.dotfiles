@@ -15,6 +15,7 @@ in
     jdk21
     curl
     openssl
+    gawk
   ];
 
   home.activation.createCerts = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
@@ -27,15 +28,17 @@ in
         echo "Fetching certificates..."
 
         CURL=${pkgs.curl}/bin/curl
+        AWK=${pkgs.gawk}/bin/awk
         KEYTOOL=${pkgs.jdk21}/bin/keytool
         OPENSSL=${pkgs.openssl}/bin/openssl
 
         for url in ${lib.concatStringsSep " " (map (u: "\"${u}\"") certUrls)}; do
           if [[ "$url" != *.crt && "$url" != *.cer ]]; then
             echo "Fetching certificate from $url using openssl..."
-            alias="cert-$(echo -n "$url" | sha256sum | cut -d ' ' -f1)"
-            dest="${certsDir}/repo.maven.apache.org.pem"
-            $OPENSSL s_client -showcerts -servername repo.maven.apache.org -connect repo.maven.apache.org:443 < /dev/null 2>/dev/null | $OPENSSL x509 -outform PEM > "$dest"
+            domain=$(echo "$url" | $AWK -F/ '{print $3}')
+            alias=domain
+            dest="${certsDir}/$domain.pem"
+            $OPENSSL s_client -showcerts -servername "$domain" -connect "$domain:443" < /dev/null 2>/dev/null | $OPENSSL x509 -outform PEM > "$dest"
           else
             filename=$(basename "$url")
             alias="cert-$(basename "$filename" .crt)"
