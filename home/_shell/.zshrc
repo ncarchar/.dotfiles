@@ -20,12 +20,6 @@ for file in ~/.shell/*; do
     fi
 done
 
-
-
-if [[ -n "$IN_NIX_SHELL" ]]; then
-    export PS1="(nix) $PS1"
-fi
-
 source $HOME/.scripts/fzf-git.sh
 eval "$(zoxide init zsh)"
 source <(ng completion script)
