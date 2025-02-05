@@ -24,6 +24,7 @@ source $HOME/.scripts/fzf-git.sh
 eval "$(zoxide init zsh)"
 source <(ng completion script)
 
+bindkey '^F' autosuggest-execute
 bindkey '^E' end-of-line
 bindkey "^[[H" beginning-of-line
 bindkey "^[[F" end-of-line
