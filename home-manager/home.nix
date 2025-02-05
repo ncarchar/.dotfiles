@@ -27,7 +27,9 @@ in
     enable = true;
     dotDir = ".zsh-nix";
     initExtra = ''
-      export PATH="$HOME/.nix-profile/bin:${pkgs.starship}/bin:$PATH"
+      export PATH="$HOME/.nix-profile/bin:$PATH"
+      export PATH="${pkgs.starship}/bin:$PATH"
+      echo "${pkgs.starship}"
       source ~/.zshrc
     '';
     autosuggestion = {
