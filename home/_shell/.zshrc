@@ -29,3 +29,5 @@ fi
 source $HOME/.scripts/fzf-git.sh
 eval "$(zoxide init zsh)"
 source <(ng completion script)
+bindkey '^E' end-of-line
+eval "$(starship init zsh)"
