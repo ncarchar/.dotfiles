@@ -30,7 +30,6 @@
     lshw
     ntfs3g
     parted
-    piper
     pciutils
     usbutils
   ];
