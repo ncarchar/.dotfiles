@@ -1,12 +1,12 @@
 local function disable_treesitter_for_large_files(bufnr)
     local line_count = vim.api.nvim_buf_line_count(bufnr)
-    return line_count > 50000
+    return line_count > 20000
 end
 
 require('nvim-treesitter.configs').setup({
     -- Add languages to be installed here that you want installed for treesitter
     ensure_installed = { 'bash', 'c', 'cmake', 'cpp', 'css', 'csv', 'git_config', 'git_rebase', 'gitattributes', 'gitcommit', 'gitignore', 'go', 'html', 'http', 'java', 'javascript', 'jq', 'jsdoc', 'json', 'json5', 'kotlin', 'lua', 'make', 'markdown', 'nginx', 'ocaml', 'regex', 'sql', 'tmux', 'tsv', 'tsx', 'typescript', 'vim', 'xml', 'zig' },
-    sync_install = {},
+    sync_install = true,
     modules = {},
     ignore_install = {},
     auto_install = true,
@@ -26,6 +26,9 @@ require('nvim-treesitter.configs').setup({
     },
     indent = {
         enable = true,
+        disable = function(lang, bufnr)
+            return disable_treesitter_for_large_files(bufnr)
+        end,
     },
     incremental_selection = {
         enable = true,
@@ -81,6 +84,9 @@ require('nvim-treesitter.configs').setup({
         },
         swap = {
             enable = true,
+            disable = function(lang, bufnr)
+                return disable_treesitter_for_large_files(bufnr)
+            end,
             swap_next = {
                 ['<leader>aa'] = '@parameter.inner',
             },
