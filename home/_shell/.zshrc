@@ -23,5 +23,11 @@ done
 source $HOME/.scripts/fzf-git.sh
 eval "$(zoxide init zsh)"
 source <(ng completion script)
+
 bindkey '^E' end-of-line
+bindkey "^[[H" beginning-of-line
+bindkey "^[[F" end-of-line
+bindkey "^[OH" beginning-of-line
+bindkey "^[OF" end-of-line
+
 eval "$(starship init zsh)"
