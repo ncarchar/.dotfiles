@@ -23,10 +23,12 @@ truncation_symbol = ""
 
 [git_branch]
 style = "bold red"
-format = '[\($branch(:$remote_branch)]($style)'
+format = '[\($branch(:$remote_branch)\)]($style) '
 
 [git_status]
-format = '([$ahead_behind\)]($style) )'
+format = '[✗]($style) '
+style = "bold yellow"
+disabled = false
 
 [cmd_duration]
 min_time = 0
