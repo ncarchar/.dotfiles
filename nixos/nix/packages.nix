@@ -1,7 +1,6 @@
 { pkgs, ... }:
 {
   dev = with pkgs; [
-    bash-completion
     ansible
     bat
     busybox
