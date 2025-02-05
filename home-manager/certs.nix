@@ -33,7 +33,7 @@ in
         for url in ${lib.concatStringsSep " " (map (u: "\"${u}\"") certUrls)}; do
           if [[ "$url" != *.crt && "$url" != *.cer ]]; then
             echo "Fetching certificate from $url using openssl..."
-            alias="cert-repo-maven"
+            alias="cert-$(echo -n "$url" | sha256sum | cut -d ' ' -f1)"
             dest="${certsDir}/repo.maven.apache.org.pem"
             $OPENSSL s_client -showcerts -servername repo.maven.apache.org -connect repo.maven.apache.org:443 < /dev/null 2>/dev/null | $OPENSSL x509 -outform PEM > "$dest"
           else
