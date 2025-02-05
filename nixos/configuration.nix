@@ -156,6 +156,7 @@ in
     options = "--delete-older-than 7d";
   };
 
+  services.ratbagd.enable = true;
   services.printing.enable = true;
   services.avahi = {
     enable = true;
