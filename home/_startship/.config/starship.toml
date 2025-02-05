@@ -7,7 +7,7 @@ add_newline = false
 [directory]
 format = '[ $path](bold cyan) '
 truncate_to_repo = true
-truncation_length = 0
+truncation_length = 1
 truncation_symbol = ""
 
 [git_branch]

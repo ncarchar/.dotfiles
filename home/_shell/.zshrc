@@ -24,11 +24,11 @@ source $HOME/.scripts/fzf-git.sh
 eval "$(zoxide init zsh)"
 source <(ng completion script)
 
-bindkey '^F' autosuggest-execute
-bindkey '^E' autosuggest-accept
-bindkey "^[[H" beginning-of-line
-bindkey "^[[F" end-of-line
-bindkey "^[OH" beginning-of-line
-bindkey "^[OF" end-of-line
+# bindkey '^F' autosuggest-execute
+# bindkey '^E' autosuggest-accept
+# bindkey "^[[H" beginning-of-line
+# bindkey "^[[F" end-of-line
+# bindkey "^[OH" beginning-of-line
+# bindkey "^[OF" end-of-line
 
 eval "$(starship init zsh)"

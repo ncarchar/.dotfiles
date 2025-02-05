@@ -18,7 +18,6 @@
     unzip
     wget
     xclip
-    yq
     zip
     zoxide
   ];
