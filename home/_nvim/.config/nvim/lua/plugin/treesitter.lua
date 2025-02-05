@@ -1,4 +1,4 @@
-local function disable_treesitter_for_large_files(bufnr)
+local function disable(_, bufnr)
     local line_count = vim.api.nvim_buf_line_count(bufnr)
     return line_count > 20000
 end
@@ -12,29 +12,21 @@ require('nvim-treesitter.configs').setup({
     auto_install = true,
     highlight = {
         enable = true,
-        disable = function(lang, bufnr)
-            return disable_treesitter_for_large_files(bufnr)
-        end,
+        disable = disable
     },
     refactor = {
         highlight_definitions = {
             enable = true,
-            disable = function(lang, bufnr)
-                return disable_treesitter_for_large_files(bufnr)
-            end,
+            disable = disable
         },
     },
     indent = {
         enable = true,
-        disable = function(lang, bufnr)
-            return disable_treesitter_for_large_files(bufnr)
-        end,
+        disable = disable
     },
     incremental_selection = {
         enable = true,
-        disable = function(lang, bufnr)
-            return disable_treesitter_for_large_files(bufnr)
-        end,
+        disable = disable,
         keymaps = {
             init_selection = '<c-space>',
             node_incremental = '<c-space>',
@@ -45,9 +37,7 @@ require('nvim-treesitter.configs').setup({
     textobjects = {
         select = {
             enable = true,
-            disable = function(lang, bufnr)
-                return disable_treesitter_for_large_files(bufnr)
-            end,
+            disable = disable,
             lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
             keymaps = {
                 -- You can use the capture groups defined in textobjects.scm
@@ -61,9 +51,7 @@ require('nvim-treesitter.configs').setup({
         },
         move = {
             enable = true,
-            disable = function(lang, bufnr)
-                return disable_treesitter_for_large_files(bufnr)
-            end,
+            disable = disable,
             set_jumps = true, -- whether to set jumps in the jumplist
             goto_next_start = {
                 [']m'] = '@function.outer',
@@ -84,9 +72,7 @@ require('nvim-treesitter.configs').setup({
         },
         swap = {
             enable = true,
-            disable = function(lang, bufnr)
-                return disable_treesitter_for_large_files(bufnr)
-            end,
+            disable = disable,
             swap_next = {
                 ['<leader>aa'] = '@parameter.inner',
             },

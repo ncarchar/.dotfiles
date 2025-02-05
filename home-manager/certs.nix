@@ -7,6 +7,7 @@ let
     "http://pki-services.covestro.net/grouppki/covestro_serverca.cer"
     "http://pki-services.covestro.net/grouppki/covestro_rootca.cer"
     "https://repo.maven.apache.org/maven2/"
+    "https://covestro-618253301100.d.codeartifact.us-east-1.amazonaws.com"
   ];
 in
 {
