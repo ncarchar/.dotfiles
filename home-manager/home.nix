@@ -18,7 +18,10 @@ in
   };
 
   programs.neovim.enable = true;
-  programs.starship.enable = true;
+  programs.starship = {
+    enable = true;
+    enableZshIntegration = true;
+  };
   programs.zsh =
     {
       enable = true;
