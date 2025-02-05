@@ -18,6 +18,7 @@
     unzip
     wget
     xclip
+    xmlstarlet
     zip
     zoxide
   ];
