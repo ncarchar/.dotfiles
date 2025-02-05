@@ -35,9 +35,9 @@ in
       enable = true;
       strategy = [ "match_prev_cmd" ];
     };
-    # oh-my-zsh = {
-    #   enable = true;
-    # };
+    oh-my-zsh = {
+      enable = true;
+    };
     syntaxHighlighting.enable = true;
     history.extended = true;
   };

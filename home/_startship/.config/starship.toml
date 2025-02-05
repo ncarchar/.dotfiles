@@ -4,28 +4,32 @@ format = """
 $nix_shell\
 $directory\
 $git_branch\
-"""
-
-right_format = """
-$git_status\
+$git_status
 """
 
 add_newline = false
 
 [directory]
-format = " [$path](bold cyan) "
-truncation_length = 1
+format = '[$path](bold cyan) '
+truncate_to_repo = true
+truncation_length = 2
 truncation_symbol = ""
 
 [git_branch]
-style = "bold red"
-format = '[\($branch(:$remote_branch)\)]($style) '
+format = '[\($branch(:$remote_branch)\)](bold red) '
 
+# format = '\[[(x$all_status)]\[$ahead_behind]\](darkgrey) '
 [git_status]
-format = '([\[$all_status$ahead_behind\]]($style) )'
-style = "bold darkgrey"
+format = '[(\[$ahead_behind\] )]()[($all_status✗ )](bold yellow)'
+conflicted = '1'
+up_to_date = '2'
+untracked = '3'
+stashed = '4'
+modified = '5'
+renamed = '6'
+deleted = '7'
 ahead = '⇡${count}'
-diverged = '⇕⇡${ahead_count}⇣${behind_count}'
+diverged = '⇡${ahead_count}⇣${behind_count}'
 behind = '⇣${count}'
 
 [nix_shell]
