@@ -3,7 +3,7 @@ local nmap = require('lsp.nmap')
 local M = {}
 
 M.setup = function(_on_attach, _capabilities)
-    local function organize_imports()
+    local function add_missing()
         vim.lsp.buf.code_action({
             apply = true,
             context = {
@@ -11,6 +11,9 @@ M.setup = function(_on_attach, _capabilities)
                 diagnostics = {}
             },
         })
+    end
+
+    local function organize_imports()
         local params = {
             command = "_typescript.organizeImports",
             arguments = { vim.api.nvim_buf_get_name(0) },
@@ -32,7 +35,8 @@ M.setup = function(_on_attach, _capabilities)
     local on_attach = function(client, bufnr)
         _on_attach(client, bufnr)
         nmap("<leader>oi", organize_imports, "[O]rganize [I]mports", bufnr)
-        nmap("<leader>ru", remove_unused, "[R]emove [U]nused", bufnr)
+        nmap("<leader>cr", remove_unused, "[R]emove Unused", bufnr)
+        nmap("<leader>ci", remove_unused, "[I]mport", bufnr)
     end
 
     require('lspconfig').ts_ls.setup {
@@ -42,6 +46,9 @@ M.setup = function(_on_attach, _capabilities)
         commands = {
             LspOrganizeImports = {
                 organize_imports
+            },
+            AddMissingImports = {
+                add_missing
             },
             RemoveUnsed = {
                 remove_unused
