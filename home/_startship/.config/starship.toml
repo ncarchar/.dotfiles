@@ -14,17 +14,31 @@ truncation_symbol = ""
 format = '[\($branch(:$remote_branch)\)](bold red) '
 
 [git_status]
-format = '[(\[$ahead_behind\] )]()[(✗$all_status)](bold yellow)'
+format = '[(\[$ahead_behind\] )]($style)[($all_status)]($style) '
+status = '\[$all_status\]' 
 up_to_date = ''
-conflicted = ' '
-untracked = ' '
-stashed = ' '
-modified = ' '
-renamed = ' '
-deleted = ' '
+conflicted = ''
+untracked = ''
+stashed = ''
+modified = '✗'
+renamed = ''
+deleted = ''
 ahead = '⇡${count}'
 diverged = '⇡${ahead_count}⇣${behind_count}'
 behind = '⇣${count}'
+style = 'bold yellow'
+# [git_status]
+# format = '[(\[$ahead_behind\] )]()[(✗$all_status)](bold yellow)'
+# up_to_date = ''
+# conflicted = ' '
+# untracked = ' '
+# stashed = ' '
+# modified = ' '
+# renamed = ' '
+# deleted = ' '
+# ahead = '⇡${count}'
+# diverged = '⇡${ahead_count}⇣${behind_count}'
+# behind = '⇣${count}'
 
 [nix_shell]
 disabled = false
