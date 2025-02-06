@@ -36,7 +36,7 @@ M.setup = function(_on_attach, _capabilities)
         _on_attach(client, bufnr)
         nmap("<leader>oi", organize_imports, "[O]rganize [I]mports", bufnr)
         nmap("<leader>cr", remove_unused, "[R]emove Unused", bufnr)
-        nmap("<leader>ci", remove_unused, "[I]mport", bufnr)
+        nmap("<leader>ci", add_missing, "[I]mport", bufnr)
     end
 
     require('lspconfig').ts_ls.setup {
