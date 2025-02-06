@@ -1,8 +1,8 @@
 { config, pkgs, lib, ... }:
 let
-  certsDir = "${config.xdg.configHome}/.certs";
+  certsDir = "${config.home.homeDirectory}/.certs-java";
   defaultTrustStore = "${pkgs.jdk21}/lib/openjdk/lib/security/cacerts";
-  javaTrustStore = "${certsDir}/merged-cacerts";
+  javaTrustStore = "${certsDir}/cacerts";
   certUrls = [
     "https://zcert.covestro.net/ZscalerCloudCovestroCA.crt"
     "http://pki-services.covestro.net/grouppki/covestro_serverca.cer"
