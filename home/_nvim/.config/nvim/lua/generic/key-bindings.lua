@@ -62,7 +62,6 @@ vim.keymap.set("n", "<leader>%", function()
     vim.cmd("source %")
 end, { desc = "[S]ource [%]" })
 
-
 local function run_command()
     local cwd = vim.fn.getcwd()
     local run_sh_path = cwd .. "/run.sh"
@@ -74,3 +73,9 @@ local function run_command()
 end
 
 vim.keymap.set('n', '<leader>rr', run_command, { noremap = true, silent = true })
+
+-- I can type so make common commands case insensitive
+vim.api.nvim_create_user_command("WA", "wa", {})
+vim.api.nvim_create_user_command("Wa", "wa", {})
+vim.api.nvim_create_user_command("wA", "wa", {})
+vim.api.nvim_create_user_command("Q", "q", {})
