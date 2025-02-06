@@ -1,7 +1,8 @@
 { config, pkgs, lib, ... }:
 let
   certsDir = "${config.xdg.configHome}/.certs";
-  javaTrustStore = "${certsDir}/cacerts";
+  defaultTrustStore = "${pkgs.jdk21}/lib/openjdk/lib/security/cacerts";
+  javaTrustStore = "${certsDir}/merged-cacerts";
   certUrls = [
     "https://zcert.covestro.net/ZscalerCloudCovestroCA.crt"
     "http://pki-services.covestro.net/grouppki/covestro_serverca.cer"
@@ -32,11 +33,15 @@ in
         KEYTOOL=${pkgs.jdk21}/bin/keytool
         OPENSSL=${pkgs.openssl}/bin/openssl
 
+        # Copy default Java trust store
+        cp "${defaultTrustStore}" "${javaTrustStore}"
+        chmod 644 "${javaTrustStore}"
+
         for url in ${lib.concatStringsSep " " (map (u: "\"${u}\"") certUrls)}; do
           if [[ "$url" != *.crt && "$url" != *.cer ]]; then
             echo "Fetching certificate from $url using openssl..."
             domain=$(echo "$url" | $AWK -F/ '{print $3}')
-            alias=domain
+            alias=$domain
             dest="${certsDir}/$domain.pem"
             $OPENSSL s_client -showcerts -servername "$domain" -connect "$domain:443" < /dev/null 2>/dev/null | $OPENSSL x509 -outform PEM > "$dest"
           else
