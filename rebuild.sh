@@ -11,7 +11,7 @@ if [[ -f "/etc/NIXOS" ]]; then
 elif [[ "$HOSTNAME" == COV* ]]; then
     echo "rebuilding home-manager..."
     cat ./home-manager/home.nix >~/.config/home-manager/home.nix
-    LOAD_CERTS=1 home-manager switch
+    LOAD_CERTS=0 home-manager switch
     gen="__"
 else
     echo "unknown machine exiting..."
@@ -23,7 +23,7 @@ if [[ -n $(git status --porcelain) ]]; then
     echo "committing to git..."
     git add .
     git commit -am "$check $gen"
-    # git push origin
+    git push origin
     echo "commit and push complete..."
 else
     echo "no changes - nothing to commit..."
