@@ -14,7 +14,7 @@ truncation_symbol = ""
 format = '[\($branch(:$remote_branch)\)](bold red) '
 
 [git_status]
-format = '[(\[$ahead_behind\] )]($style)[($all_status)]($style) '
+format = '[(\[$ahead_behind\] )]($style)[($all_status )]($style)'
 up_to_date = ''
 conflicted = ''
 untracked = ''
