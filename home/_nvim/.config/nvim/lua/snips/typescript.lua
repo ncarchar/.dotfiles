@@ -18,34 +18,6 @@ local sn = ls.sn
 local snippets = {
     s(
         {
-            trig = "inject",
-            name = "Inject | Angular Inject"
-        },
-        fmta(
-            [[
-                private readonly <name> = inject(<import>);
-            ]],
-            {
-                import = i(1),
-                name = f(function(args)
-                    local import = args[1][1]
-                    return import ~= "" and common.lower_first_letter(import) or ""
-                end, { 1 })
-            }
-        ),
-        {
-            callbacks = {
-                [-1] = {
-                    [events.leave] = function(node, _event_args)
-                        print("node" .. TBL_STRING(node))
-                        print("_event_args" .. TBL_STRING(_event_args))
-                    end
-                },
-            }
-        }
-    ),
-    s(
-        {
             trig = "constructor",
             name = "Constructor | Angular Constructor"
         },
