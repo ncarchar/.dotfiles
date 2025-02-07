@@ -23,6 +23,7 @@ in
     enableZshIntegration = true;
   };
 
+  fonts.fontconfig.enable = true;
   programs.zsh = {
     enable = true;
     dotDir = ".zsh-nix";
