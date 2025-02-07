@@ -33,6 +33,13 @@ in
         KEYTOOL=${pkgs.jdk21}/bin/keytool
         OPENSSL=${pkgs.openssl}/bin/openssl
 
+        # Ensure necessary font packages are installed
+        FONTCONFIG=${pkgs.fontconfig}/bin/fc-cache
+        FREETYPE=${pkgs.freetype}
+
+        echo "Updating font cache..."
+        $FONTCONFIG -f
+
         # Copy default Java trust store
         cp "${defaultTrustStore}" "${javaTrustStore}"
         chmod 644 "${javaTrustStore}"
