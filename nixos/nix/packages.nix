@@ -77,6 +77,5 @@
     pavucontrol
     protonvpn-gui
     vlc
-    widevine-cdm
   ];
 }
