@@ -18,6 +18,7 @@ in
     openssl
     gawk
     fontconfig
+    freetype
   ];
 
   home.activation.createCerts = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
@@ -75,7 +76,6 @@ in
   '';
 
   home.sessionVariables = {
-    JAVA_TOOL_OPTIONS = "-Djavax.net.ssl.trustStore=${javaTrustStore} -Djavax.net.ssl.trustStorePassword=changeit";
-    JAVA_FONTS = "/usr/share/fonts";
+    JAVA_TOOL_OPTIONS = "-Djavax.net.ssl.trustStore=${javaTrustStore} -Djavax.net.ssl.trustStorePassword=changeit -Dawt.useSystemAAFontSettings=lcd -Dswing.aatext=true";
   };
 }
