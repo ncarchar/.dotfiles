@@ -18,7 +18,6 @@ in
     openssl
     gawk
     fontconfig
-    freetype
   ];
 
   home.activation.createCerts = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
@@ -77,6 +76,7 @@ in
 
   home.sessionVariables = {
     JAVA_TOOL_OPTIONS = "-Djavax.net.ssl.trustStore=${javaTrustStore} -Djavax.net.ssl.trustStorePassword=changeit";
-    FONTCONFIG_FILE = "${pkgs.fontconfig}/etc/fonts/fonts.conf";
+    # FONTCONFIG_FILE = "${pkgs.fontconfig}/etc/fonts/fonts.conf";
+    FONTCONFIG_FILE = "${pkgs.fontconfig.out}/etc/fonts/fonts.conf";
   };
 }
