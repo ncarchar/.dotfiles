@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 let
   certsDir = "${config.home.homeDirectory}/.certs-java";
-  defaultTrustStore = "${pkgs.jdk21}/lib/openjdk/lib/security/cacerts";
+  defaultTrustStore = "${pkgs.jdk23}/lib/openjdk/lib/security/cacerts";
   javaTrustStore = "${certsDir}/cacerts";
   certUrls = [
     "https://zcert.covestro.net/ZscalerCloudCovestroCA.crt"
@@ -13,7 +13,7 @@ let
 in
 {
   home.packages = with pkgs; [
-    jdk21
+    jdk23
     curl
     openssl
     gawk
@@ -76,6 +76,6 @@ in
   '';
 
   home.sessionVariables = {
-    JAVA_TOOL_OPTIONS = "-Djavax.net.ssl.trustStore=${javaTrustStore} -Djavax.net.ssl.trustStorePassword=changeit -Dawt.useSystemAAFontSettings=lcd -Dswing.aatext=true";
+    JAVA_TOOL_OPTIONS = "-Djavax.net.ssl.trustStore=${javaTrustStore} -Djavax.net.ssl.trustStorePassword=changeit";
   };
 }
