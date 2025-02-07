@@ -17,6 +17,8 @@ in
     curl
     openssl
     gawk
+    fontconfig
+    freetype
   ];
 
   home.activation.createCerts = lib.hm.dag.entryAfter [ "writeBoundary" ] ''

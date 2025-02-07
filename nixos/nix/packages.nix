@@ -52,9 +52,7 @@
 
   lang = with pkgs; [
     cargo
-    openjdk21
-    fontconfig
-    freetype
+    jdk21
     maven
     nodePackages."@angular/cli"
     nodePackages."eslint"
