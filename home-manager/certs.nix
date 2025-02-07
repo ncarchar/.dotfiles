@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 let
   certsDir = "${config.home.homeDirectory}/.certs-java";
-  defaultTrustStore = "${pkgs.jdk23}/lib/openjdk/lib/security/cacerts";
+  defaultTrustStore = "${pkgs.jdk21}/lib/openjdk/lib/security/cacerts";
   javaTrustStore = "${certsDir}/cacerts";
   certUrls = [
     "https://zcert.covestro.net/ZscalerCloudCovestroCA.crt"
@@ -13,7 +13,7 @@ let
 in
 {
   home.packages = with pkgs; [
-    jdk23
+    jdk21
     curl
     openssl
     gawk
