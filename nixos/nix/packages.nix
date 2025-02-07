@@ -58,7 +58,7 @@
     nodePackages."eslint"
     nodePackages."prettier"
     nodePackages."typescript"
-    nodePackages_latest."aws-cdk"
+    nodePackages."aws-cdk"
     nodejs
     (python3.withPackages (ps: with ps; [
       pip
