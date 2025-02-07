@@ -1,11 +1,13 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 let
   user = builtins.getEnv "USER";
   homeDir = "/home/${user}";
   packages = import "${homeDir}/.dotfiles/nixos/nix/packages.nix" { pkgs = pkgs; };
+  hostname = builtins.getEnv "HOSTNAME";
+  certsPath = "${homeDir}/.dotfiles/home-manager/certs.nix";
 in
 {
-  imports = [ "${homeDir}/.dotfiles/home-manager/certs.nix" ];
+  imports = lib.optional (builtins.match "COV.*" hostname != null) certsPath;
   home.username = user;
   home.homeDirectory = homeDir;
 
