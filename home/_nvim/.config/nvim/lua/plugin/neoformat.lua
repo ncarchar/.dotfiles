@@ -37,7 +37,8 @@ local function format_buffer()
         yaml = 'prettier',
         markdown = 'prettier',
         python = 'black',
-        nix = 'nixpkgs-fmt'
+        nix = 'nixpkgs-fmt',
+        xml = 'prettier'
     }
 
     if formatters[filetype] then
