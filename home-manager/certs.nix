@@ -37,7 +37,6 @@ in
 
         # Ensure necessary font packages are installed
         FONTCONFIG=${pkgs.fontconfig}/bin/fc-cache
-        FREETYPE=${pkgs.freetype}
 
         echo "Updating font cache..."
         $FONTCONFIG -f
@@ -84,5 +83,6 @@ in
 
   home.sessionVariables = {
     JAVA_TOOL_OPTIONS = "-Djavax.net.ssl.trustStore=${javaTrustStore} -Djavax.net.ssl.trustStorePassword=changeit";
+    FONTCONFIG_FILE = "${pkgs.fontconfig}/etc/fonts/fonts.conf";
   };
 }
