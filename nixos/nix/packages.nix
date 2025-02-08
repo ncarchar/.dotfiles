@@ -9,6 +9,7 @@
     eza
     fzf
     git
+    hyperfine
     jq
     neofetch
     ripgrep
