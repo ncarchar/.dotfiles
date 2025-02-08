@@ -35,21 +35,11 @@ require('lazy').setup(
             'hrsh7th/nvim-cmp',
             event = 'InsertEnter',
             dependencies = {
-                -- Snippet Engine & its associated nvim-cmp source
-                {
-                    'L3MON4D3/LuaSnip',
-                    lazy = false,
-                    build = (function()
-                        return 'make install_jsregexp'
-                    end)()
-                },
-                'saadparwaiz1/cmp_luasnip',
                 'hrsh7th/cmp-nvim-lsp',
                 'hrsh7th/cmp-path',
             },
         },
         {
-            -- Adds git releated signs to the gutter, as well as utilities for managing changes
             'lewis6991/gitsigns.nvim',
             opts = {
                 signs = {
@@ -88,7 +78,10 @@ require('lazy').setup(
         },
         {
             'nvim-treesitter/nvim-treesitter',
-            dependencies = { 'nvim-treesitter/nvim-treesitter-textobjects', 'nvim-treesitter/nvim-treesitter-refactor' },
+            dependencies = {
+                'nvim-treesitter/nvim-treesitter-textobjects',
+                'nvim-treesitter/nvim-treesitter-refactor'
+            },
             build = ':TSUpdate',
         },
         {
@@ -98,26 +91,23 @@ require('lazy').setup(
         { 'tpope/vim-fugitive' },
         { 'tpope/vim-rhubarb' },
         { 'tpope/vim-vinegar' },
-        { 'folke/which-key.nvim',               opts = {} },
         { 'nvim-lualine/lualine.nvim' },
-        { 'lukas-reineke/indent-blankline.nvim' },
-        { 'windwp/nvim-ts-autotag',             event = 'InsertEnter' },
-        { 'windwp/nvim-autopairs',              event = "InsertEnter" },
-        { 'Everduin94/nvim-quick-switcher',     lazy = true },
-        { 'onsails/lspkind.nvim' },
-        { 'numToStr/Comment.nvim',              lazy = true },
-        { 's1n7ax/nvim-window-picker',          lazy = true },
-        { 'mfussenegger/nvim-jdtls',            ft = 'java' },
-        { 'akinsho/toggleterm.nvim',            lazy = true },
-        { 'mbbill/undotree' },
-        { 'romainl/vim-qf' },
-        { 'sbdchd/neoformat' },
-        { 'wakatime/vim-wakatime',              lazy = false }
+        { 'folke/which-key.nvim',                opts = {} },
+        { 'windwp/nvim-ts-autotag',              lazy = true, event = 'InsertEnter' },
+        { 'windwp/nvim-autopairs',               lazy = true, event = 'InsertEnter' },
+        { 'Everduin94/nvim-quick-switcher',      lazy = true },
+        { 's1n7ax/nvim-window-picker',           lazy = true },
+        { 'mfussenegger/nvim-jdtls',             lazy = true, ft = 'java' },
+        { 'akinsho/toggleterm.nvim',             lazy = true },
+        { 'mbbill/undotree',                     lazy = true, event = 'BufEnter' },
+        { 'numToStr/Comment.nvim',               lazy = true, event = 'BufEnter' },
+        { 'lukas-reineke/indent-blankline.nvim', lazy = true, event = 'BufEnter' },
+        { 'onsails/lspkind.nvim',                lazy = true, event = "BufEnter" },
+        { 'sbdchd/neoformat',                    lazy = true, event = 'BufEnter' },
+        { 'romainl/vim-qf',                      lazy = false },
+        { 'wakatime/vim-wakatime',               lazy = false }
     },
     {})
-
-require('onedark').setup({ style = 'dark' })
-require('onedark').load()
 
 -- Generics
 require('generic.globals')
@@ -130,11 +120,9 @@ require('generic.vim-settings')
 require('lsp.mason')
 
 -- Plugins
-require('plugin.Comment')
 require('plugin.harpoon')
 require('plugin.indent-blankline')
 require('plugin.lualine')
-require('plugin.luasnip')
 require('plugin.neoformat')
 require('plugin.nvim-autopairs')
 require('plugin.nvim-cmp')
@@ -146,10 +134,3 @@ require('plugin.treesitter')
 require('plugin.undotree')
 require('plugin.vim-qf')
 require('plugin.window-picker')
-
--- Snips
-require('snips.all')
-require('snips.html')
-require('snips.java')
-require('snips.javascript')
-require('snips.typescript')

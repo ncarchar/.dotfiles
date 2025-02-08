@@ -1,5 +1,4 @@
 local _ts_ls = require('lsp.ts_ls')
-local _jdtls = require('lsp.jdtls')
 local nmap = require('lsp.nmap')
 
 --  This function gets run when an LSP connects to a particular buffer.
@@ -53,6 +52,7 @@ local servers = {
         },
     },
     marksman = {},
+    nil_ls = {},
     ts_ls = {},
     zls = {}
 }
@@ -74,12 +74,11 @@ mason_lspconfig.setup {
 
 mason_lspconfig.setup_handlers {
     function(server_name)
-        if server_name == "ts_ls" then
+        if server_name == "jdtls" then
+            -- Use ftplug java
+        elseif server_name == "ts_ls" then
             _ts_ls.setup(on_attach, capabilities)
-        elseif server_name == "jdtls" then
-            -- _jdtls.setup(on_attach, capabilities)
         else
-            -- Default setup for all other servers
             require('lspconfig')[server_name].setup {
                 capabilities = capabilities,
                 on_attach = on_attach,

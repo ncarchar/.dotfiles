@@ -4,8 +4,7 @@ local function disable(_, bufnr)
 end
 
 require('nvim-treesitter.configs').setup({
-    -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = { 'bash', 'c', 'cmake', 'cpp', 'css', 'csv', 'git_config', 'git_rebase', 'gitattributes', 'gitcommit', 'gitignore', 'go', 'html', 'http', 'java', 'javascript', 'jq', 'jsdoc', 'json', 'json5', 'kotlin', 'lua', 'make', 'markdown', 'nginx', 'ocaml', 'regex', 'sql', 'tmux', 'tsv', 'tsx', 'typescript', 'vim', 'xml', 'zig' },
+    ensure_installed = { 'bash', 'c', 'cpp', 'css', 'csv', 'git_config', 'gitattributes', 'gitcommit', 'gitignore', 'html', 'http', 'java', 'javascript', 'json', 'lua', 'markdown', 'regex', 'sql', 'tmux', 'tsv', 'typescript', 'vim', 'xml', 'zig' },
     sync_install = true,
     modules = {},
     ignore_install = {},

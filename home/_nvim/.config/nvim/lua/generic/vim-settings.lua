@@ -35,7 +35,6 @@ vim.o.updatetime = 100
 vim.o.timeoutlen = 300
 vim.o.ttimeoutlen = 50
 
-
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
 
@@ -52,22 +51,6 @@ vim.opt.tabstop = 4      -- number of visual spaces per TAB
 vim.opt.softtabstop = 4  -- number of spaces in tab when editing
 vim.opt.shiftwidth = 4   -- number of spaces to use for autoindent/>> and <<
 vim.opt.expandtab = true -- use spaces instead of tabs
-
--- TODO: tab width for ts files gets reset at file enter from:
--- /usr/share/nvim/runtime/indent/typescript.vim
-vim.api.nvim_create_autocmd("FileType", {
-    pattern = "typescript",
-    callback = function()
-        vim.defer_fn(function()
-            vim.opt.tabstop = 4
-            vim.opt.softtabstop = 4
-            vim.opt.shiftwidth = 4
-            vim.opt.expandtab = true
-            vim.opt.autoindent = true
-            vim.opt.smartindent = true
-        end, 100)
-    end
-})
 
 vim.opt.foldenable = false
 vim.opt.foldlevel = 1

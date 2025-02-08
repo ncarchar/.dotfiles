@@ -74,7 +74,6 @@ end
 
 vim.keymap.set('n', '<leader>rr', run_command, { noremap = true, silent = true })
 
--- I can type so make common commands case insensitive
 vim.api.nvim_create_user_command("WA", "wa", {})
 vim.api.nvim_create_user_command("Wa", "wa", {})
 vim.api.nvim_create_user_command("Q", "q", {})
