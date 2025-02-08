@@ -72,8 +72,9 @@ local function find_project_files()
     end
     require('telescope.builtin').find_files(opts)
 end
-vim.keymap.set('n', '<tab><tab>', telescope_and_center(find_project_files),
-    { desc = 'Search Files' })
+vim.keymap.set('n', '<tab><tab>', telescope_and_center(function()
+    require('telescope.builtin').git_files({ show_untracked = true })
+end), { desc = 'Search Git-tracked & Untracked Files' })
 
 vim.keymap.set('n', '<leader><leader>t', telescope_and_center(require('telescope.builtin').builtin),
     { desc = '[T]elescope Builtins' })
