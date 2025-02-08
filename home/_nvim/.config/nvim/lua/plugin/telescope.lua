@@ -52,26 +52,6 @@ local telescope_and_center = function(telescope_func)
     end
 end
 
-local function find_project_files()
-    local opts = {}
-    if vim.fn.filereadable(".gitignore") == 1 then
-        opts.find_command = {
-            "rg",
-            "--files",
-            "--ignore-file", ".gitignore",
-            "--hidden",
-            "--glob", "!.git"
-        }
-    else
-        opts.find_command = {
-            "rg",
-            "--files",
-            "--hidden",
-            "--glob", "!.git"
-        }
-    end
-    require('telescope.builtin').find_files(opts)
-end
 vim.keymap.set('n', '<tab><tab>', telescope_and_center(function()
     require('telescope.builtin').git_files({ show_untracked = true })
 end), { desc = 'Search Git-tracked & Untracked Files' })

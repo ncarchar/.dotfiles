@@ -10,6 +10,10 @@ vim.keymap.set("n", "<leader><leader>g", ":tab Git<CR>", { noremap = true, silen
 -- Diagnostic keymaps
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
+vim.keymap.set("n", "<leader>d", function()
+    vim.diagnostic.open_float()
+end, { noremap = true, silent = true, desc = "Show diagnostics" })
+
 
 -- Move line
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
