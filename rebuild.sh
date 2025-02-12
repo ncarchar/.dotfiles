@@ -11,7 +11,7 @@ if [[ -f "/etc/NIXOS" ]]; then
 elif [[ "$HOSTNAME" == COV* ]]; then
     echo "rebuilding home-manager..."
     cat ./home-manager/home.nix >~/.config/home-manager/home.nix
-    LOAD_CERTS=1 home-manager switch
+    LOAD_CERTS=0 home-manager switch
     gen="__"
 else
     echo "unknown machine exiting..."

@@ -75,5 +75,6 @@ in
 
   home.sessionVariables = {
     JAVA_TOOL_OPTIONS = "-Djavax.net.ssl.trustStore=${javaTrustStore} -Djavax.net.ssl.trustStorePassword=changeit";
+    JAVA_HOME = "${pkgs.jdk}";
   };
 }
