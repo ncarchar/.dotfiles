@@ -53,7 +53,7 @@
 
   lang = with pkgs; [
     cargo
-    jdk
+    # jdk
     maven
     nodePackages."@angular/cli"
     nodePackages."eslint"
