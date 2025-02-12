@@ -1,12 +1,6 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-vim.api.nvim_create_autocmd("VimLeave", {
-    callback = function()
-        vim.o.guicursor = "n-v-c:hor20-blinkon1,i-ci:hor20-blinkon1,r-cr:hor20-blinkon1"
-    end
-})
-
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
     vim.fn.system {
