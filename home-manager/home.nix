@@ -7,7 +7,7 @@ let
   certsPath = "${homeDir}/.dotfiles/home-manager/certs.nix";
 in
 {
-  # imports = lib.optional (builtins.match "COV.*" hostname != null) certsPath;
+  imports = lib.optional (builtins.match "COV.*" hostname != null) certsPath;
   home.username = user;
   home.homeDirectory = homeDir;
 
