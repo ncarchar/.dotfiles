@@ -41,14 +41,6 @@ style = "Regular"
 opacity = 0.95
 dynamic_padding = true
 
-[cursor.style]
-shape = "Underline"
-blinking = "On"
-
-[cursor.vi_mode_style]
-shape = "Block"
-blinking = "On"
-
 [keyboard]
 bindings = [
   { key = "B", mods = "Control|Shift", action = "None" },
