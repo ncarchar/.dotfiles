@@ -15,7 +15,7 @@
     ripgrep
     starship
     stow
-    trashy
+    trash-cli
     tmux
     unzip
     wget
