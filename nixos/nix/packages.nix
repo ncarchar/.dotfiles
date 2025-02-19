@@ -32,6 +32,7 @@
     ntfs3g
     parted
     pciutils
+    rpi-imager
     usbutils
   ];
 
