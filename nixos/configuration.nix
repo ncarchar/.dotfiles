@@ -18,11 +18,16 @@ in
   boot.loader.systemd-boot.configurationLimit = 5;
 
   networking.hostName = "nixos";
-  networking.networkmanager.enable = true;
   networking.networkmanager = {
-    wifi = {
-      powersave = false;
-      scanRandMacAddress = false;
+    enable = true;
+    settings = {
+      connection = {
+        "wifi.powersave" = 0;
+      };
+      device = {
+        "wifi.scan-rand-mac-address" = false;
+        "wifi.backend" = "wpa_supplicant";
+      };
     };
   };
 
