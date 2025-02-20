@@ -19,7 +19,12 @@ in
 
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
-  networking.networkmanager.wifi.powersave = false;
+  networking.networkmanager = {
+    wifi = {
+      powersave = false;
+      scanRandMacAddress = false;
+    };
+  };
 
   time.timeZone = "America/New_York";
 
