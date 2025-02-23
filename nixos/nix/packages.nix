@@ -69,6 +69,7 @@
 
   gui = with pkgs; [
     alacritty
+    bambu-studio
     chromium
     cups
     feh
