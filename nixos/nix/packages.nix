@@ -73,6 +73,7 @@
     chromium
     cups
     feh
+    freecad
     gimp
     networkmanagerapplet
     obsidian
