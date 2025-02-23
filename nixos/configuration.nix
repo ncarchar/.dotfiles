@@ -31,14 +31,6 @@ in
     };
   };
 
-  networking.interfaces.wlan0.useDHCP = false;
-  networking.interfaces.wlan0.ipv4.addresses = [
-    { address = "192.168.1.100"; prefixLength = 24; }
-  ];
-
-  networking.defaultGateway = "192.168.1.1";
-  networking.nameservers = [ "8.8.8.8" "8.8.4.4" ];
-
   time.timeZone = "America/New_York";
 
   i18n.defaultLocale = "en_US.UTF-8";
