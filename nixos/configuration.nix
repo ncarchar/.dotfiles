@@ -84,6 +84,14 @@ in
     desktopManager = {
       xterm.enable = false;
     };
+    videoDrivers = [ "amdgpu" ];
+    deviceSection = ''
+      Section "Device"
+        Identifier "AMD"
+        Driver "amdgpu"
+        Option "TearFree" "true"
+      EndSection
+    '';
     windowManager.i3 = {
       enable = true;
       extraPackages = with pkgs; [
