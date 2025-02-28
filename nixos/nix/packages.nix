@@ -75,12 +75,12 @@
     feh
     freecad
     gimp
-    librewolf
     networkmanagerapplet
     obsidian
     pulseaudio
     pavucontrol
     protonvpn-gui
+    vivaldi
     vlc
   ];
 }
