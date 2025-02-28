@@ -80,7 +80,6 @@
     pulseaudio
     pavucontrol
     protonvpn-gui
-    vivaldi
     vlc
   ];
 }
