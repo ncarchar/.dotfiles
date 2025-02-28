@@ -75,6 +75,7 @@
     feh
     freecad
     gimp
+    librewolf
     networkmanagerapplet
     obsidian
     pulseaudio
