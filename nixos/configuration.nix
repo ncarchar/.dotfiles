@@ -71,13 +71,13 @@ in
 
   # i3 + picom
   services.displayManager.defaultSession = "none+i3";
-  services.picom = {
-    enable = true;
-    settings = {
-      backend = "glx";
-      vsync = true;
-    };
-  };
+  # services.picom = {
+  #   enable = true;
+  #   settings = {
+  #     backend = "glx";
+  #     vsync = true;
+  #   };
+  # };
 
   services.xserver = {
     enable = true;
