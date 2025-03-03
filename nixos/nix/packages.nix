@@ -77,7 +77,7 @@
     feh
     freecad
     gimp
-    # networkmanagerapplet
+    networkmanagerapplet
     obsidian
     pulseaudio
     pavucontrol
