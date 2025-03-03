@@ -25,6 +25,8 @@
   ];
 
   desktop = with pkgs; [
+    networkmanager
+    wpa_supplicant
     cups
     dbus
     gptfdisk
@@ -75,7 +77,7 @@
     feh
     freecad
     gimp
-    networkmanagerapplet
+    # networkmanagerapplet
     obsidian
     pulseaudio
     pavucontrol
