@@ -76,6 +76,7 @@
     cups
     feh
     gimp
+    networkmanagerapplet
     obsidian
     pulseaudio
     pavucontrol
