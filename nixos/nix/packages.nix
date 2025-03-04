@@ -25,8 +25,6 @@
   ];
 
   desktop = with pkgs; [
-    networkmanager
-    wpa_supplicant
     cups
     dbus
     gptfdisk

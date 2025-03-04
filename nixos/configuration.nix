@@ -24,15 +24,15 @@ in
   networking.hostName = "nixos";
   networking.networkmanager = {
     enable = true;
-    settings = {
-      connection = {
-        "wifi.powersave" = 0;
-      };
+    # settings = {
+    #   connection = {
+    #     "wifi.powersave" = 0;
+    #   };
       # device = {
         # "wifi.scan-rand-mac-address" = false;
         # "wifi.backend" = "wpa_supplicant";
       # };
-    };
+    # };
   };
 
   time.timeZone = "America/New_York";
