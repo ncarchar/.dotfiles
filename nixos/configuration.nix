@@ -24,6 +24,10 @@ in
       connection = {
         "wifi.powersave" = 0;
       };
+      device = {
+        "wifi.scan-rand-mac-address" = false;
+        "wifi.backend" = "wpa_supplicant";
+      };
     };
   };
 
