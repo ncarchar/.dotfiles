@@ -25,6 +25,8 @@
   ];
 
   desktop = with pkgs; [
+    networkmanager
+    wpa_supplicant
     cups
     dbus
     gptfdisk
@@ -74,7 +76,6 @@
     cups
     feh
     gimp
-    networkmanagerapplet
     obsidian
     pulseaudio
     pavucontrol

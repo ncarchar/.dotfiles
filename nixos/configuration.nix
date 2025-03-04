@@ -16,23 +16,19 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.configurationLimit = 5;
-  # hardware.firmware = with pkgs; [
-  #   linux-firmware
-  #   iwlwifi_firmware
-  # ];
 
   networking.hostName = "nixos";
   networking.networkmanager = {
     enable = true;
-    # settings = {
-    #   connection = {
-    #     "wifi.powersave" = 0;
-    #   };
-      # device = {
-        # "wifi.scan-rand-mac-address" = false;
-        # "wifi.backend" = "wpa_supplicant";
-      # };
-    # };
+    settings = {
+      connection = {
+        "wifi.powersave" = 0;
+      };
+      device = {
+        "wifi.scan-rand-mac-address" = false;
+        "wifi.backend" = "wpa_supplicant";
+      };
+    };
   };
 
   time.timeZone = "America/New_York";
