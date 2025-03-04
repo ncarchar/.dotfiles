@@ -25,8 +25,8 @@
   ];
 
   desktop = with pkgs; [
-    # networkmanager
-    # wpa_supplicant
+    networkmanager
+    wpa_supplicant
     cups
     dbus
     gptfdisk
@@ -75,7 +75,6 @@
     chromium
     cups
     feh
-    freecad
     gimp
     networkmanagerapplet
     obsidian
