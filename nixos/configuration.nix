@@ -30,7 +30,7 @@ in
       };
       device = {
         "wifi.scan-rand-mac-address" = false;
-        "wifi.backend" = "wpa_supplicant";
+        # "wifi.backend" = "wpa_supplicant";
       };
     };
   };
