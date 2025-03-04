@@ -29,7 +29,7 @@ in
         "wifi.powersave" = 0;
       };
       device = {
-        "wifi.scan-rand-mac-address" = false;
+        # "wifi.scan-rand-mac-address" = false;
         # "wifi.backend" = "wpa_supplicant";
       };
     };
