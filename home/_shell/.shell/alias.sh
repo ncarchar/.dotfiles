@@ -11,9 +11,3 @@ if command -v exa >/dev/null 2>&1; then
     alias llt="exa --level=2 --icons --tree --git --git-ignore --no-user --no-permissions --group-directories-first -a"
     alias lft="exa --icons --tree --git --git-ignore --no-user --no-permissions --group-directories-first -a --color=always"
 fi
-
-if command -v bat >/dev/null 2>&1; then
-    alias bat="bat -p -n"
-    alias cat="bat"
-    export BAT_THEME=base16
-fi

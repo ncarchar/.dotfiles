@@ -2,7 +2,6 @@
 {
   dev = with pkgs; [
     ansible
-    bat
     busybox
     btop
     curl
@@ -19,7 +18,6 @@
     unzip
     wget
     xclip
-    xmlstarlet
     zip
     zoxide
   ];
