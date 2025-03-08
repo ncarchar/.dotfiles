@@ -68,7 +68,7 @@ end, { desc = "[S]ource [%]" })
 
 local function run_command()
     local cwd = vim.fn.getcwd()
-    local run_sh_path = cwd .. "/.run.sh"
+    local run_sh_path = cwd .. "/run.sh"
     if vim.fn.filereadable(run_sh_path) == 1 then
         vim.cmd("! bash " .. run_sh_path)
     else
