@@ -3,7 +3,7 @@
   dev = with pkgs; [
     ansible
     btop
-    coreutils-full
+    coreutils
     curl
     eza
     fzf
