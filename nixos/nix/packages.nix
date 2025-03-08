@@ -2,8 +2,8 @@
 {
   dev = with pkgs; [
     ansible
-    busybox
     btop
+    coreutils
     curl
     eza
     fzf
