@@ -1,5 +1,6 @@
 export PATH="$HOME/.scripts:$PATH"
 export HOSTNAME=$(hostname)
+
 HOSTNAME=$HOSTNAME
 
 IGNORE_FILES=()
