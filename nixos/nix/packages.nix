@@ -34,6 +34,7 @@
     parted
     pciutils
     rpi-imager
+    scrot
     usbutils
   ];
 
