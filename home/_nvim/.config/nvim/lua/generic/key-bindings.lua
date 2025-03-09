@@ -3,7 +3,10 @@ vim.keymap.set("n", "<C-t>", "<cmd>:tabnew<CR>", { noremap = true, desc = "[T]ab
 vim.keymap.set("n", "<C-w>", "<cmd>:tabclose<CR>", { desc = "" })
 vim.keymap.set("n", "<C-Tab>", "<cmd>:tabnext<CR>", { desc = "" })
 vim.keymap.set("n", "<C-S-Tab>", "<cmd>:tabprevious<CR>", { desc = "" })
-
+vim.keymap.set("i", "<C-t>", "<cmd>:tabnew<CR>", { noremap = true, desc = "[T]ab [N]ew" })
+vim.keymap.set("i", "<C-w>", "<cmd>:tabclose<CR>", { desc = "" })
+vim.keymap.set("i", "<C-Tab>", "<cmd>:tabnext<CR>", { desc = "" })
+vim.keymap.set("i", "<C-S-Tab>", "<cmd>:tabprevious<CR>", { desc = "" })
 -- Key map for new tab git fugitive
 vim.keymap.set("n", "<leader><leader>g", ":tab Git<CR>", { noremap = true, silent = true, desc = "[G]it Fugitive Tab" })
 

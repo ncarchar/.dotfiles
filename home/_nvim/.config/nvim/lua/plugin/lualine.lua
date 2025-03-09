@@ -33,8 +33,8 @@ require("lualine").setup {
         },
         lualine_c = { { "filename", path = 1 } },
         lualine_x = { "diagnostics" },
-        lualine_y = { "location" },
-        lualine_z = { { "datetime", style = "%H:%M:%S" } }
+        lualine_y = { "progress" },
+        lualine_z = { "location" }
     },
     inactive_sections = {
         lualine_a = {},

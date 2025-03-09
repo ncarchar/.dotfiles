@@ -22,3 +22,7 @@ source $HOME/.scripts/fzf-git.sh
 source <(ng completion script)
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
+
+if [[ -z "$TMUX" ]]; then
+    tmux
+fi

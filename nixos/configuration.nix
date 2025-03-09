@@ -109,7 +109,6 @@ in
 
   programs.neovim.enable = true;
   environment.variables.EDITOR = "nvim";
-  # environment.variables.GTK_THEME = "Adwaita:dark";
   programs.firefox.enable = true;
   programs.thunar.enable = true;
   programs.steam.enable = true;

@@ -15,6 +15,7 @@
     starship
     stow
     tmux
+    tmux-mem-cpu-load
     unzip
     wget
     xclip
