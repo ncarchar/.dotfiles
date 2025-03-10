@@ -9,6 +9,7 @@
     fzf
     git
     git-lfs
+    git-secrets
     hyperfine
     jq
     neofetch
