@@ -8,6 +8,7 @@
     eza
     fzf
     git
+    git-lfs
     hyperfine
     jq
     neofetch
