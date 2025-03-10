@@ -31,6 +31,7 @@
     cups
     dbus
     gptfdisk
+    icu
     lshw
     ntfs3g
     parted
