@@ -11,6 +11,7 @@ in
   home.username = user;
   home.homeDirectory = homeDir;
 
+
   home.stateVersion = "24.11";
 
   home.packages = packages.dev ++ packages.lang;
