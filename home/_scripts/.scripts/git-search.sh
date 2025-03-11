@@ -28,7 +28,7 @@ find_git_with_origin() {
     return 1
 }
 
-selected=$(gh api user/repos --jq '.[] | [.name, .ssh_url] | @tsv' | column -t -s $'\t' | fzf --border --ansi --height 40%)
+selected=$(gh api user/repos --jq '.[] | [.name, .ssh_url] | @tsv' | column -t -s $'\t' | fzf --border --height 40%)
 
 if [ -n "$selected" ]; then
     selected=$(echo $selected | tr -d '\n' | tr -d '\r')
