@@ -10,6 +10,7 @@
     git
     git-lfs
     git-secrets
+    gh
     hyperfine
     jq
     neofetch
