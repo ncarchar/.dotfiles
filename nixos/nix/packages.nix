@@ -15,6 +15,7 @@
     jq
     neofetch
     ripgrep
+    sshfs
     starship
     stow
     tmux
