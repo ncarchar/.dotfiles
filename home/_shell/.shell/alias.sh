@@ -4,6 +4,7 @@ alias bash="zsh.sh"
 alias started="started.sh"
 alias cp="cp -a"
 alias git-search="source ~/.scripts/git-search.sh"
+alias nvim-min="nvim -u ~/.config/nvim/init-min.lua"
 
 if command -v exa >/dev/null 2>&1; then
     alias ls="exa --all --group-directories-first -F"

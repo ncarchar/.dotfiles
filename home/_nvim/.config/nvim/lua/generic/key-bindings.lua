@@ -1,12 +1,3 @@
--- Keymappings for tab controls
-vim.keymap.set("n", "<C-t>", "<cmd>:tabnew<CR>", { noremap = true, desc = "[T]ab [N]ew" })
-vim.keymap.set("n", "<C-w>", "<cmd>:tabclose<CR>", { desc = "" })
-vim.keymap.set("n", "<C-Tab>", "<cmd>:tabnext<CR>", { desc = "" })
-vim.keymap.set("n", "<C-S-Tab>", "<cmd>:tabprevious<CR>", { desc = "" })
-vim.keymap.set("i", "<C-t>", "<cmd>:tabnew<CR>", { noremap = true, desc = "[T]ab [N]ew" })
-vim.keymap.set("i", "<C-w>", "<cmd>:tabclose<CR>", { desc = "" })
-vim.keymap.set("i", "<C-Tab>", "<cmd>:tabnext<CR>", { desc = "" })
-vim.keymap.set("i", "<C-S-Tab>", "<cmd>:tabprevious<CR>", { desc = "" })
 -- Key map for new tab git fugitive
 vim.keymap.set("n", "<leader><leader>g", ":tab Git<CR>", { noremap = true, silent = true, desc = "[G]it Fugitive Tab" })
 
@@ -24,9 +15,6 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 -- Replace Remap
 vim.keymap.set("x", "<leader>p", [["_dP]])
-
--- tmux sessionizer
-vim.keymap.set("n", "<leader><leader>s", "<cmd>silent !tmux neww tms<CR>", { desc = "Tmux [S]essionizer" })
 
 -- Keeps current row at the center of the screen as you navigate
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { noremap = true, silent = true })
