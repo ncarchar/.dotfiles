@@ -15,10 +15,10 @@ end
 vim.opt.rtp:prepend(lazypath)
 require('lazy').setup(
     {
+        require('plugin.cmp'),
         require('plugin.gitsigns'),
         require('plugin.harpoon'),
         require('plugin.lsp'),
-        require('plugin.cmp'),
         require('plugin.lualine'),
         require('plugin.neoformat'),
         require('plugin.nvim-quick-switcher'),

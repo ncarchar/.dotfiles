@@ -1,60 +1,43 @@
--- See `:help vim.o`
+-- UI and Visual Settings
 vim.o.termguicolors = true
-
-vim.o.hlsearch = true
-vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
-
--- Make line numbers default
-vim.wo.number = true
-
--- Enable mouse mode
-vim.o.mouse = 'a'
-
--- Sync clipboard between OS and Neovim.
-vim.opt.clipboard = "unnamedplus"
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
-vim.opt.list = true
+vim.o.number = true
+vim.o.relativenumber = true
+vim.o.cursorline = true
+vim.o.signcolumn = "yes"
+vim.o.list = true
 vim.opt.listchars:append("eol:↲")
 
--- Enable break indent
-vim.o.breakindent = true
-
--- Save undo history
-vim.o.undofile = true
-
--- Case-insensitive searching UNLESS \C or capital in search
+-- Search Settings
+vim.o.hlsearch = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
+vim.o.wildmenu = true
 
--- Keep signcolumn on by default
-vim.wo.signcolumn = 'yes'
-
--- Decrease update time
+-- Editor Behavior
+vim.o.mouse = ""
+vim.o.breakindent = true
+vim.o.undofile = true
 vim.o.updatetime = 100
 vim.o.timeoutlen = 300
 vim.o.ttimeoutlen = 50
+vim.o.completeopt = "menuone,noselect"
 
--- Set completeopt to have a better completion experience
-vim.o.completeopt = 'menuone,noselect'
+-- Indentation and Spacing
+vim.o.tabstop = 4
+vim.o.softtabstop = 4
+vim.o.shiftwidth = 4
+vim.o.expandtab = true
 
--- NOTE: You should make sure your terminal supports this
-vim.o.termguicolors = true
+-- Folding
+vim.o.foldenable = false
+vim.o.foldlevel = 1
+vim.o.foldlevelstart = 1
+vim.o.foldmethod = "indent"
+vim.o.foldnestmax = 12
+vim.o.foldminlines = 12
 
--- Adds line highlight to current line
-vim.wo.cursorline = true
+-- Clipboard
+vim.o.clipboard = "unnamedplus"
 
--- Adds relative line numbers
-vim.wo.relativenumber = true
-
-vim.opt.tabstop = 4      -- number of visual spaces per TAB
-vim.opt.softtabstop = 4  -- number of spaces in tab when editing
-vim.opt.shiftwidth = 4   -- number of spaces to use for autoindent/>> and <<
-vim.opt.expandtab = true -- use spaces instead of tabs
-
-vim.opt.foldenable = false
-vim.opt.foldlevel = 1
-vim.opt.foldlevelstart = 1
-vim.opt.foldmethod = "indent"
-vim.opt.foldnestmax = 12
-vim.opt.foldminlines = 12
+-- Key Mappings
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
