@@ -29,7 +29,7 @@ return {
                         hidden = true
                     },
                     live_grep = {
-                        file_ignore_patterns = { 'node_modules', '.git', '.angular', 'dist' },
+                        file_ignore_patterns = { 'node_modules', '.git', '.angular', 'dist', 'target' },
                         additional_args = function(_)
                             return { "--hidden" }
                         end
@@ -69,13 +69,8 @@ return {
                 { desc = '[?] Find recently opened files' })
             vim.keymap.set('n', '<leader>b', telescope_and_center(require('telescope.builtin').buffers),
                 { desc = '[ ] Find existing buffers' })
-            vim.keymap.set('n', '<C-f>', telescope_and_center(function()
-                require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-                    winblend = 20,
-                    previewer = true,
-                    borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
-                })
-            end), { desc = '[S]earch [B]uffer' })
+            vim.keymap.set('n', '<C-f>', telescope_and_center(require('telescope.builtin').current_buffer_fuzzy_find),
+                { desc = '[S]earch [B]uffer' })
             vim.keymap.set('n', '<leader>sf', telescope_and_center(require('telescope.builtin').find_files),
                 { desc = '[S]earch [F]iles' })
             vim.keymap.set('n', '<leader>sh', telescope_and_center(require('telescope.builtin').help_tags),

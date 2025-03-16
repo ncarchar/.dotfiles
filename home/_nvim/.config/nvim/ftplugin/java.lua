@@ -104,8 +104,6 @@ local cmd = {
 
 
 local on_attach = function(client, bufnr)
-    -- _on_attach(client, bufnr)
-    print("Attaching jdtls ftplug")
     client.server_capabilities.semanticTokensProvider = nil
     nmap('<leader>oi', require('jdtls').organize_imports, '[O]rganize [I]mports', bufnr)
     nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')

@@ -9,7 +9,6 @@ return {
         config = function()
             local cmp = require 'cmp'
             local lspkind = require('lspkind')
-
             cmp.setup {
                 formatting = {
                     format = lspkind.cmp_format({
@@ -18,10 +17,12 @@ return {
                         ellipsis_char = '...',
                     })
                 },
+                completion = {
+                    autocomplete = false,
+                },
                 mapping = cmp.mapping.preset.insert {
-                    ['<C-Space>'] = cmp.mapping.complete {},
+                    ['<C-Down>'] = cmp.mapping.complete(),
                     ['<CR>'] = cmp.mapping.confirm {
-                        behavior = cmp.ConfirmBehavior.Replace,
                         select = true,
                     },
                     ['<C-n>'] = cmp.mapping(function(fallback)
@@ -46,14 +47,4 @@ return {
             }
         end
     },
-    {
-        'neovim/nvim-lspconfig',
-        dependencies = {
-            { 'williamboman/mason.nvim',          config = true },
-            { 'williamboman/mason-lspconfig.nvim' },
-            { 'j-hui/fidget.nvim',                tag = 'legacy', opts = {} },
-            { 'folke/neodev.nvim' },
-            { 'hrsh7th/cmp-nvim-lsp' }
-        },
-    }
 }

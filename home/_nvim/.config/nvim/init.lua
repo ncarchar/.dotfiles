@@ -15,18 +15,19 @@ end
 vim.opt.rtp:prepend(lazypath)
 require('lazy').setup(
     {
-        require('plugin.theme'),
         require('plugin.gitsigns'),
-        require('plugin.telescope'),
-        require('plugin.treesitter'),
         require('plugin.harpoon'),
+        require('plugin.lsp'),
+        require('plugin.cmp'),
         require('plugin.lualine'),
         require('plugin.neoformat'),
+        require('plugin.nvim-quick-switcher'),
+        require('plugin.telescope'),
+        require('plugin.theme'),
+        require('plugin.toggleterm'),
+        require('plugin.treesitter'),
         require('plugin.undotree'),
         require('plugin.vim-qf'),
-        require('plugin.nvim-cmp'),
-        require('plugin.nvim-quick-switcher'),
-        require('plugin.toggleterm'),
         { 'tpope/vim-fugitive' },
         { 'tpope/vim-rhubarb' },
         { 'tpope/vim-vinegar' },
@@ -46,4 +47,3 @@ require('generic.key-bindings')
 require('generic.netrw')
 require('generic.powershell-clipboard')
 require('generic.vim-settings')
-require('lsp.mason')
