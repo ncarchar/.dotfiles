@@ -1,7 +1,6 @@
 return {
     {
         'Everduin94/nvim-quick-switcher',
-        lazy = true,
         config = function()
             -- Quick switching for Angular components
             vim.keymap.set("n", "<leader>at", "<cmd>:lua require('nvim-quick-switcher').find('.component.ts')<CR>",
