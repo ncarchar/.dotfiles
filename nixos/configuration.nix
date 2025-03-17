@@ -70,7 +70,6 @@ in
   security.pam.services.gdm-password.enableGnomeKeyring = true;
 
   # i3 + picom
-  services.displayManager.defaultSession = "none+i3";
   services.picom = {
     enable = true;
     settings = {
@@ -81,9 +80,7 @@ in
 
   services.xserver = {
     enable = true;
-    desktopManager = {
-      xterm.enable = false;
-    };
+    autorun = true;
     videoDrivers = [ "amdgpu" ];
     windowManager.i3 = {
       enable = true;
