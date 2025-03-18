@@ -22,15 +22,15 @@ return {
                     '[W]orkspace [S]ymbols')
                 -- See `:help K` for why this keymap
                 nmap('K', vim.lsp.buf.hover, 'Hover Documentation', bufnr)
-                vim.keymap.set('n', '<Esc>', function()
-                    for _, win in ipairs(vim.api.nvim_list_wins()) do
-                        local config = vim.api.nvim_win_get_config(win)
-                        if config.relative ~= '' then
-                            vim.api.nvim_win_close(win, true)
-                            return
-                        end
-                    end
-                end, { silent = true })
+                -- vim.keymap.set('n', '<Esc>', function()
+                --     for _, win in ipairs(vim.api.nvim_list_wins()) do
+                --         local config = vim.api.nvim_win_get_config(win)
+                --         if config.relative ~= '' then
+                --             vim.api.nvim_win_close(win, true)
+                --             return
+                --         end
+                --     end
+                -- end, { silent = true })
                 -- Lesser used LSP functionality
                 nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration', bufnr)
                 nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder', bufnr)
