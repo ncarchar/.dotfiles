@@ -18,6 +18,7 @@ in
   boot.loader.systemd-boot.configurationLimit = 5;
 
   networking.hostName = "nixos";
+  networking.nameservers = [ "1.0.0.1" "1.1.1.1" ];
   networking.networkmanager = {
     enable = true;
     settings = {
