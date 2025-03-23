@@ -41,6 +41,7 @@
     rpi-imager
     scrot
     usbutils
+    wmctrl
   ];
 
   core = with pkgs; [
