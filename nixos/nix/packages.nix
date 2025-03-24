@@ -86,7 +86,7 @@
     obsidian
     pulseaudio
     pavucontrol
-    protonvpn-gui
+    # protonvpn-gui
     vlc
   ];
 }

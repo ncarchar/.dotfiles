@@ -29,7 +29,7 @@ exec --no-startup-id nm-applet
 
 exec --no-startup-id source feh --bg-fill /home/ncarchar/.config/feh/.death-valley.jpg
 
-# exec --no-startup-id protonvpn-app
+# exec --no-startup-id bash -c 'i3-msg "exec --no-startup-id bash -c '\''protonvpn-app & sleep 1 && wmctrl -c \"Proton VPN\"'\''"'
 
 # Use pactl to adjust volume in PulseAudio.
 # set $refresh_i3status killall -SIGUSR1 i3status
