@@ -41,7 +41,6 @@
     rpi-imager
     scrot
     usbutils
-    wmctrl
   ];
 
   core = with pkgs; [
@@ -86,7 +85,7 @@
     obsidian
     pulseaudio
     pavucontrol
-    # protonvpn-gui
+    protonvpn-gui
     vlc
   ];
 }
