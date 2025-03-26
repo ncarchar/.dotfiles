@@ -32,9 +32,6 @@ vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
--- Make executable
-vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { desc = "Make executable", noremap = true, silent = true })
-
 -- Find and replace current word
 vim.keymap.set("n", "<leader>rt", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
     { desc = "[R]ename [T]ext", noremap = true })
@@ -72,3 +69,13 @@ vim.keymap.set('n', '<leader>rr', run_command, { noremap = true, silent = true }
 vim.api.nvim_create_user_command("WA", "wa", {})
 vim.api.nvim_create_user_command("Wa", "wa", {})
 vim.api.nvim_create_user_command("Q", "q", {})
+
+vim.keymap.set('n', '<leader>td', ':edit ~/TODO.md<CR>', { desc = "Edit TODO.md", noremap = true, silent = true })
+-- Make executable
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "sh", "zsh" },
+    callback = function()
+        vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>",
+            { desc = "Make executable", noremap = true, silent = true })
+    end,
+})
