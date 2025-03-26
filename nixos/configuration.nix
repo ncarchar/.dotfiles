@@ -132,9 +132,6 @@ in
       core = {
         pager = "less -F -X";
       };
-      "includeIf \"gitdir:/home/ncarchar/gatech/**\"" = {
-        path = "/home/ncarchar/gatech/.gitconfig";
-      };
     };
   };
 
