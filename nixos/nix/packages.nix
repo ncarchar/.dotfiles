@@ -69,9 +69,9 @@
     nodePackages."typescript"
     nodePackages."aws-cdk"
     nodejs
-    (python3.withPackages (ps: with ps; [
-      pip
-    ]))
+    # (python3.withPackages (ps: with ps; [
+    #   pip
+    # ]))
   ];
 
   gui = with pkgs; [

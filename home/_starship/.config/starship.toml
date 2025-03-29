@@ -4,6 +4,8 @@ format = "$nix_shell$directory$git_branch$git_status"
 
 add_newline = false
 
+command_timeout = 100
+
 [directory]
 format = '[ $path](bold cyan) '
 truncate_to_repo = true
