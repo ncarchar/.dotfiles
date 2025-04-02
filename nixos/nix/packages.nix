@@ -2,6 +2,7 @@
 {
   dev = with pkgs; [
     ansible
+    awscli2
     btop
     coreutils
     curl
