@@ -43,21 +43,19 @@
     usbutils
   ];
 
-  core = with pkgs; [
-    autoconf
-    automake
-    bison
-    clang
-    cmake
-    flex
-    gcc
-    gcc11
-    gnumake
-    libstdcxx5
-    libtool
-    makeWrapper
-    pkg-config
-  ];
+core = with pkgs; [
+  autoconf
+  automake
+  bison
+  clang
+  cmake
+  flex
+  gnumake
+  libstdcxx5
+  libtool
+  makeWrapper
+  pkg-config
+];
 
   lang = with pkgs; [
     cargo
@@ -69,9 +67,6 @@
     nodePackages."typescript"
     nodePackages."aws-cdk"
     nodejs
-    # (python3.withPackages (ps: with ps; [
-    #   pip
-    # ]))
   ];
 
   gui = with pkgs; [
