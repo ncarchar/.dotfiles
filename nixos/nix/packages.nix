@@ -21,6 +21,7 @@
     tmux
     tmux-mem-cpu-load
     unzip
+    util-linux
     wget
     xclip
     zip
@@ -43,19 +44,19 @@
     usbutils
   ];
 
-core = with pkgs; [
-  autoconf
-  automake
-  bison
-  clang
-  cmake
-  flex
-  gnumake
-  libstdcxx5
-  libtool
-  makeWrapper
-  pkg-config
-];
+  core = with pkgs; [
+    autoconf
+    automake
+    bison
+    clang
+    cmake
+    flex
+    gnumake
+    libstdcxx5
+    libtool
+    makeWrapper
+    pkg-config
+  ];
 
   lang = with pkgs; [
     cargo
