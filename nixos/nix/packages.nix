@@ -67,7 +67,7 @@
     nodePackages."eslint"
     nodePackages."prettier"
     nodePackages."typescript"
-    nodePackages."aws-cdk"
+    nodePackages_latest.aws-cdk
     nodejs
   ];
 
