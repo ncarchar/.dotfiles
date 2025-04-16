@@ -4,6 +4,7 @@
     ansible
     awscli2
     btop
+    busybox
     coreutils
     curl
     eza
