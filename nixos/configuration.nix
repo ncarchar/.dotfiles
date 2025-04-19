@@ -38,6 +38,7 @@ in
 
   security.rtkit.enable = true;
   hardware.pulseaudio.enable = false;
+  programs.noisetorch.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;

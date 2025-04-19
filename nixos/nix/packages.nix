@@ -38,7 +38,6 @@
     gptfdisk
     icu
     lshw
-    noisetorch
     ntfs3g
     parted
     pciutils
