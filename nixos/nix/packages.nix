@@ -79,6 +79,7 @@
     bambu-studio
     chromium
     cups
+    discord
     feh
     gimp
     networkmanagerapplet
