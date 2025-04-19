@@ -13,12 +13,14 @@ return {
                 formatting = {
                     format = lspkind.cmp_format({
                         mode = 'symbol_text',
-                        maxwidth = 32,
-                        ellipsis_char = '...',
-                    })
+                        maxwidth = 28,
+                        ellipsis_char = ''
+                    }),
+                    expandable_indicator = true,
+                    fields = { "abbr", "menu", "kind" }
                 },
                 completion = {
-                    autocomplete = false,
+                    -- autocomplete = false,
                 },
                 mapping = cmp.mapping.preset.insert {
                     ['<C-Down>'] = cmp.mapping.complete(),
@@ -37,13 +39,13 @@ return {
                     { name = 'nvim_lsp' },
                     { name = 'path' }
                 },
-                sorting = {
-                    comparators = {
-                        cmp.config.compare.exact,
-                        cmp.config.compare.score,
-                        cmp.config.compare.order,
-                    }
-                }
+                -- sorting = {
+                --     comparators = {
+                --         cmp.config.compare.exact,
+                --         cmp.config.compare.score,
+                --         cmp.config.compare.order,
+                --     }
+                -- }
             }
         end
     },

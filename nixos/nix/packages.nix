@@ -2,7 +2,9 @@
 {
   dev = with pkgs; [
     ansible
+    awscli2
     btop
+    busybox
     coreutils
     curl
     eza
@@ -21,6 +23,7 @@
     tmux
     tmux-mem-cpu-load
     unzip
+    util-linux
     wget
     xclip
     zip
@@ -50,8 +53,6 @@
     clang
     cmake
     flex
-    gcc
-    gcc11
     gnumake
     libstdcxx5
     libtool
@@ -69,9 +70,6 @@
     nodePackages."typescript"
     nodePackages."aws-cdk"
     nodejs
-    # (python3.withPackages (ps: with ps; [
-    #   pip
-    # ]))
   ];
 
   gui = with pkgs; [

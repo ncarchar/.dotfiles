@@ -14,7 +14,7 @@ in
 
   home.stateVersion = "24.11";
 
-  home.packages = packages.dev ++ packages.lang;
+  home.packages = packages.core ++ packages.dev ++ packages.lang;
 
   home.sessionVariables = {
     EDITOR = "neovim";
