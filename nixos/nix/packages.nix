@@ -38,6 +38,7 @@
     gptfdisk
     icu
     lshw
+    noisetorch
     ntfs3g
     parted
     pciutils
@@ -77,6 +78,7 @@
     bambu-studio
     chromium
     cups
+    discord
     feh
     gimp
     networkmanagerapplet
