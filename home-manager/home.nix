@@ -17,7 +17,7 @@ in
   home.packages = packages.core ++ packages.dev ++ packages.lang;
 
   home.sessionVariables = {
-    EDITOR = "neovim";
+    EDITOR = "nvim";
   };
 
   programs.neovim.enable = true;
