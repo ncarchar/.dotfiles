@@ -13,6 +13,7 @@
     git-secrets
     gh
     hyperfine
+    hurl
     jq
     neofetch
     rename
