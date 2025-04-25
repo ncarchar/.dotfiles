@@ -70,7 +70,7 @@ vim.api.nvim_create_user_command("WA", "wa", {})
 vim.api.nvim_create_user_command("Wa", "wa", {})
 vim.api.nvim_create_user_command("Q", "q", {})
 
-vim.keymap.set('n', '<leader>td', ':edit ~/TODO.md<CR>', { desc = "Edit TODO.md", noremap = true, silent = true })
+vim.keymap.set('n', '<leader>td', ':edit ~/.todo/TODO.md<CR>', { desc = "Edit TODO.md", noremap = true, silent = true })
 -- Make executable
 vim.api.nvim_create_autocmd("FileType", {
     pattern = { "sh", "zsh" },
