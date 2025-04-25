@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
   dev = with pkgs; [
     ansible
     awscli2
@@ -16,6 +15,7 @@
     hyperfine
     jq
     neofetch
+    rename
     ripgrep
     sshfs
     starship
