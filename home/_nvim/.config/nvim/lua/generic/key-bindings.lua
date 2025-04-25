@@ -64,7 +64,7 @@ local function run_command()
     end
 end
 
-vim.keymap.set('n', '<leader>rr', run_command, { noremap = true, silent = true })
+vim.keymap.set('n', '<leader><leader>r', run_command, { noremap = true, silent = true })
 
 vim.api.nvim_create_user_command("WA", "wa", {})
 vim.api.nvim_create_user_command("Wa", "wa", {})
