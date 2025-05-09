@@ -71,6 +71,7 @@
     nodePackages."prettier"
     nodePackages."typescript"
     nodePackages."aws-cdk"
+    nodePackages."serve"
     nodejs
   ];
 
