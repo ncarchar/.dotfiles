@@ -77,7 +77,7 @@
 
   gui = with pkgs; [
     alacritty
-    bambu-studio
+    # bambu-studio
     chromium
     cups
     discord
