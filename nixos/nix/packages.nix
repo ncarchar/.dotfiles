@@ -3,7 +3,7 @@
     ansible
     awscli2
     btop
-    busybox
+    # busybox
     coreutils
     curl
     eza
@@ -46,6 +46,7 @@
     rpi-imager
     scrot
     usbutils
+    libstdcxx5
   ];
 
   core = with pkgs; [
@@ -56,7 +57,6 @@
     cmake
     flex
     gnumake
-    libstdcxx5
     libtool
     makeWrapper
     pkg-config
