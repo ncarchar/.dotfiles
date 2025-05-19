@@ -1,7 +1,7 @@
 { pkgs, lib, ... }:
 let
   user = builtins.getEnv "USER";
-  homeDir = "/home/${user}";
+  homeDir = builtins.getEnv "HOME";
   packages = import "${homeDir}/.dotfiles/nixos/nix/packages.nix" { pkgs = pkgs; };
   hostname = builtins.getEnv "HOSTNAME";
   certsPath = "${homeDir}/.dotfiles/home-manager/certs.nix";
@@ -14,7 +14,7 @@ in
 
   home.stateVersion = "24.11";
 
-  home.packages = packages.core ++ packages.dev ++ packages.lang;
+  # home.packages = packages.core ++ packages.dev ++ packages.lang;
 
   home.sessionVariables = {
     EDITOR = "nvim";

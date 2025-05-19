@@ -13,6 +13,11 @@ elif [[ "$HOSTNAME" == COV* ]]; then
     cat ./home-manager/home.nix >~/.config/home-manager/home.nix
     LOAD_CERTS=0 home-manager switch
     gen="__"
+elif [[ "$(uname)" == "Darwin" ]]; then
+    echo "rebuilding home-manager..."
+    cat ./home-manager/home.nix >~/.config/home-manager/home.nix
+    LOAD_CERTS=0 home-manager switch
+    gen="__"
 else
     echo "unknown machine exiting..."
     exit 0
