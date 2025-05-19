@@ -1,7 +1,7 @@
 - hosts: localhost
   vars:
       user_home: "{{ lookup('env', 'HOME') }}"
-      ip: "{{ lookup('env', 'USER') == 'ncarchar' }}"
+      ip: "{{ lookup('env', 'USER') != 'cvhew' }}"
       iw: "{{ lookup('env', 'USER') == 'cvhew' }}"
       source_key: "{{ user_home + '/.dotfiles/ansible/ssh/.ssh/id_ed25519' if ip else user_home + '/.dotfiles/ansible/ssh/.sshc/id_ed25519' }}"
       dest_key: "{{ user_home }}/.ssh/id_ed25519"
