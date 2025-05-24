@@ -14,9 +14,8 @@ return {
 
             require('nvim-treesitter.configs').setup({
                 ensure_installed = {
-                    'bash', 'c', 'cpp', 'css', 'csv', 'git_config', 'gitattributes', 'gitcommit',
-                    'gitignore', 'html', 'http', 'java', 'javascript', 'json', 'lua', 'markdown',
-                    'regex', 'sql', 'tmux', 'tsv', 'typescript', 'vim', 'xml', 'zig'
+                    'bash', 'c', 'cpp', 'css', 'html', 'java', 'javascript', 'json', 'lua', 'markdown', 'tmux',
+                    'typescript'
                 },
                 sync_install = true,
                 modules = {},
