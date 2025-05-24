@@ -32,13 +32,13 @@
   ];
 
   desktop = with pkgs; [
-    networkmanager
-    wpa_supplicant
     cups
     dbus
     gptfdisk
     icu
+    libstdcxx5
     lshw
+    networkmanager
     noisetorch
     ntfs3g
     parted
@@ -46,7 +46,7 @@
     rpi-imager
     scrot
     usbutils
-    libstdcxx5
+    wpa_supplicant
   ];
 
   core = with pkgs; [
