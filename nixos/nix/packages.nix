@@ -3,9 +3,9 @@
     ansible
     awscli2
     btop
-    # busybox
     coreutils
     curl
+    entr
     eza
     fzf
     git
