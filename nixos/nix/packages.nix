@@ -1,5 +1,6 @@
 { pkgs, ... }: {
   dev = with pkgs; [
+    neovim
     ansible
     awscli2
     btop

@@ -32,12 +32,12 @@ require('lazy').setup(
         { 'tpope/vim-rhubarb' },
         { 'tpope/vim-vinegar' },
         { 'tpope/vim-surround' },
-        { 'heavenshell/vim-jsdoc' },
-        { 'lukas-reineke/indent-blankline.nvim', opts = {},   main = "ibl" },
+        { 'heavenshell/vim-jsdoc',               build = 'make install' },
+        { 'lukas-reineke/indent-blankline.nvim', opts = {},             main = "ibl" },
         { 'folke/which-key.nvim',                opts = {} },
-        { 'mfussenegger/nvim-jdtls',             lazy = true, ft = 'java' },
-        { 'numToStr/Comment.nvim',               lazy = true, event = 'BufEnter' },
-        { 'onsails/lspkind.nvim',                lazy = true, event = "BufEnter" },
+        { 'mfussenegger/nvim-jdtls',             lazy = true,           ft = 'java' },
+        { 'numToStr/Comment.nvim',               lazy = true,           event = 'BufEnter' },
+        { 'onsails/lspkind.nvim',                lazy = true,           event = "BufEnter" },
         { 'wakatime/vim-wakatime',               lazy = false }
     },
     {})

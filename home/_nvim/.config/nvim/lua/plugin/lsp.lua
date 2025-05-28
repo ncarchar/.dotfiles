@@ -67,7 +67,7 @@ return {
             local mason_lspconfig = require 'mason-lspconfig'
             mason_lspconfig.setup {
                 ensure_installed = vim.tbl_keys(servers),
-                automatic_installation = true
+                automatic_enable = true
             }
             mason_lspconfig.setup_handlers {
                 function(server_name)
