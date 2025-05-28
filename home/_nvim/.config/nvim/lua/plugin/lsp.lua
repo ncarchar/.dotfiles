@@ -1,10 +1,13 @@
 return {
     {
-        'neovim/nvim-lspconfig',
+        "mason-org/mason-lspconfig.nvim",
+        opts = {},
+        branch = "v1.x",
         dependencies = {
-            { 'williamboman/mason.nvim',          config = true },
-            { 'williamboman/mason-lspconfig.nvim' },
-            { 'folke/neodev.nvim' },
+            { "mason-org/mason.nvim", opts = {} },
+            "neovim/nvim-lspconfig",
+
+            'folke/neodev.nvim',
         },
         config = function()
             local ts_ls = require('lsp.ts_ls')
@@ -67,7 +70,7 @@ return {
             local mason_lspconfig = require 'mason-lspconfig'
             mason_lspconfig.setup {
                 ensure_installed = vim.tbl_keys(servers),
-                automatic_enable = true
+                automatic_enable = true,
             }
             mason_lspconfig.setup_handlers {
                 function(server_name)

@@ -106,11 +106,10 @@ in
     };
   };
 
-  # programs.neovim = {
-  #   enable = true;
-  #   defaultEditor = true;
-  # };
-  environment.variables.EDITOR = "nvim";
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+  };
   programs.firefox.enable = true;
   programs.thunar.enable = true;
   programs.steam.enable = true;
