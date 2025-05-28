@@ -43,6 +43,7 @@ M.setup = function(_on_attach, _capabilities)
         on_attach = on_attach,
         capabilities = _capabilities,
         inlay_hits = true,
+        filetypes = { "javascript", "typescript", "html" },
         commands = {
             LspOrganizeImports = {
                 organize_imports
@@ -50,11 +51,16 @@ M.setup = function(_on_attach, _capabilities)
             AddMissingImports = {
                 add_missing
             },
-            RemoveUnsed = {
+            RemoveUnused = {
                 remove_unused
             },
         },
         settings = {
+            implicitProjectConfiguration = {
+                checkJs = true
+            },
+            displayPartsForJSDoc = true,
+            includeCompletionsWithSnippetText = true,
             typescript = {
                 tsserver = {
                     useSyntaxServer = false,

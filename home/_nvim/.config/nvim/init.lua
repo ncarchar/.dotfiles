@@ -32,6 +32,7 @@ require('lazy').setup(
         { 'tpope/vim-rhubarb' },
         { 'tpope/vim-vinegar' },
         { 'tpope/vim-surround' },
+        { 'heavenshell/vim-jsdoc' },
         { 'lukas-reineke/indent-blankline.nvim', opts = {},   main = "ibl" },
         { 'folke/which-key.nvim',                opts = {} },
         { 'mfussenegger/nvim-jdtls',             lazy = true, ft = 'java' },
