@@ -18,27 +18,26 @@ in
   boot.loader.systemd-boot.configurationLimit = 5;
 
   networking.hostName = "nixos";
-  networking.nameservers = [ "1.0.0.1" "1.1.1.1" ];
-  networking.networkmanager = {
-    enable = true;
-    settings = {
-      connection = {
-        "wifi.powersave" = 0;
-      };
-      device = {
-        "wifi.scan-rand-mac-address" = false;
-        "wifi.backend" = "wpa_supplicant";
-      };
-    };
-  };
-
+  # networking.nameservers = [ "1.0.0.1" "1.1.1.1" ];
+  # networking.networkmanager = {
+  #   enable = true;
+  #   settings = {
+  #     connection = {
+  #       "wifi.powersave" = 0;
+  #     };
+  #     device = {
+  #       "wifi.scan-rand-mac-address" = false;
+  #       "wifi.backend" = "wpa_supplicant";
+  #     };
+  #   };
+  # };
+  #
   time.timeZone = "America/New_York";
 
   i18n.defaultLocale = "en_US.UTF-8";
 
   security.rtkit.enable = true;
   services.pulseaudio.enable = false;
-  programs.noisetorch.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -47,8 +46,8 @@ in
   };
 
   environment.systemPackages = packages.dev ++ packages.core ++ packages.lang ++ packages.gui ++ packages.desktop;
-  virtualisation.docker.enable = true;
 
+  virtualisation.docker.enable = true;
   users.users.ncarchar = {
     isNormalUser = true;
     home = "/home/ncarchar";
@@ -56,17 +55,19 @@ in
     extraGroups = [ "networkmanager" "wheel" "libvirtd" "docker" ];
   };
 
-  fonts.packages = with pkgs; [
-    nerd-fonts.jetbrains-mono
-  ];
-
-  fonts.fontconfig = {
-    defaultFonts = {
-      serif = [ "Liberation Serif" "Vazirmatn" ];
-      sansSerif = [ "Ubuntu" "Vazirmatn" ];
-      monospace = [ "JetBrainsMono Nerd Font" ];
+  fonts = {
+    packages = with pkgs; [
+      nerd-fonts.jetbrains-mono
+    ];
+    fontconfig = {
+      defaultFonts = {
+        serif = [ "Liberation Serif" "Vazirmatn" ];
+        sansSerif = [ "Ubuntu" "Vazirmatn" ];
+        monospace = [ "JetBrainsMono Nerd Font" ];
+      };
     };
   };
+
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.gdm.enableGnomeKeyring = true;
   security.pam.services.gdm-password.enableGnomeKeyring = true;
@@ -96,23 +97,8 @@ in
 
 
   users.defaultUserShell = pkgs.zsh;
-  programs.zsh = {
-    enable = true;
-    enableCompletion = true;
-    autosuggestions.enable = true;
-    syntaxHighlighting.enable = true;
-    ohMyZsh = {
-      enable = true;
-    };
-  };
 
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-  };
-  programs.firefox.enable = true;
-  programs.thunar.enable = true;
-  programs.steam.enable = true;
+
   location = {
     provider = "manual";
     longitude = -80.0;
@@ -126,6 +112,22 @@ in
     brightness.day = "1";
   };
 
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+    autosuggestions.enable = true;
+    syntaxHighlighting.enable = true;
+    ohMyZsh = {
+      enable = true;
+    };
+  };
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+  };
+  programs.firefox.enable = true;
+  programs.thunar.enable = true;
+  programs.steam.enable = true;
   programs.git = {
     enable = true;
     config = {
@@ -137,23 +139,6 @@ in
       };
     };
   };
-
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-  };
-  hardware.amdgpu.initrd.enable = true;
-  hardware.amdgpu.opencl.enable = true;
-  hardware.amdgpu.amdvlk.enable = true;
-  hardware.graphics.extraPackages = with pkgs; [
-    rocmPackages.clr
-    rocmPackages.hip-common
-    rocmPackages.rocm-runtime
-    rocmPackages.rocm-device-libs
-    rocmPackages.rocblas
-    rocmPackages.rocm-smi
-    amdvlk
-  ];
 
   services.ollama = {
     enable = true;
