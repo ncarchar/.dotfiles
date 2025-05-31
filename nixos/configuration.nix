@@ -37,7 +37,7 @@ in
   i18n.defaultLocale = "en_US.UTF-8";
 
   security.rtkit.enable = true;
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   programs.noisetorch.enable = true;
   services.pipewire = {
     enable = true;
