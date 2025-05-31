@@ -22,6 +22,7 @@
     tmux
     util-linux
     xclip
+    zip
     zoxide
   ];
 
