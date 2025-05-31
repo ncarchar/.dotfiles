@@ -8,12 +8,12 @@
     entr
     eza
     fzf
+    gh
     git
     git-lfs
     git-secrets
-    gh
-    hyperfine
     hurl
+    hyperfine
     jq
     neofetch
     rename
@@ -30,58 +30,34 @@
     zoxide
   ];
 
-  desktop = with pkgs; [
-    cups
-    dbus
-    gptfdisk
-    icu
-    lshw
-    networkmanager
-    ntfs3g
-    parted
-    pciutils
-    rpi-imager
-    scrot
-    usbutils
-    wpa_supplicant
-  ];
-
   core = with pkgs; [
-    autoconf
-    automake
-    bison
+    cargo
     clang
     cmake
-    flex
     gnumake
-    libtool
+    jdk
     makeWrapper
+    maven
+    nodejs
     pkg-config
   ];
 
-  lang = with pkgs; [
-    cargo
-    jdk
-    maven
-    # nodePackages."@angular/cli"
-    # nodePackages."eslint"
-    # nodePackages."prettier"
-    # nodePackages."typescript"
-    nodejs
-  ];
-
-  gui = with pkgs; [
+  desktop = with pkgs; [
     alacritty
     chromium
     cups
+    dbus
     discord
     feh
     gimp
+    icu
+    lshw
     networkmanagerapplet
     obsidian
-    pulseaudio
     pavucontrol
     protonvpn-gui
+    pulseaudio
+    scrot
     vlc
   ];
 }

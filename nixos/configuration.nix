@@ -37,7 +37,7 @@ in
   };
 
   /* packages */
-  environment.systemPackages = packages.dev ++ packages.core ++ packages.lang ++ packages.gui ++ packages.desktop;
+  environment.systemPackages = packages.dev ++ packages.core ++ packages.desktop;
 
   /* docker */
   virtualisation.docker.enable = true;
