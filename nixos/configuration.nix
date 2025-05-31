@@ -12,68 +12,52 @@ in
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   system.stateVersion = "25.05";
   programs.nix-ld.enable = true;
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 7d";
+  };
 
+  /* boot loader */
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.configurationLimit = 5;
 
+  /* network manager */
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
-  # networking.nameservers = [ "1.0.0.1" "1.1.1.1" ];
-  # networking.networkmanager = {
-  #   enable = true;
-  #   settings = {
-  #     connection = {
-  #       "wifi.powersave" = 0;
-  #     };
-  #     device = {
-  #       "wifi.scan-rand-mac-address" = false;
-  #       "wifi.backend" = "wpa_supplicant";
-  #     };
-  #   };
-  # };
-  #
+
+  /* locale */
   time.timeZone = "America/New_York";
-
   i18n.defaultLocale = "en_US.UTF-8";
-
-  security.rtkit.enable = true;
-  services.pulseaudio.enable = false;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
+  location = {
+    provider = "manual";
+    longitude = -80.0;
+    latitude = 40.0;
   };
 
+  /* packages */
   environment.systemPackages = packages.dev ++ packages.core ++ packages.lang ++ packages.gui ++ packages.desktop;
 
+  /* docker */
   virtualisation.docker.enable = true;
+
+  /* user */
   users.users.ncarchar = {
     isNormalUser = true;
     home = "/home/ncarchar";
     description = "Carson Miller";
     extraGroups = [ "networkmanager" "wheel" "libvirtd" "docker" ];
   };
+  users.defaultUserShell = pkgs.zsh;
 
-  fonts = {
-    packages = with pkgs; [
-      nerd-fonts.jetbrains-mono
-    ];
-    fontconfig = {
-      defaultFonts = {
-        serif = [ "Liberation Serif" "Vazirmatn" ];
-        sansSerif = [ "Ubuntu" "Vazirmatn" ];
-        monospace = [ "JetBrainsMono Nerd Font" ];
-      };
-    };
-  };
 
+  /* gnome keyring */
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.gdm.enableGnomeKeyring = true;
   security.pam.services.gdm-password.enableGnomeKeyring = true;
 
-  # i3 + picom
+  /* picom */
   services.picom = {
     enable = true;
     settings = {
@@ -82,6 +66,7 @@ in
     };
   };
 
+  /* xerver + i3 */
   services.xserver = {
     enable = true;
     autorun = true;
@@ -96,15 +81,39 @@ in
     };
   };
 
-
-  users.defaultUserShell = pkgs.zsh;
-
-
-  location = {
-    provider = "manual";
-    longitude = -80.0;
-    latitude = 40.0;
+  /* fonts */
+  fonts = {
+    packages = with pkgs; [
+      nerd-fonts.jetbrains-mono
+    ];
+    fontconfig = {
+      defaultFonts = {
+        serif = [ "Liberation Serif" "Vazirmatn" ];
+        sansSerif = [ "Ubuntu" "Vazirmatn" ];
+        monospace = [ "JetBrainsMono Nerd Font" ];
+      };
+    };
   };
+
+  /* audio */
+  security.rtkit.enable = true;
+  services.pulseaudio.enable = false;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+  };
+
+  /* printer */
+  services.printing.enable = true;
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
+
+  /* display auto dimming */
   services.redshift = {
     enable = true;
     temperature.night = 5000;
@@ -113,6 +122,7 @@ in
     brightness.day = "1";
   };
 
+  /* programs */
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -141,22 +151,4 @@ in
     };
   };
 
-  services.ollama = {
-    enable = true;
-    acceleration = "rocm";
-    rocmOverrideGfx = "11.0.0";
-  };
-
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 7d";
-  };
-
-  services.printing.enable = true;
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-    openFirewall = true;
-  };
 }

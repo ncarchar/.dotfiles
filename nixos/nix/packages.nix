@@ -22,7 +22,6 @@
     starship
     stow
     tmux
-    tmux-mem-cpu-load
     unzip
     util-linux
     wget
@@ -38,7 +37,6 @@
     icu
     lshw
     networkmanager
-    noisetorch
     ntfs3g
     parted
     pciutils
@@ -65,18 +63,15 @@
     cargo
     jdk
     maven
-    nodePackages."@angular/cli"
-    nodePackages."eslint"
-    nodePackages."prettier"
-    nodePackages."typescript"
-    nodePackages."aws-cdk"
-    nodePackages."serve"
+    # nodePackages."@angular/cli"
+    # nodePackages."eslint"
+    # nodePackages."prettier"
+    # nodePackages."typescript"
     nodejs
   ];
 
   gui = with pkgs; [
     alacritty
-    bambu-studio
     chromium
     cups
     discord
