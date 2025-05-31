@@ -57,14 +57,14 @@ in
   };
 
   fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+    nerd-fonts.jetbrains-mono
   ];
 
   fonts.fontconfig = {
     defaultFonts = {
       serif = [ "Liberation Serif" "Vazirmatn" ];
       sansSerif = [ "Ubuntu" "Vazirmatn" ];
-      monospace = [ "JetBrainsMono" ];
+      monospace = [ "JetBrainsMono Nerd Font" ];
     };
   };
   services.gnome.gnome-keyring.enable = true;

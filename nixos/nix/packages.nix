@@ -36,7 +36,6 @@
     dbus
     gptfdisk
     icu
-    libstdcxx5
     lshw
     networkmanager
     noisetorch
