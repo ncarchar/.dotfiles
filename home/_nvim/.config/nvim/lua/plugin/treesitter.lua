@@ -38,18 +38,12 @@ return {
                 incremental_selection = {
                     enable = true,
                     disable = disable,
-                    -- keymaps = {
-                    --     init_selection = '<c-space>',
-                    --     node_incremental = '<c-space>',
-                    --     scope_incremental = '<c-s>',
-                    --     node_decremental = '<M-space>',
-                    -- },
                 },
                 textobjects = {
                     select = {
                         enable = true,
                         disable = disable,
-                        lookahead = true, -- Automatically jump forward to textobj
+                        lookahead = true,
                         keymaps = {
                             ['aa'] = '@parameter.outer',
                             ['ia'] = '@parameter.inner',
@@ -62,7 +56,7 @@ return {
                     move = {
                         enable = true,
                         disable = disable,
-                        set_jumps = true, -- whether to set jumps in the jumplist
+                        set_jumps = true,
                         goto_next_start = {
                             [']m'] = '@function.outer',
                             [']]'] = '@class.outer',

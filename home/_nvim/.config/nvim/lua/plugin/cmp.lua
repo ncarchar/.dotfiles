@@ -39,13 +39,6 @@ return {
                     { name = 'nvim_lsp' },
                     { name = 'path' }
                 },
-                -- sorting = {
-                --     comparators = {
-                --         cmp.config.compare.exact,
-                --         cmp.config.compare.score,
-                --         cmp.config.compare.order,
-                --     }
-                -- }
             }
         end
     },

@@ -38,7 +38,6 @@ require('lazy').setup(
         { 'mfussenegger/nvim-jdtls',             lazy = true,           ft = 'java' },
         { 'numToStr/Comment.nvim',               lazy = true,           event = 'BufEnter' },
         { 'onsails/lspkind.nvim',                lazy = true,           event = "BufEnter" },
-        { 'wakatime/vim-wakatime',               lazy = false }
     },
     {})
 
