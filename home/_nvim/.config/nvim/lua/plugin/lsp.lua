@@ -4,7 +4,7 @@ return {
         opts = {},
         branch = "v1.x",
         dependencies = {
-            "mason-org/mason.nvim",
+            { "mason-org/mason.nvim", opts = {} },
             "neovim/nvim-lspconfig",
             'folke/neodev.nvim',
         },
