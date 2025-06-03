@@ -7,6 +7,7 @@
     entr
     eza
     fzf
+    gnugrep
     gh
     git
     git-lfs
