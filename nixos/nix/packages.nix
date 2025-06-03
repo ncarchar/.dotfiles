@@ -34,7 +34,7 @@
     maven
     nodejs
     nodePackages."@angular/cli"
-    typescript
+    nodePackages."typescript"
   ];
 
   desktop = with pkgs; [
