@@ -118,7 +118,6 @@ return {
 
 			vim.diagnostic.config({
 				severity_sort = true,
-				float = { source = "if_many" },
 				underline = false,
 				signs = true,
 				virtual_text = {
