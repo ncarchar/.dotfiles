@@ -29,7 +29,7 @@ in
   programs.zsh = {
     enable = true;
     dotDir = ".zsh-nix";
-    initExtra = ''
+    initContent = ''
       export PATH="$HOME/.nix-profile/bin:$PATH"
       export PATH="${pkgs.starship}/bin:$PATH"
       source ~/.zshrc
