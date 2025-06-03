@@ -5,9 +5,6 @@ return {
 		event = "BufEnter",
 		config = function()
 			vim.g.neoformat_try_formatprg = 1
-			vim.g.neoformat_basic_format_align = 1
-			vim.g.neoformat_basic_format_retab = 1
-			vim.g.neoformat_basic_format_trim = 1
 
 			-- Check if an LSP formatter is available
 			local function lsp_formatter_available()
@@ -23,11 +20,14 @@ return {
 			local function format_buffer()
 				local filetype = vim.bo.filetype
 				local useLsp = { java = true, xml = true }
+				local remap = { ["htmlangular"] = "html" }
+
+				filetype = remap[filetype] or filetype
 
 				if useLsp[filetype] and lsp_formatter_available() then
 					vim.lsp.buf.format()
 				else
-					vim.cmd("Neoformat")
+					vim.cmd("Neoformat! " .. filetype)
 				end
 			end
 
