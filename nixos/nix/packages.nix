@@ -2,7 +2,6 @@
   dev = with pkgs; [
     awscli2
     btop
-    busybox
     coreutils
     curl
     entr
@@ -20,6 +19,7 @@
     starship
     stow
     tmux
+    unzip
     util-linux
     xclip
     zip
@@ -34,8 +34,8 @@
     jdk
     maven
     nodejs
-    nodePackages."@angular/cli"
     nodePackages."typescript"
+    nodePackages."@angular/cli"
   ];
 
   desktop = with pkgs; [
