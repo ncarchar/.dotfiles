@@ -42,7 +42,7 @@ M.setup = function(_on_attach, _capabilities)
     require('lspconfig').ts_ls.setup {
         on_attach = on_attach,
         capabilities = _capabilities,
-        inlay_hits = true,
+        inlay_hits = false,
         filetypes = { "javascript", "typescript", "html" },
         commands = {
             LspOrganizeImports = {
