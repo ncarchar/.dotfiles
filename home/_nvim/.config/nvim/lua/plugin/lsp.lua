@@ -2,10 +2,10 @@ return {
     {
         "mason-org/mason-lspconfig.nvim",
         opts = {},
-        branch = "v1.x",
         dependencies = {
             { "mason-org/mason.nvim", opts = {} },
             "neovim/nvim-lspconfig",
+            'WhoIsSethDaniel/mason-tool-installer.nvim',
             'folke/neodev.nvim',
         },
         config = function()
@@ -55,26 +55,30 @@ return {
                 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
             end
             -- Ensure the servers above are installed
-            local mason_lspconfig = require 'mason-lspconfig'
-            mason_lspconfig.setup {
-                ensure_installed = vim.tbl_keys(servers),
-                automatic_enable = true,
-                automatic_installation = true
-            }
-            mason_lspconfig.setup_handlers {
-                function(server_name)
-                    if server_name == "jdtls" then
-                        -- Use ftplug java
-                    elseif server_name == "ts_ls" then
-                        ts_ls.setup(on_attach, capabilities)
-                    else
-                        require('lspconfig')[server_name].setup {
-                            capabilities = capabilities,
-                            on_attach = on_attach,
-                            settings = servers[server_name],
-                        }
-                    end
-                end,
+            local ensure_installed = vim.tbl_keys(servers or {})
+              vim.list_extend(ensure_installed, {
+                'prettier', -- Used to format Lua code
+              })
+            require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+            require('mason-lspconfig').setup {
+                -- ensure_installed = vim.tbl_keys(servers),
+                ensure_installed = {},
+                automatic_installation = false,
+                setup_handlers = {
+                    function(server_name)
+                        if server_name == "jdtls" then
+                            -- Use ftplug java
+                        elseif server_name == "ts_ls" then
+                            ts_ls.setup(on_attach, capabilities)
+                        else
+                            require('lspconfig')[server_name].setup {
+                                capabilities = capabilities,
+                                on_attach = on_attach,
+                                settings = servers[server_name],
+                            }
+                        end
+                    end,
+                }
             }
         end
     }

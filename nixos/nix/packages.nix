@@ -28,15 +28,12 @@
   ];
 
   core = with pkgs; [
-    angular-language-server
     cargo
     clang
     cmake
     jdk
     maven
     nodejs
-    nodePackages."typescript"
-    nodePackages."@angular/cli"
   ];
 
   desktop = with pkgs; [
