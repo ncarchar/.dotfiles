@@ -28,7 +28,6 @@
   ];
 
   core = with pkgs; [
-    angular-language-server
     cargo
     clang
     cmake
