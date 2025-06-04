@@ -31,6 +31,7 @@
     cargo
     clang
     cmake
+    gnumake
     jdk
     maven
     nodejs
