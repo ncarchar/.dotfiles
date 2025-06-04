@@ -3,7 +3,17 @@ return {
 		"nvim-telescope/telescope.nvim",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
-			{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+			{ "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font, opts = { color_icons = false } },
+			{
+				"nvim-telescope/telescope-fzf-native.nvim",
+				build = "make",
+				cond = function()
+					if vim.fn.executable("make") ~= 1 then
+						print("'make' not available cannot use fzf for telescope")
+					end
+					return vim.fn.executable("make") == 1
+				end,
+			},
 		},
 		config = function()
 			local actions = require("telescope.actions")
@@ -38,13 +48,19 @@ return {
 					},
 				},
 				extensions = {
-					fuzzy = true,
-					override_generic_sorter = true,
-					override_file_sorter = true,
-					case_mode = "smart_case",
+					["fzf"] = {
+						fuzzy = true,
+						override_generic_sorter = true,
+						override_file_sorter = true,
+						case_mode = "smart_case",
+					},
+					["ui-select"] = {
+						require("telescope.themes").get_dropdown(),
+					},
 				},
 			})
 
+			pcall(require("telescope").load_extension("fzf"))
 			-- Highlighting
 			vim.cmd([[
               highlight FloatBorder guifg=#808080 guibg=NONE
