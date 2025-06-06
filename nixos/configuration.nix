@@ -84,12 +84,13 @@ in
   fonts = {
     packages = with pkgs; [
       nerd-fonts.jetbrains-mono
+      nerd-fonts.commit-mono
     ];
     fontconfig = {
       defaultFonts = {
         serif = [ "Liberation Serif" "Vazirmatn" ];
         sansSerif = [ "Ubuntu" "Vazirmatn" ];
-        monospace = [ "Berkeley Mono Trial" "JetBrainsMono Nerd Font" ];
+        monospace = [ "Commit Mono" "JetBrainsMono Nerd Font" ];
       };
     };
   };
