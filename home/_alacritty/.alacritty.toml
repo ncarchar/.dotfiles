@@ -35,14 +35,14 @@ family = "Berkeley Mono Trial"
 style = "Regular"
 
 [font.bold]
-# family = "JetBrainsMono Nerd Font"
-family = "Berkeley Mono Trial"
-style = "Regular"
+family = "JetBrainsMono Nerd Font"
+# family = "Berkeley Mono Trial"
+style = "Bold"
 
 [font.italic]
-# family = "JetBrainsMono Nerd Font"
-family = "Berkeley Mono Trial"
-style = "Regular"
+family = "JetBrainsMono Nerd Font"
+# family = "Berkeley Mono Trial"
+style = "Italic"
 
 [window]
 opacity = 1.0
