@@ -60,7 +60,7 @@ return {
 				},
 			})
 
-			pcall(require("telescope").load_extension("fzf"))
+			pcall(require("telescope").load_extension, "fzf")
 			-- Highlighting
 			vim.cmd([[
               highlight FloatBorder guifg=#808080 guibg=NONE
