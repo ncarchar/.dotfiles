@@ -51,7 +51,6 @@ in
   };
   users.defaultUserShell = pkgs.zsh;
 
-
   /* gnome keyring */
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.gdm.enableGnomeKeyring = true;
@@ -90,7 +89,7 @@ in
       defaultFonts = {
         serif = [ "Liberation Serif" "Vazirmatn" ];
         sansSerif = [ "Ubuntu" "Vazirmatn" ];
-        monospace = [ "JetBrainsMono Nerd Font" ];
+        monospace = [ "Berkeley Mono" "JetBrainsMono Nerd Font" ];
       };
     };
   };
