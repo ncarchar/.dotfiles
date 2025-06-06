@@ -23,18 +23,18 @@ background = "0x202329"
 foreground = "0xabb2bf"
 
 [font]
-size = 12.0
-
-[font.bold]
-family = "JetBrainsMono NFM"
-style = "Bold"
-
-[font.italic]
-family = "JetBrainsMono NFM"
-style = "Italic"
+size = 14.0
 
 [font.normal]
-family = "JetBrainsMono NFM"
+family = "Berkeley Mono Trial"
+style = "Regular"
+
+[font.bold]
+family = "Berkeley Mono Trial"
+style = "Regular"
+
+[font.italic]
+family = "Berkeley Mono Trial"
 style = "Regular"
 
 [window]
@@ -45,9 +45,9 @@ dynamic_padding = true
 bindings = [
   { key = "B", mods = "Control|Shift", action = "None" },
   { key = "F", mods = "Control|Shift", action = "None" },
-  { key = "PageUp",   mods = "Shift", action = "ScrollHalfPageUp" },
+  { key = "PageUp", mods = "Shift", action = "ScrollHalfPageUp" },
   { key = "PageDown", mods = "Shift", action = "ScrollHalfPageDown" },
-  { key = "Up",   mods = "Shift", action = "ScrollLineUp" },
+  { key = "Up", mods = "Shift", action = "ScrollLineUp" },
   { key = "Down", mods = "Shift", action = "ScrollLineDown" },
-  { key = "Space", mods = "Control", chars = "\u0000" }
+  { key = "Space", mods = "Control", chars = "\u0000" },
 ]
