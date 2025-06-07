@@ -89,7 +89,7 @@ in
       defaultFonts = {
         serif = [ "Liberation Serif" "Vazirmatn" ];
         sansSerif = [ "Ubuntu" "Vazirmatn" ];
-        monospace = [ "Berkeley Mono Trial" "JetBrainsMono Nerd Font" ];
+        monospace = [ "JetBrainsMono Nerd Font" ];
       };
     };
   };
