@@ -82,14 +82,11 @@ in
 
   /* fonts */
   fonts = {
-    packages = with pkgs; [
-      nerd-fonts.jetbrains-mono
-    ];
     fontconfig = {
       defaultFonts = {
         serif = [ "Liberation Serif" "Vazirmatn" ];
         sansSerif = [ "Ubuntu" "Vazirmatn" ];
-        monospace = [ "Berkeley Mono" "JetBrainsMono Nerd Font" ];
+        monospace = [ "Berkeley Mono" ];
       };
     };
   };
