@@ -35,6 +35,7 @@
     jdk
     maven
     nodejs
+    pnpm
   ];
 
   desktop = with pkgs; [
