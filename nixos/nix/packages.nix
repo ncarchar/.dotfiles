@@ -14,6 +14,7 @@
     hurl
     jq
     neofetch
+    parallel
     rename
     ripgrep
     sshfs
