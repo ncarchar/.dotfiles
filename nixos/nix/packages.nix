@@ -45,6 +45,7 @@
     discord
     feh
     gimp
+    icu
     networkmanagerapplet
     obsidian
     pavucontrol
