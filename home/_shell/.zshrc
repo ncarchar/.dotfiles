@@ -1,5 +1,6 @@
 export PATH="$HOME/.scripts:$PATH"
 export HOSTNAME=$(hostname)
+export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
 
 HOSTNAME=$HOSTNAME
 
