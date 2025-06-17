@@ -15,6 +15,7 @@
     jq
     neofetch
     parallel
+    python3
     rename
     ripgrep
     sshfs
