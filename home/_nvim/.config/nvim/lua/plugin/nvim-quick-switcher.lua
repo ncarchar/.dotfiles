@@ -12,7 +12,7 @@ return {
 			vim.keymap.set(
 				"n",
 				"<leader>at",
-				find(".+ts|.+js", { regex = true, prefix = "full" }),
+				find("\\.ts|\\.js", { regex = true, prefix = "full" }),
 				{ desc = "Component [T]S" }
 			)
 			vim.keymap.set(
