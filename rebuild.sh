@@ -6,7 +6,7 @@ git --no-pager diff -U0
 
 if [[ -f "/etc/NIXOS" ]]; then
     echo "rebuilding nixos configuration..."
-    sudo nixos-rebuild switch
+    sudo nixos-rebuild switch --flake "path:.#nixos" 
     gen=$(nixos-rebuild list-generations | grep current)
 elif [[ "$HOSTNAME" == COV* ]]; then
     echo "rebuilding home-manager..."

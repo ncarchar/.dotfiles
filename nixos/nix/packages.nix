@@ -2,19 +2,27 @@
   dev = with pkgs; [
     awscli2
     btop
+    cargo
+    clang
+    cmake
     coreutils
     curl
     entr
     eza
     fzf
-    gnugrep
     gh
     git
     git-lfs
+    gnugrep
+    gnumake
     hurl
+    jdk
     jq
+    maven
     neofetch
+    nodejs
     parallel
+    pnpm
     python3
     rename
     ripgrep
@@ -30,15 +38,7 @@
     zoxide
   ];
 
-  core = with pkgs; [
-    cargo
-    clang
-    cmake
-    gnumake
-    jdk
-    maven
-    nodejs
-    pnpm
+  temp = with pkgs; [
   ];
 
   desktop = with pkgs; [

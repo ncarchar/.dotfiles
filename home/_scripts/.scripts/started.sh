@@ -1,4 +1,5 @@
 #!/bin/sh
+
 today_start=$(date -d "00:00:00" +%s)
 today_end=$(date -d "23:59:59" +%s)
 histfile="${ZSH_HISTFILE:-$HOME/.zsh_history}"

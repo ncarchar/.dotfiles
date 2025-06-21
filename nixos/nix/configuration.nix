@@ -1,15 +1,14 @@
 { pkgs, ... }:
 let
-  packages = import "/etc/nixos/nix/packages.nix" { pkgs = pkgs; };
+  packages = import ./packages.nix { pkgs = pkgs; };
 in
 {
-  imports =
-    [
-      /etc/nixos/hardware-configuration.nix
-      /etc/nixos/nix/vm.nix
-    ];
+  imports = [
+    ./vm.nix
+  ];
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.download-buffer-size = 67108864; /* 64 MiB download buffer */
   system.stateVersion = "25.05";
   programs.nix-ld.enable = true;
   nix.gc = {
@@ -37,7 +36,7 @@ in
   };
 
   /* packages */
-  environment.systemPackages = packages.dev ++ packages.core ++ packages.desktop;
+  environment.systemPackages = packages.dev ++ packages.temp ++ packages.desktop;
 
   /* docker */
   virtualisation.docker.enable = true;
