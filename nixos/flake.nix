@@ -2,7 +2,7 @@
   description = "NixOS system flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     nix-index-database.url = "github:nix-community/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
   };
@@ -12,7 +12,7 @@
       system = "x86_64-linux";
       modules = [
         ./nix/configuration.nix
-        ./hardware-configuration.nix
+        ./nix/hardware-configuration.nix
         nix-index-database.nixosModules.nix-index
       ];
     };

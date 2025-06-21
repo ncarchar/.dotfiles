@@ -8,7 +8,8 @@ in
   ];
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nix.settings.download-buffer-size = 67108864; /* 64 MiB download buffer */
+  /* 64 MiB download buffer */
+  nix.settings.download-buffer-size = 67108864;
   system.stateVersion = "25.05";
   programs.nix-ld.enable = true;
   nix.gc = {
