@@ -3,9 +3,6 @@ let
   packages = import ./packages.nix { pkgs = pkgs; };
 in
 {
-  imports = [
-    ./vm.nix
-  ];
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   /* 64 MiB download buffer */
@@ -81,7 +78,6 @@ in
   };
 
   /* fonts */
-
   fonts = {
     packages = with pkgs; [
       noto-fonts
