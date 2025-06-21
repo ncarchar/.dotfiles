@@ -14,7 +14,7 @@ in
 
   home.stateVersion = "25.05";
 
-   home.packages = packages.dev ++ packages.temp;
+  home.packages = packages.dev;
 
   home.sessionVariables = {
     EDITOR = "nvim";

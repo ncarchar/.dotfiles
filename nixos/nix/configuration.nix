@@ -37,7 +37,7 @@ in
   };
 
   /* packages */
-  environment.systemPackages = packages.dev ++ packages.temp ++ packages.desktop;
+  environment.systemPackages = packages.dev ++ packages.desktop;
 
   /* docker */
   virtualisation.docker.enable = true;
@@ -123,6 +123,7 @@ in
     enable = true;
     enableCompletion = true;
     autosuggestions.enable = true;
+    autosuggestions.strategy = [ "match_prev_cmd" ];
     syntaxHighlighting.enable = true;
     ohMyZsh = {
       enable = true;
@@ -133,7 +134,10 @@ in
     defaultEditor = true;
   };
   programs.firefox.enable = true;
-  programs.thunar.enable = true;
+  programs.thunar = {
+    enable = true;
+    plugins = with pkgs.xfce; [ thunar-archive-plugin thunar-media-tags-plugin ];
+  };
   programs.steam.enable = true;
   programs.git = {
     enable = true;

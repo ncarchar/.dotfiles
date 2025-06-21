@@ -38,14 +38,12 @@
     zoxide
   ];
 
-  temp = with pkgs; [
-  ];
-
   desktop = with pkgs; [
     alacritty
     chromium
     discord
     feh
+    file-roller
     gimp
     networkmanagerapplet
     obsidian
