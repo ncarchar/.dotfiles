@@ -12,7 +12,6 @@ in
   nix.gc = {
     automatic = true;
     dates = "weekly";
-    options = "--delete-older-than 7d";
   };
 
   /* boot loader */
@@ -139,7 +138,7 @@ in
   programs.firefox.enable = true;
   programs.thunar = {
     enable = true;
-    plugins = with pkgs.xfce; [ thunar-archive-plugin thunar-media-tags-plugin ];
+    plugins = with pkgs.xfce; [ thunar-archive-plugin ];
   };
   programs.steam.enable = true;
   programs.git = {
