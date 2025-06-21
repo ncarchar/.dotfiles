@@ -4,7 +4,7 @@ set -e
 
 git --no-pager diff -U0
 
-if [[ -f "/etc/NIXOS" ]]; then
+if [[ "$HOSTNAME" == nixos ]]; then
     echo "rebuilding nixos configuration..."
     sudo nixos-rebuild switch --flake "path:./nixos#nixos" 
     gen=$(nixos-rebuild list-generations | grep current)
