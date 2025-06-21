@@ -19,12 +19,10 @@
     jdk
     jq
     maven
-    neofetch
     nodejs
     parallel
     pnpm
     python3
-    rename
     ripgrep
     starship
     stow

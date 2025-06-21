@@ -50,15 +50,12 @@ in
   /* gnome keyring */
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.gdm.enableGnomeKeyring = true;
-  security.pam.services.gdm-password.enableGnomeKeyring = true;
 
   /* picom */
   services.picom = {
     enable = true;
-    settings = {
-      backend = "glx";
-      vsync = true;
-    };
+    vSync = true;
+    backend = "glx";
   };
 
   /* xerver + i3 */
@@ -152,5 +149,4 @@ in
       };
     };
   };
-
 }
