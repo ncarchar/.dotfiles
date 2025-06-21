@@ -101,7 +101,11 @@ in
   };
 
   /* printer */
-  services.printing.enable = true;
+  services.printing = {
+    enable = true;
+    package = pkgs.cups;
+    drivers = [];
+  };
   services.avahi = {
     enable = true;
     nssmdns4 = true;
