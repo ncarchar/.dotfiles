@@ -24,6 +24,7 @@
     tmux
     unzip
     util-linux
+    wget
     xclip
     zip
     zoxide
