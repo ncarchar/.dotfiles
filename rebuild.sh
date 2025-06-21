@@ -27,7 +27,7 @@ if [[ -n $(git status --porcelain) ]]; then
     check=$(git ls-tree -r HEAD | md5sum | awk '{print $1}')
     echo "committing to git..."
     git add .
-    git commit -am "$check $gen"
+    git commit -m "$check $gen"
     git push origin
     echo "commit and push complete..."
 else
