@@ -15,12 +15,15 @@
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
+      lib = pkgs.lib;
       username = "cvhew";
       homeDirectory = "/home/${username}";
       stateVersion = "25.05";
       packages = import ./nix/packages.nix { pkgs = pkgs; };
+      certsPath = import ./nix/certs.nix { pkgs = pkgs; };
       home = import ./nix/home.nix {
-        inherit pkgs packages homeDirectory stateVersion system username;
+        inherit pkgs lib packages homeDirectory stateVersion system username
+          certsPath;
       };
     in {
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {

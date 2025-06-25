@@ -1,10 +1,10 @@
-{ pkgs, packages, homeDirectory, stateVersion, system, username }:
-{
-  # imports = lib.optional (builtins.match "COV.*" hostname != null) certsPath;
+{ pkgs, lib, packages, homeDirectory, stateVersion, system, username, certsPath
+}: {
+  imports = lib.optional (builtins.match "COV.*" username != null) certsPath;
   home.username = username;
   home.homeDirectory = homeDirectory;
 
-  home.stateVersion = "25.05";
+  home.stateVersion = stateVersion;
 
   home.packages = packages.dev;
 
