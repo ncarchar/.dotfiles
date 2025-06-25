@@ -7,7 +7,7 @@ nixos:
 	@$(MAKE) _commit
 
 cov:
-	LOAD_CERTS=0 home-manager switch --flake "./nixos#cvhew" --extra-experimental-features "nix-command flakes"
+	LOAD_CERTS=0 home-manager switch --flake "./nixos#cvhew"
 	@$(MAKE) _commit
 
 darwin:
