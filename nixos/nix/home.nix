@@ -1,4 +1,6 @@
-{ pkgs, packages, homeDirectory, stateVersion, system, username }: {
+{ pkgs,  homeDirectory, stateVersion, system, username }:
+let packages = import ./packages.nix { pkgs = pkgs; };
+in {
   home.username = username;
   home.homeDirectory = homeDirectory;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

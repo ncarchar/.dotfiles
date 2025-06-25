@@ -1,6 +1,6 @@
-{ config, pkgs, lib, ... }:
+{ pkgs, lib, homeDirectory, ... }:
 let
-  certsDir = "${config.home.homeDirectory}/.certs-java";
+  certsDir = "${homeDirectory}/.certs-java";
   defaultTrustStore = "${pkgs.jdk}/lib/openjdk/lib/security/cacerts";
   javaTrustStore = "${certsDir}/cacerts";
   certUrls = [
@@ -10,14 +10,8 @@ let
     "https://repo.maven.apache.org/maven2/"
     "https://covestro-618253301100.d.codeartifact.us-east-1.amazonaws.com"
   ];
-in
-{
-  home.packages = with pkgs; [
-    jdk
-    curl
-    openssl
-    gawk
-  ];
+in {
+  home.packages = with pkgs; [ jdk curl openssl gawk ];
 
   home.activation.createCerts = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     echo "Initializing custom CA certificates..."
@@ -37,7 +31,9 @@ in
         cp "${defaultTrustStore}" "${javaTrustStore}"
         chmod 644 "${javaTrustStore}"
 
-        for url in ${lib.concatStringsSep " " (map (u: "\"${u}\"") certUrls)}; do
+        for url in ${
+          lib.concatStringsSep " " (map (u: ''"${u}"'') certUrls)
+        }; do
           if [[ "$url" != *.crt && "$url" != *.cer ]]; then
             echo "Fetching certificate from $url using openssl..."
             domain=$(echo "$url" | $AWK -F/ '{print $3}')
@@ -74,7 +70,8 @@ in
   '';
 
   home.sessionVariables = {
-    JAVA_TOOL_OPTIONS = "-Djavax.net.ssl.trustStore=${javaTrustStore} -Djavax.net.ssl.trustStorePassword=changeit";
+    JAVA_TOOL_OPTIONS =
+      "-Djavax.net.ssl.trustStore=${javaTrustStore} -Djavax.net.ssl.trustStorePassword=changeit";
     JAVA_HOME = "${pkgs.jdk}";
   };
 }
