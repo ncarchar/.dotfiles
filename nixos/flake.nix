@@ -13,31 +13,27 @@
       system = "x86_64-linux";
       stateVersion = "25.05";
       pkgs = import nixpkgs { inherit system; };
-      lib = pkgs.lib;
-      packages = import ./nix/packages.nix { inherit pkgs; };
     in
     {
-      nixosConfigurations.nixos =
-        let
-          configuration = import ./nix/configuration.nix {
-            inherit pkgs packages stateVersion;
-          };
-          hardwareConfiguration = import ./nix/hardware-configuration.nix {
-            inherit pkgs lib;
-          };
-        in
-        nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            configuration
-            hardwareConfiguration
-            nix-index-database.nixosModules.nix-index
-          ];
-        };
+      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./nix/hardware-configuration.nix
+          ./nix/configuration.nix
+          nix-index-database.nixosModules.nix-index
+          ({ pkgs, ... }: {
+            _module.args = {
+              packages = import ./nix/packages.nix { inherit pkgs; };
+              stateVersion = stateVersion;
+            };
+          })
+        ];
+      };
       homeConfigurations."cvhew" =
         let
           username = "cvhew";
           homeDirectory = "/home/${ username}";
+          packages = import ./nix/packages.nix { inherit pkgs; };
           home = import ./nix/home.nix {
             inherit pkgs packages homeDirectory stateVersion system username;
           };

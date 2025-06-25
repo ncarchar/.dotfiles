@@ -1,7 +1,7 @@
 diff:
 	git --no-pager diff -U0
 
-nixos:
+main:
 	sudo nixos-rebuild switch --flake "path:./nixos#nixos"
 	nixos-rebuild list-generations | grep current
 	@$(MAKE) _commit
