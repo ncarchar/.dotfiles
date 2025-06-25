@@ -6,7 +6,7 @@
     nix-index-database.url = "github:nix-community/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -18,7 +18,7 @@
       username = "cvhew";
       homeDirectory = "/home/${username}";
       stateVersion = "25.05";
-      packages = ./nix/packages.nix { pkgs = pkgs; };
+      packages = import ./nix/packages.nix { pkgs = pkgs; };
       home = import ./nix/home.nix {
         inherit pkgs packages homeDirectory stateVersion system username;
       };
