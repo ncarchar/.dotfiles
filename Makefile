@@ -10,6 +10,10 @@ cov:
 	LOAD_CERTS=0 home-manager switch --flake "./nixos#cvhew"
 	@$(MAKE) _commit
 
+cov-certs:
+	LOAD_CERTS=1 home-manager switch --flake "./nixos#cvhew"
+	@$(MAKE) _commit
+
 darwin:
 	LOAD_CERTS=0 home-manager switch
 	@$(MAKE) _commit

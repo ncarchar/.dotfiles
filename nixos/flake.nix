@@ -38,8 +38,8 @@
         let
           username = "cvhew";
           homeDirectory = "/home/${ username}";
-          covcerts = import ./nix/cov-certs.nix {
-            inherit pkgs lib home-manager homeDirectory;
+          covcerts = import ./nix/ncov-certs.nix {
+            inherit pkgs lib;
           };
           home = import ./nix/home.nix {
             inherit pkgs packages homeDirectory stateVersion system username;
