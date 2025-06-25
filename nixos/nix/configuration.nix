@@ -1,13 +1,10 @@
-{ pkgs, ... }:
-let
-  packages = import ./packages.nix { pkgs = pkgs; };
-in
+{ pkgs, packages, stateVersion, ... }:
 {
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   /* 64 MiB download buffer */
   nix.settings.download-buffer-size = 67108864;
-  system.stateVersion = "25.05";
+  system.stateVersion = stateVersion;
   programs.nix-ld.enable = true;
   nix.gc = {
     automatic = true;
@@ -104,7 +101,7 @@ in
   services.printing = {
     enable = true;
     package = pkgs.cups;
-    drivers = [];
+    drivers = [ ];
   };
   services.avahi = {
     enable = true;
