@@ -19,11 +19,11 @@ darwin:
 _commit:
 	@if [ -n "$$(git status --porcelain)" ]; then \
 		check=$$(git ls-tree -r HEAD | md5sum | awk '{print $$1}'); \
-		@echo "Committing to Git..."; \
+		echo "Committing to Git..."; \
 		git add .; \
 		git commit -m "$$check __"; \
 		git push origin; \
-		@echo "Commit and push complete..."; \
+		echo "Commit and push complete..."; \
 	else \
-		@echo "No changes - nothing to commit..."; \
+		echo "No changes - nothing to commit..."; \
 	fi
