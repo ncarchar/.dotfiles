@@ -1,5 +1,3 @@
-.PHONY: diff nixos cov darwin commit
-
 diff:
 	git --no-pager diff -U0
 
@@ -15,6 +13,12 @@ cov:
 darwin:
 	LOAD_CERTS=0 home-manager switch
 	@$(MAKE) _commit
+
+stow:
+	find ~/.dotfiles/home -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | xargs -I {} stow -d ~/.dotfiles/home -t ~ -v -R {}
+
+ansible:
+	ansible-playbook ./ansible/main.yml --ask-vault-pass --ask-become-pass
 
 _commit:
 	@if [ -n "$$(git status --porcelain)" ]; then \
