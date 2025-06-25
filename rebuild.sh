@@ -6,11 +6,12 @@ git --no-pager diff -U0
 
 if [[ "$HOSTNAME" == nixos ]]; then
     echo "rebuilding nixos configuration..."
-    sudo nixos-rebuild switch --flake "path:./nixos#nixos" 
+    sudo nixos-rebuild switch --flake "path:./nixos#nixos"
     gen=$(nixos-rebuild list-generations | grep current)
 elif [[ "$HOSTNAME" == COV* ]]; then
     echo "rebuilding home-manager..."
     cat ./home-manager/home.nix >~/.config/home-manager/home.nix
+    home-manager switch --flake "./nixos#cvhew@COV-63098830610" --extra-experimental-features "nix-command flakes"
     LOAD_CERTS=0 home-manager switch
     gen="__"
 elif [[ "$(uname)" == "Darwin" ]]; then
