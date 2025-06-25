@@ -20,7 +20,8 @@
       homeDirectory = "/home/${username}";
       stateVersion = "25.05";
       packages = import ./nix/packages.nix { inherit pkgs; };
-      covcerts = import ./nix/cov-certs.nix { inherit pkgs lib homeDirectory; };
+      covcerts =
+        import ./nix/cov-certs.nix { inherit pkgs lib home-manager homeDirectory; };
       home = import ./nix/home.nix {
         inherit pkgs packages homeDirectory stateVersion system username;
       };

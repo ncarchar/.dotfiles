@@ -11,8 +11,7 @@ if [[ "$HOSTNAME" == nixos ]]; then
 elif [[ "$HOSTNAME" == COV* ]]; then
     echo "rebuilding home-manager..."
     cat ./home-manager/home.nix >~/.config/home-manager/home.nix
-    home-manager switch --flake "./nixos#cvhew" --extra-experimental-features "nix-command flakes"
-    LOAD_CERTS=1 home-manager switch
+    LOAD_CERTS=0 home-manager switch --flake "./nixos#cvhew" --extra-experimental-features "nix-command flakes"
     gen="__"
 elif [[ "$(uname)" == "Darwin" ]]; then
     echo "rebuilding home-manager..."

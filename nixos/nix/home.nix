@@ -1,7 +1,8 @@
 { pkgs, packages, homeDirectory, stateVersion, system, username }: {
+  nix.package = pkgs.nix;
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   home.username = username;
   home.homeDirectory = homeDirectory;
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   news.display = "silent";
 
   home.stateVersion = stateVersion;
