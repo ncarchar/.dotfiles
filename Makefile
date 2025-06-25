@@ -7,15 +7,11 @@ nixos:
 	@$(MAKE) _commit
 
 cov:
-	LOAD_CERTS=0 home-manager switch --flake "./nixos#cvhew"
-	@$(MAKE) _commit
-
-cov-certs:
-	LOAD_CERTS=1 home-manager switch --flake "./nixos#cvhew"
+	home-manager switch --flake "./nixos#cvhew"
 	@$(MAKE) _commit
 
 darwin:
-	LOAD_CERTS=0 home-manager switch
+	home-manager switch
 	@$(MAKE) _commit
 
 stow:
