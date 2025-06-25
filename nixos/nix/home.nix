@@ -3,6 +3,7 @@
   imports = lib.optional (builtins.match "COV.*" username != null) certsPath;
   home.username = username;
   home.homeDirectory = homeDirectory;
+  news.display = "silent";
 
   home.stateVersion = stateVersion;
 
