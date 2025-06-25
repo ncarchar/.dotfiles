@@ -19,11 +19,10 @@
       username = "cvhew";
       homeDirectory = "/home/${username}";
       stateVersion = "25.05";
-      packages = import ./nix/packages.nix { pkgs = pkgs; };
-      certsPath = import ./nix/certs.nix { pkgs = pkgs; };
+      packages = import ./nix/packages.nix { inherit pkgs; };
+      covcerts = import ./nix/cov-certs.nix { inherit pkgs; };
       home = import ./nix/home.nix {
-        inherit pkgs lib packages homeDirectory stateVersion system username
-          certsPath;
+        inherit pkgs packages homeDirectory stateVersion system username;
       };
     in {
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
@@ -34,10 +33,13 @@
           nix-index-database.nixosModules.nix-index
         ];
       };
-      homeConfigurations."cvhew@COV-63098830610" =
-        home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          modules = [ home ];
-        };
+      homeConfigurations."cvhew" = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        modules = [
+          ./nix/configuration.nix
+          home
+          covcerts
+        ];
+      };
     };
 }

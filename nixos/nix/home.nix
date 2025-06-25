@@ -1,8 +1,7 @@
-{ pkgs, lib, packages, homeDirectory, stateVersion, system, username, certsPath
-}: {
-  imports = lib.optional (builtins.match "COV.*" username != null) certsPath;
+{ pkgs, packages, homeDirectory, stateVersion, system, username }: {
   home.username = username;
   home.homeDirectory = homeDirectory;
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   news.display = "silent";
 
   home.stateVersion = stateVersion;
