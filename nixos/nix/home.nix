@@ -1,23 +1,14 @@
-{ pkgs, lib, ... }:
-let
-  user = builtins.getEnv "USER";
-  homeDir = builtins.getEnv "HOME";
-  packages = import "${homeDir}/.dotfiles/nixos/nix/packages.nix" { pkgs = pkgs; };
-  hostname = builtins.getEnv "HOSTNAME";
-  certsPath = "${homeDir}/.dotfiles/home-manager/certs.nix";
-in
+{ pkgs, packages, homeDirectory, stateVersion, system, username }:
 {
-  imports = lib.optional (builtins.match "COV.*" hostname != null) certsPath;
-  home.username = user;
-  home.homeDirectory = homeDir;
+  # imports = lib.optional (builtins.match "COV.*" hostname != null) certsPath;
+  home.username = username;
+  home.homeDirectory = homeDirectory;
 
   home.stateVersion = "25.05";
 
   home.packages = packages.dev;
 
-  home.sessionVariables = {
-    EDITOR = "nvim";
-  };
+  home.sessionVariables = { EDITOR = "nvim"; };
 
   programs.neovim.enable = true;
   programs.starship = {
@@ -37,9 +28,7 @@ in
       enable = true;
       strategy = [ "match_prev_cmd" ];
     };
-    oh-my-zsh = {
-      enable = true;
-    };
+    oh-my-zsh = { enable = true; };
     syntaxHighlighting.enable = true;
     history.extended = true;
   };
