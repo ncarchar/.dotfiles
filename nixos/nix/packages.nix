@@ -18,6 +18,7 @@
     hurl
     jdk
     jq
+    librewolf
     maven
     nodejs
     parallel
