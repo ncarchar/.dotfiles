@@ -1,8 +1,7 @@
 {
   description = "system flake";
-
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
     nix-index-database.url = "github:nix-community/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager/release-25.05";
@@ -32,7 +31,7 @@
       homeConfigurations."cvhew" =
         let
           username = "cvhew";
-          homeDirectory = "/home/${ username}";
+          homeDirectory = "/home/${username}";
           packages = import ./nix/packages.nix { inherit pkgs; };
           home = import ./nix/home.nix {
             inherit pkgs packages homeDirectory stateVersion system username;
