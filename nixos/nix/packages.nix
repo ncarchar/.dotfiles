@@ -20,6 +20,7 @@
     jq
     librewolf
     maven
+    newsboat
     nodejs
     parallel
     pnpm
