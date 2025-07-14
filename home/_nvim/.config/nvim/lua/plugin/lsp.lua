@@ -28,7 +28,6 @@ return {
 					},
 				},
 				ts_ls = require("lsp.ts_ls"),
-				jdtls = { disabled = true },
 			}
 
 			vim.api.nvim_create_autocmd("LspAttach", {
@@ -158,18 +157,17 @@ return {
 
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 			require("mason-lspconfig").setup({
-				automatic_enable = true,
+				automatic_enable = {
+					exclude = { "jdtls" },
+				},
 				automatic_installation = false,
 				ensure_installed = {},
 				handlers = {
 					function(server_name)
-						print("setup: " + server_name)
+						print("setup: " .. server_name)
 						local server = servers[server_name] or {}
-						if server.disabled ~= true then
-							server.capabilities =
-								vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-							require("lspconfig")[server_name].setup(server)
-						end
+						server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+						require("lspconfig")[server_name].setup(server)
 					end,
 				},
 			})
