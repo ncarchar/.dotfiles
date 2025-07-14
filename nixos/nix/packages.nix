@@ -44,7 +44,7 @@
     networkmanagerapplet
     obsidian
     pavucontrol
-    protonvpn-gui
+    # protonvpn-gui
     pulseaudio
     scrot
     vlc
