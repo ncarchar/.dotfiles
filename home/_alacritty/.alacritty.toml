@@ -23,7 +23,7 @@ background = "0x202329"
 foreground = "0xabb2bf"
 
 [font]
-size = 14.0
+size = 13.0
 
 [font.normal]
 family = "Berkeley Mono"
