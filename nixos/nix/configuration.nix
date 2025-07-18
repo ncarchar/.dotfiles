@@ -39,7 +39,6 @@
   users.users.ncarchar = {
     isNormalUser = true;
     home = "/home/ncarchar";
-    description = "Carson Miller";
     extraGroups = [ "networkmanager" "wheel" "libvirtd" "docker" ];
   };
   users.defaultUserShell = pkgs.zsh;
@@ -141,9 +140,6 @@
   programs.git = {
     enable = true;
     config = {
-      init = {
-        defaultBranch = "main";
-      };
       core = {
         pager = "less -F -X";
       };
