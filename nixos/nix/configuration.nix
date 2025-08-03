@@ -54,6 +54,8 @@
     backend = "glx";
   };
 
+  services.libinput.mouse.tappingDragLock = false;
+
   /* xerver + i3 */
   services.xserver = {
     enable = true;
