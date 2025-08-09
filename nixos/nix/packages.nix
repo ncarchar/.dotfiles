@@ -7,7 +7,6 @@
     cmake
     coreutils
     curl
-    entr
     eza
     fzf
     gh
@@ -18,7 +17,6 @@
     hurl
     jdk
     jq
-    librewolf
     maven
     newsboat
     nodejs
@@ -38,13 +36,11 @@
 
   desktop = with pkgs; [
     alacritty
-    feh
-    file-roller
+    librewolf
     obsidian
     pavucontrol
     protonvpn-gui
     pulseaudio
-    scrot
     vlc
   ];
 }

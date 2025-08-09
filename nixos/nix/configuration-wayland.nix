@@ -2,10 +2,7 @@
 {
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  /* 64 MiB download buffer */
-  nix.settings.download-buffer-size = 67108864;
   system.stateVersion = stateVersion;
-  programs.nix-ld.enable = true;
   nix.gc = {
     automatic = true;
     dates = "weekly";
@@ -36,7 +33,7 @@
     home = "/home/ncarchar";
     extraGroups = [ "networkmanager" "wheel" "libvirtd" "docker" ];
   };
-  users.defaultUserShell = pkgs.zsh;
+
 
   /* gnome keyring */
   services.gnome.gnome-keyring.enable = true;
@@ -52,8 +49,8 @@
       grim
       i3blocks
       i3status
-      swaybg
       slurp
+      swaybg
       wl-clipboard
     ];
   };
@@ -95,18 +92,16 @@
     pulse.enable = true;
   };
 
-  /* programs */
-  programs.zsh = {
-    enable = true;
-    enableCompletion = true;
-    autosuggestions.enable = true;
-    autosuggestions.strategy = [ "match_prev_cmd" ];
-    syntaxHighlighting.enable = true;
-    ohMyZsh = {
-      enable = true;
-    };
+  /* run unpatched dynamic binaries */
+  programs.nix-ld.enable = true;
+
+  /* shell */
+  programs.bash = {
+    completion.enable = true;
+    blesh.enable = true;
   };
 
+  /* programs */
   programs.neovim = {
     enable = true;
     defaultEditor = true;
@@ -127,4 +122,5 @@
       };
     };
   };
+
 }

@@ -35,7 +35,11 @@ style = "Bold"
 
 [font.italic]
 family = "Berkeley Mono"
-style = "Italic"
+style = "Oblique"
+
+[font.bold_italic]
+family = "Berkeley Mono"
+style = "Bold Oblique"
 
 [window]
 opacity = 1.0

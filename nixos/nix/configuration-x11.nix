@@ -65,8 +65,10 @@
       enable = true;
       extraPackages = with pkgs; [
         dmenu
-        i3status
+        feh
         i3blocks
+        i3status
+        scrot
         xclip
       ];
     };
