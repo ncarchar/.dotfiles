@@ -2,6 +2,8 @@ set $mod Mod1
 
 font pango:Berkeley Mono 16
 
+seat seat0 xcursor_theme capitaine-cursors 36
+
 focus_follows_mouse no
 
 gaps inner 6

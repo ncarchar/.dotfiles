@@ -42,13 +42,12 @@
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.gdm.enableGnomeKeyring = true;
 
-  services.libinput.mouse.tappingDragLock = false;
-
   /* wayland + sway */
   programs.sway = {
     enable = true;
     extraPackages = with pkgs; [
       bemenu
+      capitaine-cursors
       gammastep
       grim
       i3blocks
