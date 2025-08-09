@@ -11,10 +11,10 @@ exec gammastep -l 40:-80 -b 1:0.9 -t 6500:5500
 exec swaybg -i /home/ncarchar/.config/feh/.death-valley.jpg -m fill
 
 # use pactl to adjust volume in PulseAudio.
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10%; exec pkill -SIGRTMIN+2 i3blocks
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10%; exec pkill -SIGRTMIN+2 i3blocks
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle; exec pkill -SIGRTMIN+2 i3blocks
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle; exec pkill -SIGRTMIN+2 i3blocks
+bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 10%+ --limit 1.0; exec pkill -RTMIN+2 i3blocks
+bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 10%-; exec pkill -RTMIN+2 i3blocks
+bindsym XF86AudioMute        exec wpctl set-mute   @DEFAULT_AUDIO_SINK@ toggle; exec pkill -RTMIN+2 i3blocks
+bindsym XF86AudioMicMute     exec wpctl set-mute   @DEFAULT_AUDIO_SOURCE@ toggle; exec pkill -RTMIN+2 i3blocks
 
 # bemenu
 bindsym $mod+d exec bemenu-run  --fn 'Berkeley Mono 16' --tb '#282C34' --tf '#61AFEF' --hb '#98C379' --hf '#282C34' --hp '8' --list 10 -W 0.2

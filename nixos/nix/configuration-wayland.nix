@@ -97,8 +97,6 @@
     pulse.enable = true;
   };
 
-  /* TODO display auto dimming */
-
   /* programs */
   programs.zsh = {
     enable = true;
