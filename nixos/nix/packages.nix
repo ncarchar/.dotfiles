@@ -32,7 +32,6 @@
     unzip
     util-linux
     wget
-    xclip
     zip
     zoxide
   ];

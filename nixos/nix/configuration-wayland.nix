@@ -51,11 +51,14 @@
       bemenu
       i3status
       i3blocks
+      gammastep
+      wl-clipboard
     ];
   };
 
   services.greetd = {
     enable = true;
+    vt = 2;
     settings = {
       default_session = {
         command = "${pkgs.greetd.tuigreet}/bin/tuigreet --cmd sway";
@@ -90,14 +93,7 @@
     pulse.enable = true;
   };
 
-  /* display auto dimming */
-  # services.gammastep = {
-  #   enable = true;
-  #   temperature.night = 5000;
-  #   temperature.day = 6500;
-  #   brightness.night = "0.9";
-  #   brightness.day = "1";
-  # };
+  /* TODO display auto dimming */
 
   /* programs */
   programs.zsh = {

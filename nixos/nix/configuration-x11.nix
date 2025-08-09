@@ -67,6 +67,7 @@
         dmenu
         i3status
         i3blocks
+        xclip
       ];
     };
   };
