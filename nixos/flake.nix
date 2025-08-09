@@ -18,7 +18,7 @@
         system = "x86_64-linux";
         modules = [
           ./nix/hardware-configuration.nix
-          ./nix/configuration.nix
+          ./nix/configuration-wayland.nix
           nix-index-database.nixosModules.nix-index
           ({ pkgs, ... }: {
             _module.args = {
