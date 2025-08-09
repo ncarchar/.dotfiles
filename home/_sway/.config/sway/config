@@ -2,20 +2,12 @@ set $mod Mod1
 
 font pango:Berkeley Mono 16
 
-exec --no-startup-id dex --autostart --environment i3
-exec feh --bg-center ~/.background-image
-
 focus_follows_mouse no
 
 gaps inner 6
 for_window [title="Picture-in-Picture"] floating enable, border none, sticky enable, resize set 680 px 390 px, move position 20 px 25 px
 
-# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
-# screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
-
-# start NetworkManager and set wallpaper
-exec gammastep -l -40:80 -b 1:0.9 -t 6500:5500
+exec gammastep -l 40:-80 -b 1:0.9 -t 6500:5500
 exec swaybg -i /home/ncarchar/.config/feh/.death-valley.jpg -m fill
 
 # use pactl to adjust volume in PulseAudio.
@@ -24,12 +16,11 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle; exec pkill -SIGRTMIN+2 i3blocks
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle; exec pkill -SIGRTMIN+2 i3blocks
 
-# dmenu
-# bindsym $mod+d exec dmenu_run -fn 'Berkeley Mono-18' -nb '#282C34' -nf '#61AFEF' -sb '#98C379' -sf '#282C34'
+# bemenu
 bindsym $mod+d exec bemenu-run  --fn 'Berkeley Mono 16' --tb '#282C34' --tf '#61AFEF' --hb '#98C379' --hf '#282C34' --hp '8' --list 10 -W 0.2
 
 # screen shot
-bindsym $mod+Shift+s exec scrot -s --freeze -q 100 /tmp/screenshot.png && xclip -selection clipboard -t image/png -i /tmp/screenshot.png && rm /tmp/screenshot.png
+bindsym $mod+Shift+s exec grim -g "$(slurp)" - | wl-copy
 
 # open shortcuts
 bindsym $mod+t exec alacritty

@@ -50,9 +50,11 @@
     extraPackages = with pkgs; [
       bemenu
       gammastep
+      grim
       i3blocks
       i3status
       swaybg
+      slurp
       wl-clipboard
     ];
   };
@@ -62,6 +64,7 @@
     vt = 2;
     settings = {
       default_session = {
+        user = "ncarchar";
         command = "${pkgs.greetd.tuigreet}/bin/tuigreet --cmd sway";
       };
     };
