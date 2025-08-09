@@ -41,7 +41,6 @@
     alacritty
     feh
     file-roller
-    networkmanagerapplet
     obsidian
     pavucontrol
     protonvpn-gui
