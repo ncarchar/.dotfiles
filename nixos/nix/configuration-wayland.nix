@@ -64,7 +64,6 @@
     vt = 2;
     settings = {
       default_session = {
-        user = "ncarchar";
         command = "${pkgs.greetd.tuigreet}/bin/tuigreet --cmd sway";
       };
     };
@@ -108,15 +107,19 @@
       enable = true;
     };
   };
+
   programs.neovim = {
     enable = true;
     defaultEditor = true;
   };
+
   programs.thunar = {
     enable = true;
     plugins = with pkgs.xfce; [ thunar-archive-plugin ];
   };
+
   programs.steam.enable = true;
+
   programs.git = {
     enable = true;
     config = {
