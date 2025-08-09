@@ -15,8 +15,8 @@ for_window [title="Picture-in-Picture"] floating enable, border none, sticky ena
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
 # start NetworkManager and set wallpaper
-exec --no-startup-id nm-applet --indicator
-exec --no-startup-id source feh --bg-fill /home/ncarchar/.config/feh/.death-valley.jpg
+exec gammastep -l -40:80 -b 1:0.9 -t 6500:5500
+exec swaybg -i /home/ncarchar/.config/feh/.death-valley.jpg -m fill
 
 # use pactl to adjust volume in PulseAudio.
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10%; exec pkill -SIGRTMIN+2 i3blocks

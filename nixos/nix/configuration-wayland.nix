@@ -49,9 +49,10 @@
     enable = true;
     extraPackages = with pkgs; [
       bemenu
-      i3status
-      i3blocks
       gammastep
+      i3blocks
+      i3status
+      swaybg
       wl-clipboard
     ];
   };
