@@ -2,7 +2,7 @@ set $mod Mod1
 
 font pango:Berkeley Mono 16
 
-seat seat0 xcursor_theme capitaine-cursors 36
+seat * xcursor_theme capitaine-cursors 32
 
 focus_follows_mouse no
 
@@ -19,7 +19,8 @@ bindsym XF86AudioMute        exec wpctl set-mute   @DEFAULT_AUDIO_SINK@ toggle; 
 bindsym XF86AudioMicMute     exec wpctl set-mute   @DEFAULT_AUDIO_SOURCE@ toggle; exec pkill -RTMIN+2 i3blocks
 
 # bemenu
-bindsym $mod+d exec compgen -c | awk 'length($0) >= 3 && $0 !~ /^_/ && $0 !~ /^systemd/' | sort -u | bemenu --fn 'Berkeley Mono 16' --tb '#282C34' --tf '#61AFEF' --hb '#98C379' --hf '#282C34' --hp '8' --counter 'always' --list 10 -W 0.2 | xargs -r hyprctl dispatch exec
+bindsym $mod+d exec bemenu-run  --fn 'Berkeley Mono 16' --tb '#282C34' --tf '#61AFEF' --hb '#98C379' --hf '#282C34' --hp '8' --list 10 -W 0.2 --counter 'always'
+# bindsym $mod+d exec compgen -c | awk 'length($0) >= 3 && $0 !~ /^_/ && $0 !~ /^systemd/' | sort -u | bemenu --fn 'Berkeley Mono 16' --tb '#282C34' --tf '#61AFEF' --hb '#98C379' --hf '#282C34' --hp '8' --counter 'always' --list 10 -W 0.2 | xargs -r hyprctl dispatch exec
 
 # screen shot
 bindsym $mod+Shift+s exec grim -g "$(slurp)" - | wl-copy
@@ -117,12 +118,10 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
-# i3bar
 bar {
         status_command i3blocks -c ~/.config/i3blocks/config
         position top
-        bindsym button4 nop
-        bindsym button5 nop
+        # tray_output none
         colors {
             focused_workspace  #282C34 #61AFEF #282C34
             active_workspace   #282C34 #282C34 #ABB2BF

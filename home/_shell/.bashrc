@@ -10,3 +10,7 @@ bind 'set show-all-if-ambiguous on'
 
 eval "$(starship init bash)"
 eval "$(zoxide init bash)"
+
+if [[ -z "$TMUX" ]]; then
+    tmux
+fi

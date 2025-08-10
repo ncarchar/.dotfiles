@@ -39,22 +39,26 @@
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.gdm.enableGnomeKeyring = true;
 
-  /* wayland + sway */
+  /* sway */
   programs.sway = {
     enable = true;
+    wrapperFeatures.gtk = true;
     extraPackages = with pkgs; [
       bemenu
       capitaine-cursors
       gammastep
       grim
       i3blocks
-      i3status
       slurp
       swaybg
       wl-clipboard
     ];
   };
 
+  services.dbus.enable = true;
+
+  xdg.portal.enable = true;
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
   services.greetd = {
     enable = true;
     vt = 2;
