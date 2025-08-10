@@ -121,7 +121,6 @@ bindsym $mod+r mode "resize"
 bar {
         status_command i3blocks -c ~/.config/i3blocks/config
         position top
-        # tray_output none
         colors {
             focused_workspace  #282C34 #61AFEF #282C34
             active_workspace   #282C34 #282C34 #ABB2BF
