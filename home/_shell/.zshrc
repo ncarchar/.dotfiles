@@ -6,16 +6,9 @@ HOSTNAME=$HOSTNAME
 
 IGNORE_FILES=()
 
-if [[ ! "$HOSTNAME" == COV* ]]; then
-    IGNORE_FILES=("_cov.zsh" "bleconf.sh")
-fi
-
-for file in ~/.shell/*; do
-    filename=$(basename "$file")
-    if [[ ! " ${IGNORE_FILES[@]} " =~ " ${filename} " ]]; then
-        source "$file"
-    fi
-done
+source ~/.shell/_cov.sh
+source ~/.shell/alias.sh
+source ~/.shell/fzf.sh
 
 bindkey "^[[H" beginning-of-line
 bindkey "^[[F" end-of-line
