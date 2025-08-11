@@ -7,7 +7,7 @@ HOSTNAME=$HOSTNAME
 IGNORE_FILES=()
 
 if [[ ! "$HOSTNAME" == COV* ]]; then
-    IGNORE_FILES=("_cov.zsh")
+    IGNORE_FILES=("_cov.zsh" "bleconf.sh")
 fi
 
 for file in ~/.shell/*; do
