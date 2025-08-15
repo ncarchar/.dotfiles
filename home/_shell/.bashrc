@@ -8,6 +8,9 @@ HISTTIMEFORMAT="%F %T "
 
 export PATH="$HOME/.scripts:$PATH"
 
+# Disable exit on Ctrl+d
+export IGNOREEOF=999
+
 source "$(dirname "$(dirname "$(realpath "$(which blesh-share)")")")/share/blesh/ble.sh"
 
 source ~/.shell/alias.sh
