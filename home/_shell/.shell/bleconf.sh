@@ -1,3 +1,5 @@
+source "$(dirname "$(dirname "$(realpath "$(which blesh-share)")")")/share/blesh/ble.sh"
+
 export COLORTERM=truecolor
 
 bleopt term_index_colors=auto
