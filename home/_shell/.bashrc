@@ -1,5 +1,11 @@
 #!/bin/sh
 
+shopt -s histappend
+
+HISTFILESIZE=10000
+HISTCONTROL=ignoredups:ignorespace
+HISTTIMEFORMAT="%F %T "
+
 export PATH="$HOME/.scripts:$PATH"
 
 source "$(dirname "$(dirname "$(realpath "$(which blesh-share)")")")/share/blesh/ble.sh"
