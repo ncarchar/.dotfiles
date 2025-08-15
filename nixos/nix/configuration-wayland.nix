@@ -95,12 +95,6 @@
   /* run unpatched dynamic binaries */
   programs.nix-ld.enable = true;
 
-  /* shell */
-  programs.bash = {
-    completion.enable = true;
-    blesh.enable = true;
-  };
-
   /* programs */
   programs.neovim = {
     enable = true;

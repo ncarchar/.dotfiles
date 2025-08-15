@@ -6,6 +6,11 @@ seat * xcursor_theme capitaine-cursors 32
 
 focus_follows_mouse no
 
+input * {
+    repeat_rate 30
+    repeat_delay 300
+}
+
 gaps inner 6
 for_window [title="Picture-in-Picture"] floating enable, border none, sticky enable, resize set 680 px 390 px, move position 20 px 25 px
 

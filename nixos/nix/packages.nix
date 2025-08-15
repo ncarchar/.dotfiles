@@ -20,7 +20,6 @@
     jdk
     jq
     maven
-    newsboat
     nodejs
     parallel
     pnpm
@@ -39,6 +38,7 @@
   desktop = with pkgs; [
     alacritty
     librewolf
+    newsboat
     obsidian
     pavucontrol
     protonvpn-gui
