@@ -1,6 +1,7 @@
 { pkgs, ... }: {
   dev = with pkgs; [
     awscli2
+    bash
     btop
     cargo
     clang
