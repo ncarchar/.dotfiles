@@ -14,6 +14,9 @@ darwin:
 	home-manager switch
 	@$(MAKE) _commit
 
+gc:
+	nix-collect-garbage -d
+
 stow:
 	find ~/.dotfiles/home -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | xargs -I {} stow -d ~/.dotfiles/home -t ~ -v -R {}
 

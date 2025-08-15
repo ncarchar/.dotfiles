@@ -1,6 +1,4 @@
-alias hist=". hist.sh"
 alias tms="tms.sh"
-alias bash="zsh.sh"
 alias started="started.sh"
 alias cp="cp -a"
 alias git-search="source ~/.scripts/git-search.sh"

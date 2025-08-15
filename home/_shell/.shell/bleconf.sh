@@ -1,6 +1,6 @@
 export COLORTERM=truecolor
 
-bleopt term_index_colors=16
+bleopt term_index_colors=auto
 bleopt term_true_colors=semicolon
 
 ble-face auto_complete='fg=grey'
