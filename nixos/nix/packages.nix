@@ -2,6 +2,7 @@
   dev = with pkgs; [
     awscli2
     bash
+    blesh
     btop
     cargo
     clang
