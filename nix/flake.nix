@@ -17,12 +17,13 @@
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./nix/hardware-configuration.nix
-          ./nix/configuration-wayland.nix
+          ./modules/hardware-configuration.nix
+          ./modules/configuration.nix
+          ./modules/vm.nix
           nix-index-database.nixosModules.nix-index
           ({ pkgs, ... }: {
             _module.args = {
-              packages = import ./nix/packages.nix { inherit pkgs; };
+              packages = import ./modules/packages.nix { inherit pkgs; };
               stateVersion = stateVersion;
             };
           })
@@ -32,8 +33,8 @@
         let
           username = "cvhew";
           homeDirectory = "/home/${username}";
-          packages = import ./nix/packages.nix { inherit pkgs; };
-          home = import ./nix/home.nix {
+          packages = import ./modules/packages.nix { inherit pkgs; };
+          home = import ./modules/home.nix {
             inherit pkgs packages homeDirectory stateVersion system username;
           };
         in

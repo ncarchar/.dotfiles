@@ -2,12 +2,12 @@ diff:
 	git --no-pager diff -U0
 
 main:
-	sudo nixos-rebuild switch --flake "path:./nixos#nixos"
+	sudo nixos-rebuild switch --flake "path:./nix#nixos"
 	nixos-rebuild list-generations | grep current
 	@$(MAKE) _commit
 
 cov:
-	home-manager switch --flake "./nixos#cvhew"
+	home-manager switch --flake "./nix#cvhew"
 	@$(MAKE) _commit
 
 darwin:
