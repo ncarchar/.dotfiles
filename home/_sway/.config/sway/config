@@ -27,7 +27,7 @@ bindsym XF86AudioMicMute     exec wpctl set-mute   @DEFAULT_AUDIO_SOURCE@ toggle
 bindsym $mod+d exec bemenu-run  --fn 'Berkeley Mono 16' --tb '#282C34' --tf '#61AFEF' --hb '#98C379' --hf '#282C34' --hp '8' --list 10 -W 0.2 --counter 'always'
 
 # screen shot
-bindsym $mod+Shift+s exec grim -g "$(slurp)" - | wl-copy
+bindsym $mod+Shift+c exec grim -g "$(slurp)" - | wl-copy
 
 # open shortcuts
 bindsym $mod+t exec alacritty

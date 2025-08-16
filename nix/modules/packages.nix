@@ -37,6 +37,7 @@
 
   desktop = with pkgs; [
     alacritty
+    discord
     librewolf
     newsboat
     obsidian
