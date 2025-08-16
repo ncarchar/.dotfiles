@@ -34,7 +34,6 @@
     extraGroups = [ "networkmanager" "wheel" "libvirtd" "docker" ];
   };
 
-
   /* gnome keyring */
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.gdm.enableGnomeKeyring = true;
