@@ -24,6 +24,6 @@ if [[ $HOSTNAME == COV* ]]; then
     export BROWSER="/mnt/c/Program Files/Mozilla Firefox/firefox.exe"
 fi
 
-if [[ -z "$TMUX" ]]; then
-    tmux
+if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [ -z "$TMUX" ]; then
+  exec tmux
 fi
