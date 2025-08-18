@@ -14,7 +14,7 @@ HISTTIMEFORMAT="%F %T "
 export PATH="$HOME/.scripts:$PATH"
 
 source ~/.shell/alias.sh
-source ~/.shell/fzf.sh
+source ~/.shell/fzfconf.sh
 source ~/.shell/bleconf.sh
 
 eval "$(starship init bash)"
