@@ -9,8 +9,6 @@
 
   home.packages = packages.dev;
 
-  home.sessionVariables = { EDITOR = "nvim"; };
-
   programs.neovim.enable = true;
   programs.starship = {
     enable = true;
