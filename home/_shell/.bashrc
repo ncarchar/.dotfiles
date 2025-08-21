@@ -26,6 +26,7 @@ eval "$(zoxide init bash --no-cmd)"
 alias z="__zoxide_z"
 
 if [[ $HOSTNAME == COV* ]]; then
+    alias vault="cd /mnt/c/Vaults && nvim ."
     export BROWSER="/mnt/c/Program Files/Mozilla Firefox/firefox.exe"
     export JAVA_TOOL_OPTIONS="-Djavax.net.ssl.trustStore=$HOME/.certs-java/ca-trust.p12 -Djavax.net.ssl.trustStorePassword=changeit"
 fi

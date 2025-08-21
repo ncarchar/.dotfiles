@@ -3,7 +3,6 @@ alias started="started.sh"
 alias cp="cp -a"
 alias git-search="source ~/.scripts/git-search.sh"
 alias nvim-min="nvim -u ~/.config/nvim/init-min.lua"
-alias todo="(cd ~/.todo/ && nvim TODO.md)"
 alias npm="pnpm"
 
 if command -v exa >/dev/null 2>&1; then
