@@ -31,7 +31,7 @@
   users.users.ncarchar = {
     isNormalUser = true;
     home = "/home/ncarchar";
-    extraGroups = [ "networkmanager" "wheel" "libvirtd" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" "libvirtd" "docker" "fuse" ];
   };
 
   /* gnome keyring */
