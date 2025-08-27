@@ -32,6 +32,6 @@ if [[ $HOSTNAME == COV* ]]; then
 fi
 
 # always spawn tmux
-if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [ -z "$TMUX" ]; then
-  exec tmux
-fi
+# if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [ -z "$TMUX" ]; then
+#   exec tmux
+# fi

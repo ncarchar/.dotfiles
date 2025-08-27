@@ -15,7 +15,7 @@ gaps inner 6
 for_window [title="Picture-in-Picture"] floating enable, border none, sticky enable, resize set 680 px 390 px, move position 20 px 25 px
 
 exec gammastep -l 40:-80 -b 1:0.85 -t 6500:5500
-exec swaybg -i /home/ncarchar/.config/feh/.death-valley.jpg -m fill
+exec swaybg -i /home/ncarchar/.config/feh/.leaves.jpg -m fill
 
 # use pactl to adjust volume in PulseAudio.
 bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 10%+ --limit 1.0; exec pkill -RTMIN+2 i3blocks
