@@ -19,7 +19,7 @@
         modules = [
           ./modules/hardware-configuration.nix
           ./modules/configuration.nix
-          ./modules/vm.nix
+          ./modules/virtual-box.nix
           nix-index-database.nixosModules.nix-index
           ({ pkgs, ... }: {
             _module.args = {

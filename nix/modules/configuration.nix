@@ -33,6 +33,7 @@
     home = "/home/ncarchar";
     extraGroups = [ "networkmanager" "wheel" "libvirtd" "docker" "fuse" "vboxusers" ];
   };
+  users.extraGroups.vboxusers.members = [ "ncarchar" ];
 
   /* gnome keyring */
   services.gnome.gnome-keyring.enable = true;
