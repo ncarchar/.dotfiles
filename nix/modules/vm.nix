@@ -3,6 +3,7 @@
   programs.dconf.enable = true;
 
   environment.systemPackages = with pkgs; [
+    virtualbox
     virt-manager
     virt-viewer
     spice
@@ -11,8 +12,8 @@
     win-virtio
     win-spice
   ];
-
   virtualisation = {
+    virtualbox.host.enable = true;
     libvirtd = {
       enable = true;
       qemu = {
