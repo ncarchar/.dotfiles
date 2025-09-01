@@ -26,6 +26,7 @@
     python3
     ripgrep
     starship
+    sshfs
     stow
     tmux
     unzip
