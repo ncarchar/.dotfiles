@@ -42,6 +42,7 @@
     librewolf
     newsboat
     obsidian
+    openconnect
     pavucontrol
     protonvpn-gui
     pulseaudio

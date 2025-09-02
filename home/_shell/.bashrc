@@ -17,6 +17,9 @@ HISTFILESIZE=10000
 HISTCONTROL=ignoredups:ignorespace
 HISTTIMEFORMAT="%F %T "
 
+# Scale QT Apps (VLC)
+export QT_SCALE_FACTOR=1.5
+
 # prompt
 eval "$(starship init bash)"
 
