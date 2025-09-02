@@ -1,5 +1,7 @@
 set $mod Mod1
 
+output DP-1 scale 1
+
 font pango:Berkeley Mono 16
 
 seat * xcursor_theme capitaine-cursors 32

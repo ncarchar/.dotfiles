@@ -20,6 +20,7 @@
     jdk
     jq
     maven
+    marksman
     nodejs
     parallel
     pnpm

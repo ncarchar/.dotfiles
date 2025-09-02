@@ -28,6 +28,9 @@ return {
 					},
 				},
 				ts_ls = require("lsp.ts_ls"),
+				marksman = {
+					cmd = { "marksman", "server" },
+				},
 			}
 
 			vim.api.nvim_create_autocmd("LspAttach", {
@@ -139,21 +142,18 @@ return {
 				capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 			end
 
-			-- Ensure the servers above are installed
-			local ensure_installed = vim.tbl_keys(servers or {})
-			vim.list_extend(ensure_installed, {
+			local ensure_installed = {
 				"angularls",
 				"bashls",
 				"cssls",
 				"jdtls",
 				"jsonls",
 				"lua_ls",
-				"marksman",
 				"nil_ls",
 				"ts_ls",
 				"prettier",
 				"stylua",
-			})
+			}
 
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 			require("mason-lspconfig").setup({

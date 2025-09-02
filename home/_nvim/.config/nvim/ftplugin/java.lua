@@ -130,3 +130,13 @@ require("jdtls").start_or_attach({
 	on_attach = on_attach,
 	settings = settings,
 })
+
+vim.api.nvim_create_user_command("JdtlsClean", function()
+	local workspace_root = vim.fn.stdpath("data") .. "/site/java/workspace-root/"
+	if vim.fn.isdirectory(workspace_root) == 1 then
+		os.execute("rm -rf " .. workspace_root .. "*")
+		print("All JDT LS workspaces removed from " .. workspace_root)
+	else
+		print("Workspace root not found.")
+	end
+end, {})
