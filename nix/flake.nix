@@ -42,5 +42,22 @@
           inherit pkgs;
           modules = [ home ];
         };
+      homeConfigurations."mac" =
+        let
+          systemDarwin = "aarch64-darwin";
+          pkgsDarwin = import nixpkgs { system = systemDarwin; };
+          username = "carsonmiller";
+          homeDirectory = "/Users/${username}";
+          packages = import ./modules/packages.nix { pkgs = pkgsDarwin; };
+          home = import ./modules/home.nix {
+            pkgs = pkgsDarwin;
+            inherit packages homeDirectory stateVersion username;
+            system = systemDarwin;
+          };
+        in
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = pkgsDarwin;
+          modules = [ home ];
+        };
     };
 }

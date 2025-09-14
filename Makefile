@@ -10,8 +10,8 @@ cov:
 	home-manager switch --flake "./nix#cvhew"
 	@$(MAKE) _commit
 
-darwin:
-	home-manager switch
+mac:
+	home-manager switch --flake "./nix#mac"
 	@$(MAKE) _commit
 
 gc:
