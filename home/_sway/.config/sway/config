@@ -32,7 +32,7 @@ bindsym $mod+d exec bemenu-run  --fn 'Berkeley Mono 16' --tb '#282C34' --tf '#61
 bindsym $mod+Shift+s exec grim -g "$(slurp)" - | wl-copy
 
 # open shortcuts
-bindsym $mod+t exec alacritty
+bindsym $mod+t exec alacritty -e bash -lc "tmux"
 bindsym $mod+b exec librewolf
 bindsym $mod+Shift+p exec librewolf --private-window
 bindsym $mod+f exec GTK_THEME=Adwaita:dark thunar
