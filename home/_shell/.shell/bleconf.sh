@@ -1,7 +1,8 @@
-if source "$(dirname "$(dirname "$(realpath "$(which blesh-share)")")")/share/blesh/ble.sh"; then
+if [[ $- == *i* ]] && source "$(dirname "$(dirname "$(realpath "$(which blesh-share)")")")/share/blesh/ble.sh"; then
     export COLORTERM=truecolor
     bleopt term_index_colors=auto
     bleopt term_true_colors=semicolon
+    bleopt complete_auto_delay=200
 
     ble-face auto_complete='fg=grey'
 
