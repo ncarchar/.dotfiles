@@ -1,38 +1,32 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-today_start=$(date -d "00:00:00" +%s)
-today_end=$(date -d "23:59:59" +%s)
-histfile="$HOME/.bash_history"
-min_ts=""
-min_cmd=""
+HISTFILE="${HISTFILE:-$HOME/.bash_history}"
+
+history -a
+
+start=$(date -d "today 00:00" +%s)
+# end=$(date -d "tomorrow 00:00" +%s)
+
+first_ts=""
 
 while IFS= read -r line; do
-    case "$line" in
-    \#*)
-        ts="${line#\#}"
-
-        if ! [[ "$ts" =~ ^[0-9]+$ ]]; then
-            continue
+    if [[ $line == \#* ]]; then
+        ts=${line#\#}
+        [[ $ts =~ ^[0-9]+$ ]] || continue
+        if ((ts < start)); then
+            break
         fi
+        first_ts=$ts
+    fi
+done < <(tac "$HISTFILE")
 
-        if [ "$ts" -ge "$today_start" ] && [ "$ts" -le "$today_end" ]; then
-            if [ -z "$min_ts" ] || [ "$ts" -lt "$min_ts" ]; then
-                min_ts=$ts
-                min_cmd="${line#*;}"
-            fi
-        fi
-        ;;
-    esac
-done <"$histfile"
-
-if [ -n "$min_ts" ]; then
+if [[ -n ${first_ts} ]]; then
     now=$(date +%s)
-    ELAPSED=$((now - min_ts))
-
-    HOURS=$((ELAPSED / 3600))
-    MINUTES=$(((ELAPSED % 3600) / 60))
-
-    echo "$(date -d "@$min_ts") ($HOURS hours, $MINUTES minutes)"
+    elapsed=$((now - first_ts))
+    hours=$((elapsed / 3600))
+    mins=$(((elapsed % 3600) / 60))
+    echo "$(date -d "@$first_ts") (${hours} hours, ${mins} minutes)"
 else
     echo "No data found for today."
 fi
