@@ -4,9 +4,9 @@ set -euo pipefail
 HISTFILE="${HISTFILE:-$HOME/.bash_history}"
 
 history -a
+history -n
 
 start=$(date -d "today 00:00" +%s)
-# end=$(date -d "tomorrow 00:00" +%s)
 
 first_ts=""
 
