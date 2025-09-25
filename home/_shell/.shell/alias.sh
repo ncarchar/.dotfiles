@@ -1,5 +1,5 @@
 alias tms="tms.sh"
-alias started="started.sh"
+alias started="source started.sh"
 alias cp="cp -a"
 alias git-search="source ~/.scripts/git-search.sh"
 alias nvim-min="nvim -u ~/.config/nvim/init-min.lua"
