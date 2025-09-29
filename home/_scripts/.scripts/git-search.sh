@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 CODE_DIR="${CODE_DIR:-$HOME/code}"
 

@@ -9,6 +9,7 @@
     cmake
     coreutils
     curl
+    lazydocker
     eza
     fzf
     gh
