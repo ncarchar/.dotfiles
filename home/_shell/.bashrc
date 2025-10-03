@@ -33,4 +33,14 @@ if [[ $HOSTNAME == COV* ]]; then
     alias todo="(cd ~/todo/ && nvim todo.md)"
     export BROWSER="/mnt/c/Users/CVHEW/AppData/Local/Mozilla Firefox/firefox.exe"
     export JAVA_TOOL_OPTIONS="-Djavax.net.ssl.trustStore=$HOME/.certs-java/ca-trust.p12 -Djavax.net.ssl.trustStorePassword=changeit"
+else
+    gtvpn() {
+        sudo -v || return 1
+        read -s -p "cmiller427 password: " pw
+        echo
+        printf '%s\n%s\n%s\n' "$pw" "push1" "DC Gateway" | sudo openconnect \
+            --protocol=gp vpn.gatech.edu \
+            -u cmiller427 \
+            --passwd-on-stdin
+    }
 fi
