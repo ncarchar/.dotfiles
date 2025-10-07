@@ -20,7 +20,7 @@ return {
 			local function format_buffer()
 				local filetype = vim.bo.filetype
 				local use_lsp = { java = true, xml = true, sh = true }
-				local remap_filetype = { ["htmlangular"] = "html", ["cuda"] = "cpp" }
+				local remap_filetype = { ["htmlangular"] = "html", ["xml"] = "html", ["cuda"] = "cpp" }
 
 				filetype = remap_filetype[filetype] or filetype
 
