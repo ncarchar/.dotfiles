@@ -78,7 +78,7 @@ if root_dir == "" then
 end
 
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
-local workspace_dir = vim.fn.stdpath("data") .. "/site/java/workspace-root/" .. project_name .. "/"
+local workspace_dir = vim.fn.stdpath("data") .. "/jdtls-workspace/" .. project_name .. "/"
 if not vim.fn.isdirectory(workspace_dir) then
 	os.execute("mkdir " .. workspace_dir)
 end
