@@ -26,7 +26,7 @@ if [[ -n ${first_ts} ]]; then
     elapsed=$((now - first_ts))
     hours=$((elapsed / 3600))
     mins=$(((elapsed % 3600) / 60))
-    echo "$(date -d "@$first_ts") (${hours} hours, ${mins} minutes)"
+    echo "$(date -d "@$first_ts") (${hours} hours, ${mins} minutes) ($first_ts)"
 else
     echo "No data found for today."
 fi

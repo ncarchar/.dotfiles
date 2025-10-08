@@ -13,7 +13,7 @@ export IGNOREEOF=999
 
 # hist
 shopt -s histappend
-HISTFILESIZE=10000
+HISTFILESIZE=5000
 HISTCONTROL=ignorespace
 HISTTIMEFORMAT="%F %T "
 
