@@ -7,9 +7,10 @@ alias _npm="$(command -v npm)"
 alias npm="pnpm"
 
 if command -v exa >/dev/null 2>&1; then
-    alias ls="exa --all --group-directories-first -F"
-    alias ll="exa -l --all -g --git --no-user --classify --group-directories-first"
-    alias lt="exa --level=1 --icons --tree --git --git-ignore --no-user --no-permissions --group-directories-first -a"
-    alias llt="exa --level=2 --icons --tree --git --git-ignore --no-user --no-permissions --group-directories-first -a"
-    alias lft="exa --icons --tree --git --git-ignore --no-user --no-permissions --group-directories-first -a --color=always"
+    alias ls="eza --all --group-directories-first -F --icons=always --width 80"
+    alias ll="eza --all --group-directories-first -F --git -l"
+    alias lldu="eza --all --group-directories-first -F --git -l --total-size"
+    alias lt="eza --level=1 --icons --tree --git --git-ignore --no-user --no-permissions --group-directories-first -a"
+    alias llt="eza --level=2 --icons --tree --git --git-ignore --no-user --no-permissions --group-directories-first -a"
+    alias lft="eza --icons --tree --git --git-ignore --no-user --no-permissions --group-directories-first -a"
 fi
