@@ -46,7 +46,6 @@ return {
 					local opts = { only_existing = true, only_existing_notify = true }
 
 					local function ensure_path(path, p)
-						print("p->" .. p.path .. "path->" .. path)
 						local dir = vim.fn.fnamemodify(path, ":h")
 						if vim.fn.isdirectory(dir) == 0 then
 							vim.fn.mkdir(dir, "p")
