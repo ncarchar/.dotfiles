@@ -1,36 +1,85 @@
-local function find(file_regex, opts)
-	return function()
-		require("nvim-quick-switcher").find(file_regex, opts)
-	end
-end
-
 return {
 	{
 		"Everduin94/nvim-quick-switcher",
 		config = function()
-			-- Angular Components
-			vim.keymap.set(
-				"n",
-				"<leader>at",
-				find("\\.ts|\\.js", { regex = true, prefix = "full" }),
-				{ desc = "Component [T]S" }
-			)
-			vim.keymap.set(
-				"n",
-				"<leader>as",
-				find(".+css|.+scss|.+sass", { regex = true, prefix = "full" }),
-				{ desc = "[A]ngular Component [S]CSS" }
-			)
-			vim.keymap.set("n", "<leader>ah", find(".+html", { regex = true, prefix = "full" }), { desc = "Component [H]TML" })
-			vim.keymap.set("n", "<leader>ak", find(".component.spec.ts"), { desc = "[A]ngular Component [K]arma" })
+			local function find(file_regex, opts)
+				return function()
+					require("nvim-quick-switcher").find(file_regex, opts)
+				end
+			end
 
-			-- Redux/NgRx
-			vim.keymap.set("n", "<leader>ra", find(".actions.ts"), { desc = "[R]edux [A]ctions" })
-			vim.keymap.set("n", "<leader>re", find(".effects.ts"), { desc = "[R]edux [E]ffects" })
-			vim.keymap.set("n", "<leader>rf", find(".facade.ts"), { desc = "[R]edux [F]acade" })
-			vim.keymap.set("n", "<leader>rw", find(".store.ts"), { desc = "[R]edux [S]tore" })
-			vim.keymap.set("n", "<leader>rr", find(".reducer.ts"), { desc = "[R]edux [R]educer" })
-			vim.keymap.set("n", "<leader>rs", find(".selectors.ts"), { desc = "[R]edux [S]electors" })
+			local function find_by_fn(fn, opts)
+				return function()
+					require("nvim-quick-switcher").find_by_fn(fn, opts)
+				end
+			end
+
+			local function map(buf, lhs, rhs, desc)
+				vim.keymap.set("n", lhs, rhs, { buffer = buf, desc = desc })
+			end
+
+			-- Angular
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = { "typescript", "htmlangular", "css", "scss" },
+				callback = function(args)
+					map(
+						args.buf,
+						"<leader>at",
+						find("\\.ts|\\.js", { regex = true, prefix = "full" }),
+						"Component [T]S"
+					)
+					map(
+						args.buf,
+						"<leader>as",
+						find(".+css|.+scss", { regex = true, prefix = "full" }),
+						"[A]ngular Component [S]CSS"
+					)
+					map(args.buf, "<leader>ah", find(".+html", { regex = true, prefix = "full" }), "Component [H]TML")
+					map(args.buf, "<leader>au", find(".component.spec.ts"), "Tests")
+				end,
+			})
+
+			-- Java
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = { "java" },
+				callback = function(args)
+					local opts = { only_existing = true, only_existing_notify = true }
+
+					local function ensure_path(path, p)
+						print("p->" .. p.path .. "path->" .. path)
+						local dir = vim.fn.fnamemodify(path, ":h")
+						if vim.fn.isdirectory(dir) == 0 then
+							vim.fn.mkdir(dir, "p")
+						end
+						if vim.fn.filereadable(path) == 0 then
+							if
+								vim.fn.confirm("File does not exist at " .. path .. "\nCreate it?", "&Yes\n&No", 1) == 1
+							then
+								local fd = io.open(path, "w")
+								if fd then
+									fd:close()
+								end
+							end
+						end
+					end
+
+					local to_test = function(p)
+						local base = p.path:gsub("/src/main/java/", "/src/test/java/", 1)
+						local target = base .. "/" .. p.prefix .. "Test.java"
+						ensure_path(target, p)
+						return target
+					end
+
+					local to_main = function(p)
+						local base = p.path:gsub("/src/test/java/", "/src/main/java/", 1)
+						local target = base .. "/" .. p.prefix:gsub("Test$", "") .. ".java"
+						return target
+					end
+
+					map(args.buf, "<leader>at", find_by_fn(to_main, opts), "Main")
+					map(args.buf, "<leader>au", find_by_fn(to_test, opts), "Tests")
+				end,
+			})
 		end,
 	},
 }
