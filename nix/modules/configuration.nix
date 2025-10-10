@@ -110,7 +110,13 @@
     };
   };
 
-  services.printing.enable = true;
-  services.avahi.enable = true;
-  services.avahi.nssmdns4 = true;
+  services.printing = {
+    enable = true;
+    drivers = [ pkgs.brlaser ];
+  };
+  services.avahi = {
+    enable = true;
+    nssmdns = true;
+    openFirewall = true;
+  };
 }
