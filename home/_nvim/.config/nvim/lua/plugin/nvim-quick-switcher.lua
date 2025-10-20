@@ -20,7 +20,7 @@ return {
 
 			-- Angular
 			vim.api.nvim_create_autocmd("FileType", {
-				pattern = { "typescript", "htmlangular", "css", "scss" },
+				pattern = { "typescript", "htmlangular", "html", "css", "scss" },
 				callback = function(args)
 					map(
 						args.buf,
