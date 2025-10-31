@@ -119,12 +119,4 @@
     nssmdns = true;
     openFirewall = true;
   };
-
-  hardware.graphics = {
-    enable = true;
-    extraPackages = with pkgs; [
-      rocmPackages.clr
-      rocmPackages.clr.icd
-    ];
-  };
 }
