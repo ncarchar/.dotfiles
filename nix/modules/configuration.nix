@@ -119,4 +119,16 @@
     nssmdns = true;
     openFirewall = true;
   };
+
+  hardware.amdgpu.opencl.enable = true;
+  boot.initrd.kernelModules = [ "amdgpu" ];
+
+  hardware.opengl = {
+    enable = true;
+    driSupport32Bit = true;
+    extraPackages = with pkgs; [
+      rocmPackages.clr
+      rocmPackages.clr.icd
+    ];
+  };
 }
