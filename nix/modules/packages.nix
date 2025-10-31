@@ -11,6 +11,7 @@
     curl
     lazydocker
     eza
+    file
     fzf
     gh
     git
