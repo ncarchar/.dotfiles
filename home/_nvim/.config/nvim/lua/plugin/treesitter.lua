@@ -24,9 +24,8 @@ return {
 					"json",
 					"lua",
 					"markdown",
-					"tmux",
 					"typescript",
-					"jsdoc"
+					"jsdoc",
 				},
 				sync_install = true,
 				modules = {},

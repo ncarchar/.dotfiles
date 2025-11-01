@@ -111,12 +111,6 @@ return {
 			)
 			vim.keymap.set(
 				"n",
-				"<C-f>",
-				telescope_and_center(require("telescope.builtin").current_buffer_fuzzy_find),
-				{ desc = "[S]earch [B]uffer" }
-			)
-			vim.keymap.set(
-				"n",
 				"<leader>sf",
 				telescope_and_center(require("telescope.builtin").find_files),
 				{ desc = "[S]earch [F]iles" }
@@ -126,12 +120,6 @@ return {
 				"<leader>sh",
 				telescope_and_center(require("telescope.builtin").help_tags),
 				{ desc = "[S]earch [H]elp" }
-			)
-			vim.keymap.set(
-				"n",
-				"<leader>sw",
-				telescope_and_center(require("telescope.builtin").grep_string),
-				{ desc = "[S]earch Current [W]ord" }
 			)
 			vim.keymap.set(
 				"n",
@@ -150,12 +138,6 @@ return {
 				"<leader>sk",
 				telescope_and_center(require("telescope.builtin").keymaps),
 				{ desc = "[S]earch [K]eymap" }
-			)
-			vim.keymap.set(
-				"n",
-				"<leader>gf",
-				telescope_and_center(require("telescope.builtin").git_files),
-				{ desc = "Search [G]it [F]iles" }
 			)
 			vim.keymap.set(
 				"n",

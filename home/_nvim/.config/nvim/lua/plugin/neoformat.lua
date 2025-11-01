@@ -32,12 +32,6 @@ return {
 			end
 
 			vim.keymap.set("n", "<leader>fl", format_buffer, { noremap = true, desc = "Format buffer" })
-			vim.keymap.set(
-				"v",
-				"<leader>fh",
-				":'<,'>!prettier --stdin-filepath % --parser html<CR>",
-				{ noremap = true, desc = "[F]ormat [H]TML" }
-			)
 		end,
 	},
 }
