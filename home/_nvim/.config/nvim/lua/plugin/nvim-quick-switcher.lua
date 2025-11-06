@@ -25,7 +25,7 @@ return {
 					map(
 						args.buf,
 						"<leader>at",
-						find("\\.ts|\\.js", { regex = true, prefix = "full" }),
+						find(".component.ts"),
 						"Component [T]S"
 					)
 					map(

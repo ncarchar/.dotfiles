@@ -9,7 +9,6 @@
     cmake
     coreutils
     curl
-    lazydocker
     eza
     file
     fzf
@@ -21,15 +20,16 @@
     hurl
     jdk
     jq
-    maven
+    lazydocker
     marksman
+    maven
     nodejs
     parallel
     pnpm
     python3
     ripgrep
-    starship
     sshfs
+    starship
     stow
     tmux
     unzip
@@ -42,7 +42,6 @@
   desktop = with pkgs; [
     alacritty
     librewolf
-    newsboat
     obsidian
     openconnect
     pavucontrol
