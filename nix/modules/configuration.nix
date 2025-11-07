@@ -105,8 +105,14 @@
   programs.git = {
     enable = true;
     config = {
+      init = {
+        defaultBranch = "main";
+      };
       core = {
         pager = "less -F -X";
+      };
+      push = {
+        autoSetupRemote = true;
       };
     };
   };
