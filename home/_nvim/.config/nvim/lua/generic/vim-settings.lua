@@ -41,3 +41,5 @@ vim.o.clipboard = "unnamedplus"
 
 -- Key Mappings
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
+
+vim.cmd([[ let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro rnu' ]])

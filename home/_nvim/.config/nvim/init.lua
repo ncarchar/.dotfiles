@@ -22,11 +22,9 @@ require("lazy").setup({
 	require("plugin.nvim-quick-switcher"),
 	require("plugin.telescope"),
 	require("plugin.theme"),
-	require("plugin.toggleterm"),
 	require("plugin.treesitter"),
 	require("plugin.undotree"),
 	require("plugin.vim-qf"),
-	require("plugin.vim-simple-todo"),
 	{ "tpope/vim-fugitive" },
 	{ "tpope/vim-rhubarb" },
 	{ "tpope/vim-vinegar" },
@@ -46,11 +44,11 @@ require("lazy").setup({
 		lazy = true,
 		event = "BufEnter",
 	},
+	{ "stevearc/oil.nvim", opts = { columns = {}, skip_confirm_for_simple_edits = true } },
 }, {})
 
 -- Generics
 require("generic.globals")
 require("generic.key-bindings")
-require("generic.netrw")
 require("generic.powershell-clipboard")
 require("generic.vim-settings")

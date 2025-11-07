@@ -9,7 +9,18 @@ return {
 		config = function()
 			local function disable(_, bufnr)
 				local line_count = vim.api.nvim_buf_line_count(bufnr)
-				return line_count > 20000
+				if line_count > 50000 then
+					return true
+				end
+
+				local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+				for _, line in ipairs(lines) do
+					if #line > 2500 then
+						return true
+					end
+				end
+
+				return false
 			end
 
 			require("nvim-treesitter.configs").setup({

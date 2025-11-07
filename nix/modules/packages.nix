@@ -19,6 +19,7 @@
     gnumake
     hurl
     jdk
+    just
     jq
     lazydocker
     marksman
