@@ -13,13 +13,6 @@ return {
 					return true
 				end
 
-				local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
-				for _, line in ipairs(lines) do
-					if #line > 2500 then
-						return true
-					end
-				end
-
 				return false
 			end
 

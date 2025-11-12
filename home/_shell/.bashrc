@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Only run for interactive shells
+[[ $- == *i* ]] || return
+
 export PATH="$HOME/.scripts:$PATH"
 
 source ~/.shell/alias.sh
@@ -28,9 +31,12 @@ export _ZO_ECHO=1
 eval "$(zoxide init bash --no-cmd)"
 alias z="__zoxide_z"
 
+function todo() {
+    cd ~/todo || return
+    nvim todo.md
+}
+
 if [[ $HOSTNAME == COV* ]]; then
-    alias vault="(cd /mnt/c/Vaults/main/ && nvim .)"
-    alias todo="(cd ~/todo/ && nvim todo.md)"
     export BROWSER="/mnt/c/Users/CVHEW/AppData/Local/Mozilla Firefox/firefox.exe"
     export JAVA_TOOL_OPTIONS="-Djavax.net.ssl.trustStore=$HOME/.certs-java/ca-trust.p12 -Djavax.net.ssl.trustStorePassword=changeit"
 else
