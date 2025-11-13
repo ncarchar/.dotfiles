@@ -15,4 +15,5 @@
   };
 
   programs.home-manager.enable = true;
+  home.shell.enableBashIntegration = true;
 }
