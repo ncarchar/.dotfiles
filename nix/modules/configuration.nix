@@ -31,7 +31,7 @@
   users.users.ncarchar = {
     isNormalUser = true;
     home = "/home/ncarchar";
-    extraGroups = [ "networkmanager" "wheel" "libvirtd" "docker" "fuse" "vboxusers" ];
+    extraGroups = [ "networkmanager" "wheel" "libvirtd" "docker" "fuse" "vboxusers" "disk" ];
   };
   users.extraGroups.vboxusers.members = [ "ncarchar" ];
 
