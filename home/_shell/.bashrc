@@ -21,8 +21,9 @@ HISTCONTROL=ignorespace
 HISTTIMEFORMAT="%F %T "
 
 # Scale QT & GDK Apps
-export QT_SCALE_FACTOR=1.5
-export GDK_SCALE=1.5
+export QT_SCALE_FACTOR=1.4
+export GDK_SCALE=1.0 
+export GDK_DPI_SCALE=1.4
 
 # prompt
 eval "$(starship init bash)"
