@@ -25,6 +25,7 @@
     marksman
     maven
     nodejs
+    osc
     parallel
     pnpm
     python3
