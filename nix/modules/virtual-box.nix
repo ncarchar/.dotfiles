@@ -9,6 +9,7 @@
       host = {
         enable = true;
         enableExtensionPack = true;
+        addNetworkInterface = false;
       };
     };
   };
