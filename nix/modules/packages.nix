@@ -46,7 +46,6 @@
     obsidian
     openconnect
     pavucontrol
-    protonvpn-gui
     pulseaudio
     vlc
   ];
