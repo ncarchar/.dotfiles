@@ -12,6 +12,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.configurationLimit = 5;
+  systemd.network.wait-online.enable = false;
 
   /* network manager */
   networking.hostName = "nixos";
@@ -26,6 +27,7 @@
 
   /* docker */
   virtualisation.docker.enable = true;
+  virtualisation.docker.enableOnBoot = false;
 
   /* user */
   users.users.ncarchar = {
