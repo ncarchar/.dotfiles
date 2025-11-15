@@ -20,8 +20,9 @@ HISTFILESIZE=5000
 HISTCONTROL=ignorespace
 HISTTIMEFORMAT="%F %T "
 
-# Scale QT Apps (VLC)
+# Scale QT & GDK Apps
 export QT_SCALE_FACTOR=1.5
+export GDK_SCALE=1.5
 
 # prompt
 eval "$(starship init bash)"
