@@ -135,7 +135,10 @@ bar {
         }
 }
 
-client.focused          #52565C #52565C #61AFEF
+client.focused          #ABB2BF #ABB2BF #61AFEF
 client.unfocused        #282C34 #282C34 #ABB2BF
 client.focused_inactive #282C34 #282C34 #ABB2BF
 client.urgent           #282C34 #282C34 #ABB2BF
+
+default_border pixel 2
+default_floating_border pixel 2
