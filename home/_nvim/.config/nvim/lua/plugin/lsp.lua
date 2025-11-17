@@ -78,21 +78,9 @@ return {
 						print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 					end, "[W]orkspace [L]ist Folders")
 
-					local function client_supports_method(_client, method, bufnr)
-						if vim.fn.has("nvim-0.11") == 1 then
-							return _client:supports_method(method, bufnr)
-						else
-							return _client.supports_method(method, { bufnr = bufnr })
-						end
-					end
-
 					if
 						client
-						and client_supports_method(
-							client,
-							vim.lsp.protocol.Methods.textDocument_documentHighlight,
-							event.buf
-						)
+						and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf)
 					then
 						local highlight_augroup = vim.api.nvim_create_augroup("n-lsp-highlight", { clear = false })
 						vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
@@ -167,7 +155,8 @@ return {
 						print("setup: " .. server_name)
 						local server = servers[server_name] or {}
 						server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-						require("lspconfig")[server_name].setup(server)
+						vim.lsp.config(server_name, server)
+						-- require("lspconfig")[server_name].setup(server)
 					end,
 				},
 			})
