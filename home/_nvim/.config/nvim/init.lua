@@ -25,6 +25,7 @@ require("lazy").setup({
 	require("plugin.treesitter"),
 	require("plugin.undotree"),
 	require("plugin.vim-qf"),
+	require("plugin.vim-simple-todo"),
 	{ "tpope/vim-fugitive" },
 	{ "tpope/vim-rhubarb" },
 	{ "tpope/vim-vinegar" },
