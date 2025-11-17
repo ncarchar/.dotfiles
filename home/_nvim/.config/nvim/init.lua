@@ -45,7 +45,6 @@ require("lazy").setup({
 		lazy = true,
 		event = "BufEnter",
 	},
-	-- { "stevearc/oil.nvim", opts = { columns = {}, skip_confirm_for_simple_edits = true } },
 }, {})
 
 -- Generics
