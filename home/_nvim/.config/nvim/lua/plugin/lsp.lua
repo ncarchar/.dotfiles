@@ -154,7 +154,11 @@ return {
 					function(server_name)
 						print("setup: " .. server_name)
 						local server = servers[server_name] or {}
+						if type(server) ~= "table" then
+							server = {}
+						end
 						server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+						-- require("lspconfig")[server_name].setup(server)
 						vim.lsp.config(server_name, server)
 					end,
 				},
