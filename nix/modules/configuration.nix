@@ -125,4 +125,13 @@
     nssmdns4 = true;
     openFirewall = true;
   };
+
+  services.open-webui = {
+    enable = true;
+    port = 3000;
+  };
+  services.ollama = {
+    enable = true;
+    acceleration = "rocm";
+  };
 }
