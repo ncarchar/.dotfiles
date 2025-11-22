@@ -2,44 +2,30 @@
   description = "system flake";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
-    unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nix-index-database.url = "github:nix-community/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager/release-25.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
-  outputs = { self, nixpkgs, unstable, nix-index-database, home-manager, ... }:
+  outputs = { nixpkgs, nix-index-database, home-manager, ... }:
     let
       system = "x86_64-linux";
       stateVersion = "25.05";
-
       pkgs = import nixpkgs { inherit system; };
-
-      unstablePkgs = import unstable {
-        inherit system;
-        config.allowUnfree = true;
-      };
     in
     {
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-        inherit system;
-
+        system = "x86_64-linux";
         modules = [
           ./modules/hardware-configuration.nix
           ./modules/configuration.nix
           ./modules/virtual-box.nix
-
           nix-index-database.nixosModules.nix-index
-
           ({ pkgs, ... }: {
             _module.args = {
               packages = import ./modules/packages.nix { inherit pkgs; };
-              inherit stateVersion;
+              stateVersion = stateVersion;
             };
-          })
-
-          ({ ... }: {
-            services.ollama.package = unstablePkgs.ollama;
           })
         ];
       };
