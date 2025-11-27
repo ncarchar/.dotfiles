@@ -10,7 +10,7 @@
   outputs = { nixpkgs, nix-index-database, home-manager, ... }:
     let
       system = "x86_64-linux";
-      stateVersion = "25.05";
+      stateVersion = "25.11";
       pkgs = import nixpkgs { inherit system; };
     in
     {
