@@ -6,7 +6,7 @@ diff:
 
 main:
     sudo nixos-rebuild switch --flake "path:./nix#nixos"
-    nixos-rebuild list-generations | grep current
+    # nixos-rebuild list-generations | grep current
     just _commit
 
 cov:
