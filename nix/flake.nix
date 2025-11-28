@@ -2,12 +2,10 @@
   description = "system flake";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
-    nix-index-database.url = "github:nix-community/nix-index-database";
-    nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
-  outputs = { nixpkgs, nix-index-database, home-manager, ... }:
+  outputs = { nixpkgs, home-manager, ... }:
     let
       system = "x86_64-linux";
       stateVersion = "25.11";
@@ -19,7 +17,6 @@
         modules = [
           ./modules/hardware-configuration.nix
           ./modules/configuration.nix
-          nix-index-database.nixosModules.nix-index
           ({ pkgs, ... }: {
             _module.args = {
               packages = import ./modules/packages.nix { inherit pkgs; };
@@ -39,23 +36,6 @@
         in
         home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
-          modules = [ home ];
-        };
-      homeConfigurations."mac" =
-        let
-          systemDarwin = "aarch64-darwin";
-          pkgsDarwin = import nixpkgs { system = systemDarwin; };
-          username = "carsonmiller";
-          homeDirectory = "/Users/${username}";
-          packages = import ./modules/packages.nix { pkgs = pkgsDarwin; };
-          home = import ./modules/home.nix {
-            pkgs = pkgsDarwin;
-            inherit packages homeDirectory stateVersion username;
-            system = systemDarwin;
-          };
-        in
-        home-manager.lib.homeManagerConfiguration {
-          pkgs = pkgsDarwin;
           modules = [ home ];
         };
     };
