@@ -1,9 +1,6 @@
 default:
     just -l
 
-diff:
-    git --no-pager diff -U0
-
 main:
     sudo nixos-rebuild switch --flake "path:./nix#nixos"
     just _commit
@@ -12,13 +9,14 @@ cov:
     home-manager switch --flake "./nix#cvhew"
     just _commit
 
-mac:
-    home-manager switch --flake "./nix#mac"
-    just _commit
-
 gc:
     nix-collect-garbage -d
+
+gc-sys:
     sudo nix-collect-garbage -d
+
+list-gen:
+    sudo nix-env -p /nix/var/nix/profiles/system --list-generations
 
 stow:
     find ~/.dotfiles/home -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | xargs -I {} stow -d ~/.dotfiles/home -t ~ -v -R {}
@@ -33,7 +31,7 @@ _commit:
     	git add .; \
     	git commit -m "$check __"; \
     	git push origin; \
-    	echo "Commit and push complete..."; \
+    	echo "Complete..."; \
     else \
     	echo "No changes - nothing to commit..."; \
     fi

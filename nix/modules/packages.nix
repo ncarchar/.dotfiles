@@ -1,36 +1,24 @@
 { pkgs, ... }: {
-  dev = with pkgs; [
-    awscli2
+  core = with pkgs; [
     bash
     blesh
     btop
-    cargo
-    clang
-    cmake
     coreutils
     curl
+    diffutils
     eza
+    fastfetch
     file
+    findutils
     fzf
     gh
     git
-    git-lfs
     gnugrep
     gnumake
-    hurl
-    jdk
-    just
     jq
-    lazydocker
-    marksman
-    maven
-    nodejs
-    osc
+    just
     parallel
-    pnpm
-    python3
     ripgrep
-    sshfs
     starship
     stow
     tmux
@@ -39,6 +27,18 @@
     wget
     zip
     zoxide
+  ];
+
+  dev = with pkgs; [
+    awscli2
+    cargo
+    clang
+    cmake
+    jdk
+    marksman
+    maven
+    nodejs
+    pnpm
   ];
 
   desktop = with pkgs; [

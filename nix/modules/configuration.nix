@@ -24,7 +24,7 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   /* packages */
-  environment.systemPackages = packages.dev ++ packages.desktop;
+  environment.systemPackages = packages.core ++ packages.dev ++ packages.desktop;
 
   /* docker */
   virtualisation.docker.enable = true;
