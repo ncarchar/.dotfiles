@@ -6,7 +6,6 @@ diff:
 
 main:
     sudo nixos-rebuild switch --flake "path:./nix#nixos"
-    # nixos-rebuild list-generations | grep current
     just _commit
 
 cov:
@@ -19,6 +18,7 @@ mac:
 
 gc:
     nix-collect-garbage -d
+    sudo nix-collect-garbage -d
 
 stow:
     find ~/.dotfiles/home -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | xargs -I {} stow -d ~/.dotfiles/home -t ~ -v -R {}
