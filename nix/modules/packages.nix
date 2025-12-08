@@ -24,6 +24,7 @@
     tmux
     unzip
     util-linux
+    vit
     wget
     zip
     zoxide

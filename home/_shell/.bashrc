@@ -22,7 +22,7 @@ HISTTIMEFORMAT="%F %T "
 
 # Scale QT & GDK Apps
 export QT_SCALE_FACTOR=1.4
-export GDK_SCALE=1.0 
+export GDK_SCALE=1.0
 export GDK_DPI_SCALE=1.4
 
 # prompt
@@ -32,11 +32,6 @@ eval "$(starship init bash)"
 export _ZO_ECHO=1
 eval "$(zoxide init bash --no-cmd)"
 alias z="__zoxide_z"
-
-function todo() {
-    cd ~/todo || return
-    nvim todo.md
-}
 
 if [[ $HOSTNAME == COV* ]]; then
     export BROWSER="/mnt/c/Users/CVHEW/AppData/Local/Mozilla Firefox/firefox.exe"
