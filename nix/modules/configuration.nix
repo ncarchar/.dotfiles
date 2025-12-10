@@ -85,6 +85,38 @@
     pulse.enable = true;
   };
 
+  /* noisetorch suppression */
+  programs.noisetorch.enable = true;
+  systemd.user.services.wave3-init = {
+    description = "Initialize Wave:3";
+    bindsTo = [ "sys-subsystem-sound-wave3.device" ];
+    after = [ "pipewire-pulse.service" "wireplumber.service" ];
+    serviceConfig = {
+      Type = "oneshot";
+      Restart = "on-failure";
+      RestartSec = "2s";
+      StartLimitBurst = "3";
+      ExecStart = pkgs.writeShellScript "init-wave3-audio" ''
+        ${pkgs.noisetorch}/bin/noisetorch -u || true
+
+        CARD=$(${pkgs.pulseaudio}/bin/pactl list cards short | ${pkgs.gnugrep}/bin/grep "Wave_3" | ${pkgs.gawk}/bin/awk '{print $2}')
+
+        if [ -z "$CARD" ]; then exit 1; fi
+
+        sleep 1
+        ${pkgs.pulseaudio}/bin/pactl set-card-profile "$CARD" off
+        sleep 1
+        ${pkgs.pulseaudio}/bin/pactl set-card-profile "$CARD" input:mono-fallback
+        sleep 1
+        ${pkgs.noisetorch}/bin/noisetorch -i -t 95
+      '';
+    };
+  };
+
+  services.udev.extraRules = ''
+    ACTION=="add", SUBSYSTEM=="sound", ATTRS{id}=="Wave3", TAG+="systemd", ENV{SYSTEMD_USER_WANTS}+="wave3-init.service", ENV{ID_WAVE3_TRACKER}="1"
+  '';
+
   /* run unpatched dynamic binaries */
   programs.nix-ld.enable = true;
 
@@ -124,15 +156,5 @@
     enable = true;
     nssmdns4 = true;
     openFirewall = true;
-  };
-
-  services.open-webui = {
-    enable = true;
-    port = 3000;
-  };
-  services.ollama = {
-    enable = true;
-    acceleration = "rocm";
-    rocmOverrideGfx = "11.0.0";
   };
 }
