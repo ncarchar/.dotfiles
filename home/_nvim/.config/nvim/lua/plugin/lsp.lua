@@ -140,6 +140,7 @@ return {
 				"nil_ls",
 				"ts_ls",
 				"prettier",
+				"biome",
 				"stylua",
 			}
 

@@ -31,6 +31,10 @@ return {
 				end
 			end
 
+			vim.g.neoformat_enabled_json = { "biome", "prettier" }
+			vim.g.neoformat_enabled_javascript = { "biome", "prettier" }
+			vim.g.neoformat_enabled_typescript = { "biome", "prettier" }
+
 			vim.keymap.set("n", "<leader>fl", format_buffer, { noremap = true, desc = "Format buffer" })
 		end,
 	},
