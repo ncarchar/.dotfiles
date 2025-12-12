@@ -18,6 +18,10 @@ return {
 		},
 		config = function()
 			local servers = {
+				angularls = {
+					root_markers = { "angular.json" },
+					workspace_required = true,
+				},
 				lua_ls = {
 					settings = {
 						Lua = {
@@ -28,10 +32,28 @@ return {
 					},
 				},
 				ts_ls = require("lsp.ts_ls"),
+				biome = {
+					root_markers = { "biome.json", "biome.jsonc" },
+					workspace_required = true,
+				},
 				marksman = {
 					cmd = { "marksman", "server" },
 				},
 			}
+
+			-- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+			local capabilities = vim.lsp.protocol.make_client_capabilities()
+			if pcall(require, "cmp") and pcall(require, "cmp_nvim_lsp") then
+				capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+			end
+
+			for server_name, server in pairs(servers) do
+				if type(server) ~= "table" then
+					server = {}
+				end
+				server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+				vim.lsp.config(server_name, server)
+			end
 
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("n-lsp-attach", { clear = true }),
@@ -61,22 +83,25 @@ return {
 					map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 					map("gad", vim.lsp.buf.definition, "[G]oto [A]ll [D]efinition")
 					map("gd", function()
-						local params = vim.lsp.util.make_position_params(0, "utf-8")
-						vim.lsp.buf_request_all(0, "textDocument/definition", params, function(results)
-							for _, res in pairs(results) do
-								local err = res.err
-								local result = res.result
+						local clients = vim.lsp.get_clients({ bufnr = 0 })
+						local client = clients[1]
+						if not client then
+							print("No LSP client attached")
+							return
+						end
 
-								if err then
-									print(vim.inspect(err))
-								end
+						local enc = client.offset_encoding or "utf-16"
+						local params = vim.lsp.util.make_position_params(0, enc)
 
-								if result and (vim.isarray(result) and #result > 0 or not vim.isarray(result)) then
-									vim.lsp.util.show_document(result[1] or result, "utf-8", { focus = true })
-									return
-								end
+						vim.lsp.buf_request(0, "textDocument/definition", params, function(err, result)
+							if err then
+								print(vim.inspect(err))
+								return
 							end
-
+							if result and (vim.isarray(result) and #result > 0 or not vim.isarray(result)) then
+								vim.lsp.util.show_document(result[1] or result, enc, { focus = true })
+								return
+							end
 							print("No definition found")
 						end)
 					end, "[G]oto [D]efinition")
@@ -144,12 +169,6 @@ return {
 				},
 			})
 
-			-- nvim-cmp supports additional completion capabilities, so broadcast that to servers
-			local capabilities = vim.lsp.protocol.make_client_capabilities()
-			if pcall(require, "cmp") and pcall(require, "cmp_nvim_lsp") then
-				capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
-			end
-
 			local ensure_installed = {
 				"angularls",
 				"bashls",
@@ -170,19 +189,6 @@ return {
 					exclude = { "jdtls" },
 				},
 				automatic_installation = false,
-				ensure_installed = {},
-				handlers = {
-					function(server_name)
-						print("setup: " .. server_name)
-						local server = servers[server_name] or {}
-						if type(server) ~= "table" then
-							server = {}
-						end
-						server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-						-- require("lspconfig")[server_name].setup(server)
-						vim.lsp.config(server_name, server)
-					end,
-				},
 			})
 		end,
 	},

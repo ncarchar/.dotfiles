@@ -4,36 +4,47 @@ return {
 		lazy = true,
 		event = "BufEnter",
 		config = function()
-			vim.g.neoformat_try_formatprg = 1
+			vim.g.neoformat_run_all_formatters = 0
 
 			-- Check if an LSP formatter is available
-			local function lsp_formatter_available()
+			local function lsp_formatter_available(server_name)
 				local clients = vim.lsp.get_clients()
 				for _, client in ipairs(clients) do
-					if client.supports_method and client:supports_method("textDocument/formatting") then
+					if client.name == server_name and client:supports_method("textDocument/formatting") then
 						return true
 					end
 				end
 				return false
 			end
 
+			-- filetype = formatter/lsp
+			local CONFIG = {
+				java = "jdtls",
+				xml = "lemminx",
+				sh = "bashls",
+				typescript = "biome",
+				javascript = "biome",
+				json = "biome",
+				htmlangular = "prettier",
+			}
+
 			local function format_buffer()
 				local filetype = vim.bo.filetype
-				local use_lsp = { java = true, xml = true, sh = true }
-				local remap_filetype = { ["htmlangular"] = "html", ["xml"] = "java", ["cuda"] = "cpp" }
+				local fmt = CONFIG[filetype]
 
-				filetype = remap_filetype[filetype] or filetype
-
-				if use_lsp[filetype] and lsp_formatter_available() then
-					vim.lsp.buf.format()
+				if fmt and lsp_formatter_available(fmt) then
+					vim.lsp.buf.format({
+						bufnr,
+						filter = function(client)
+							return client.name == fmt
+						end,
+					})
+				elseif fmt then
+					vim.cmd("Neoformat " .. fmt)
 				else
 					vim.cmd("Neoformat! " .. filetype)
 				end
 			end
-
-			vim.g.neoformat_enabled_json = { "biome", "prettier" }
-			vim.g.neoformat_enabled_javascript = { "biome", "prettier" }
-			vim.g.neoformat_enabled_typescript = { "biome", "prettier" }
 
 			vim.keymap.set("n", "<leader>fl", format_buffer, { noremap = true, desc = "Format buffer" })
 		end,
