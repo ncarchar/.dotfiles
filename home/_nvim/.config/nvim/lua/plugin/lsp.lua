@@ -59,7 +59,27 @@ return {
 
 					map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
 					map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
-					map("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
+					map("gad", vim.lsp.buf.definition, "[G]oto [A]ll [D]efinition")
+					map("gd", function()
+						local params = vim.lsp.util.make_position_params(0, "utf-8")
+						vim.lsp.buf_request_all(0, "textDocument/definition", params, function(results)
+							for _, res in pairs(results) do
+								local err = res.err
+								local result = res.result
+
+								if err then
+									print(vim.inspect(err))
+								end
+
+								if result and (vim.isarray(result) and #result > 0 or not vim.isarray(result)) then
+									vim.lsp.util.show_document(result[1] or result, "utf-8", { focus = true })
+									return
+								end
+							end
+
+							print("No definition found")
+						end)
+					end, "[G]oto [D]efinition")
 					map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
 					map("gI", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
 					map("<leader>D", vim.lsp.buf.type_definition, "Type [D]efinition")
