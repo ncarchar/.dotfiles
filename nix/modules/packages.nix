@@ -36,10 +36,10 @@
     clang
     cmake
     jdk
-    marksman
     maven
     nodejs
     pnpm
+    python3
   ];
 
   desktop = with pkgs; [

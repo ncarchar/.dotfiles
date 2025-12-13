@@ -1,12 +1,12 @@
 return {
     {
-        'nvim-lualine/lualine.nvim',
-        dependencies = { 'ThePrimeagen/harpoon' },
+        "nvim-lualine/lualine.nvim",
+        dependencies = { "ThePrimeagen/harpoon" },
         config = function()
-            local palette = require('onedark.palette').dark
+            local palette = require("onedark.palette").dark
             local lualine = require("lualine")
 
-            lualine.setup {
+            lualine.setup({
                 options = {
                     component_separators = { left = "|", right = "|" },
                     section_separators = { left = "", right = "" },
@@ -16,7 +16,7 @@ return {
                         statusline = 200,
                         tabline = 200,
                         winbar = 200,
-                    }
+                    },
                 },
                 sections = {
                     lualine_a = {},
@@ -33,7 +33,7 @@ return {
                     lualine_c = { { "filename", path = 1 } },
                     lualine_x = { "diagnostics" },
                     lualine_y = { "progress" },
-                    lualine_z = { "location" }
+                    lualine_z = { "location" },
                 },
                 inactive_sections = {
                     lualine_a = {},
@@ -41,9 +41,9 @@ return {
                     lualine_c = { { "filename", path = 1 } },
                     lualine_x = {},
                     lualine_y = {},
-                    lualine_z = {}
+                    lualine_z = {},
                 },
-            }
-        end
-    }
+            })
+        end,
+    },
 }

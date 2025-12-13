@@ -4,7 +4,7 @@ P = function(tbl)
 end
 
 RELOAD = function(...)
-    return require('plenary.reload').reload_module(...)
+    return require("plenary.reload").reload_module(...)
 end
 
 R = function(name)
@@ -14,14 +14,24 @@ R = function(name)
 end
 
 TBL_STRING = function(tbl, recurse, indent)
-    if not recurse then recurse = false end
-    if not indent then indent = "" end
-    if not tbl then return "nil" end
-    if type(tbl) ~= "table" then return tostring(tbl) end
+    if not recurse then
+        recurse = false
+    end
+    if not indent then
+        indent = ""
+    end
+    if not tbl then
+        return "nil"
+    end
+    if type(tbl) ~= "table" then
+        return tostring(tbl)
+    end
 
     local result, nextIndent = "{", indent .. "  "
     for k, v in pairs(tbl) do
-        if type(k) == "string" then k = '"' .. k .. '"' end
+        if type(k) == "string" then
+            k = '"' .. k .. '"'
+        end
         local valueStr
         if type(v) == "table" then
             if recurse then
@@ -29,7 +39,9 @@ TBL_STRING = function(tbl, recurse, indent)
             end
             valueStr = " {tbl..} "
         else
-            if type(v) == "string" then v = '"' .. v .. '"' end
+            if type(v) == "string" then
+                v = '"' .. v .. '"'
+            end
             valueStr = tostring(v)
         end
         result = result .. nextIndent .. "[" .. k .. "] = " .. valueStr .. ","
