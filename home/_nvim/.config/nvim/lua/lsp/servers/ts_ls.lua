@@ -42,7 +42,7 @@ function M.setup()
             },
         },
         on_attach = function(client, bufnr)
-            local nmap = require("utils.generics").NMAP
+            local nmap = require("utils").NMAP
             nmap(bufnr, "<leader>oi", organize_imports(client), "[O]ranize [I]mports")
         end,
     }

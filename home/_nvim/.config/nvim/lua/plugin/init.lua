@@ -1,0 +1,31 @@
+return {
+    require("plugin.gitsigns"),
+    require("plugin.harpoon"),
+    require("plugin.lualine"),
+    require("plugin.nvim_quick_switcher"),
+    require("plugin.telescope"),
+    require("plugin.theme"),
+    require("plugin.treesitter"),
+    require("plugin.undotree"),
+    require("plugin.vim_qf"),
+    require("plugin.vim_simple_todo"),
+    { "tpope/vim-fugitive" },
+    { "tpope/vim-rhubarb" },
+    { "tpope/vim-vinegar" },
+    { "tpope/vim-surround" },
+    { "lukas-reineke/indent-blankline.nvim", opts = {}, main = "ibl" },
+    { "folke/which-key.nvim", opts = {} },
+    { "mfussenegger/nvim-jdtls", lazy = true, ft = "java" },
+    { "onsails/lspkind.nvim", lazy = true, event = "BufEnter" },
+    {
+        "numToStr/Comment.nvim",
+        opts = {
+            toggler = {
+                line = "gcc",
+                block = "gbc",
+            },
+        },
+        lazy = true,
+        event = "BufEnter",
+    },
+}

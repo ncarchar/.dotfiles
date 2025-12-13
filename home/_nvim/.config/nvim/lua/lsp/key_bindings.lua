@@ -1,10 +1,10 @@
 M = {}
 
 function M.setup(event)
-    local generics = require("utils.generics")
+    local nmap = require("utils").NMAP
 
     local map = function(keys, func, desc, mode)
-        generics.NMAP(event.buf, keys, func, desc, mode)
+        nmap(event.buf, keys, func, desc, mode)
     end
 
     map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")

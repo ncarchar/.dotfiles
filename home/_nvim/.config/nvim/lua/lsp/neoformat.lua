@@ -3,8 +3,11 @@ return {
         "sbdchd/neoformat",
         lazy = true,
         event = "BufEnter",
+        dependencies = {
+            { "mason-org/mason.nvim", opts = {} },
+        },
         config = function()
-            local generics = require("utils.generics")
+            local tbl_keys = require("utils").TBL_KEYS
             vim.g.neoformat_run_all_formatters = 0
 
             local BIOME_ROOT_MARKERS = { "biome.json", "biome.jsonc" }
@@ -120,7 +123,7 @@ return {
             end
 
             require("mason-tool-installer").setup({
-                ensure_installed = generics.TBL_KEYS(TOOLS),
+                ensure_installed = tbl_keys(TOOLS),
             })
             vim.keymap.set(
                 "n",

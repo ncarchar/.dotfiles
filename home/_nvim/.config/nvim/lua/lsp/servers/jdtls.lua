@@ -91,7 +91,7 @@ function M.setup()
         settings = settings,
         on_attach = function(client, bufnr)
             client.server_capabilities.semanticTokensProvider = nil
-            local nmap = require("utils.generics").NMAP
+            local nmap = require("utils").NMAP
             nmap(bufnr, "<leader>oi", require("jdtls").organize_imports, "[O]ranize [I]mports")
         end,
     }
