@@ -23,5 +23,5 @@ return {
         cmd = { "marksman", "server" },
     },
     nil_ls = {},
-    ts_ls = require("lsp.servers.jdtls").setup(),
+    ts_ls = require("lsp.servers.ts_ls").setup(),
 }
