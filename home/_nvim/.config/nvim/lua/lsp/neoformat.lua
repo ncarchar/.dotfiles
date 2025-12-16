@@ -25,6 +25,7 @@ return {
                         "javascript",
                         "json",
                         "htmlangular",
+                        "html",
                     },
                 },
                 jdtls = {
