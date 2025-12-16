@@ -140,5 +140,5 @@ client.unfocused        #282C34 #282C34 #ABB2BF
 client.focused_inactive #282C34 #282C34 #ABB2BF
 client.urgent           #282C34 #282C34 #ABB2BF
 
-default_border pixel 1
-default_floating_border pixel 1
+default_border pixel 2
+default_floating_border pixel 2
