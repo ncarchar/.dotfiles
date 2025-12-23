@@ -26,6 +26,7 @@ return {
                         "json",
                         "htmlangular",
                         "html",
+                        "markdown",
                     },
                 },
                 jdtls = {
@@ -36,7 +37,7 @@ return {
                     priority = 100,
                     filetypes = { "xml" },
                 },
-                bashls = {
+                shfmt = {
                     priority = 100,
                     filetypes = { "sh" },
                 },
