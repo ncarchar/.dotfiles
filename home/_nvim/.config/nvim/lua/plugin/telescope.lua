@@ -104,6 +104,18 @@ return {
 
             vim.keymap.set(
                 "n",
+                "<leader>sg",
+                telescope_and_center(function()
+                    require("telescope.builtin").live_grep({
+                        additional_args = function(_)
+                            return { "--hidden", "--glob", "!.git/*" }
+                        end,
+                    })
+                end),
+                { desc = "[S]earch by [G]rep (includes hidden)" }
+            )
+            vim.keymap.set(
+                "n",
                 "<leader><leader>t",
                 telescope_and_center(require("telescope.builtin").builtin),
                 { desc = "[T]elescope Builtins" }
@@ -131,12 +143,6 @@ return {
                 "<leader>sh",
                 telescope_and_center(require("telescope.builtin").help_tags),
                 { desc = "[S]earch [H]elp" }
-            )
-            vim.keymap.set(
-                "n",
-                "<leader>sg",
-                telescope_and_center(require("telescope.builtin").live_grep),
-                { desc = "[S]earch by [G]rep" }
             )
             vim.keymap.set(
                 "n",
