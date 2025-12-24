@@ -37,7 +37,7 @@
         homeDirectory = covDirectory;
       };
 
-      macUsername = "carsonmiller";
+      macUsername = "ncarchar";
       macDirectory = "/Users/${macUsername}";
       macPkgs = import nixpkgs {
         system = "aarch64-darwin";
