@@ -15,7 +15,6 @@
 
       nixosPackages = import ./modules/packages.nix {
         pkgs = import nixpkgs {
-
           system = nixosSystem;
           config.allowUnfree = true;
         };
