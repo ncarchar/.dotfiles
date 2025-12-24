@@ -6,8 +6,11 @@
 export PATH="$HOME/.scripts:$PATH"
 
 source ~/.shell/alias.sh
-source ~/.shell/bleconf.sh
 source ~/.shell/fzfconf.sh
+
+if [[ "$(uname -s)" != "Darwin" ]]; then
+    source ~/.shell/bleconf.sh
+fi
 
 bind 'set show-all-if-ambiguous on'
 

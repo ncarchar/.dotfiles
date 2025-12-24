@@ -37,6 +37,23 @@
         username = covUsername;
         homeDirectory = covDirectory;
       };
+
+      macUsername = "carsonmiller";
+      macDirectory = "/Users/${macUsername}";
+      macPkgs = import nixpkgs {
+        system = "aarch64-darwin";
+        config.allowUnfree = true;
+      };
+      macPackages = import ./modules/packages.nix {
+        pkgs = macPkgs;
+      };
+      macModule = import ./modules/home.nix {
+        pkgs = macPkgs;
+        packages = macPackages;
+        stateVersion = stateVersion;
+        username = macUsername;
+        homeDirectory = macDirectory;
+      };
     in
     {
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
@@ -53,11 +70,15 @@
           })
         ];
       };
-
       homeConfigurations.${covUsername} =
         home-manager.lib.homeManagerConfiguration {
           pkgs = covPkgs;
           modules = [ covModule ];
+        };
+      homeConfigurations.mac =
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = macPkgs;
+          modules = [ macModule ];
         };
     };
 }

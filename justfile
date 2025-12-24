@@ -9,6 +9,10 @@ cov:
     home-manager switch --flake "./nix#cvhew"
     just _commit
 
+mac:
+    home-manager switch --flake "./nix#mac"
+    just _commit
+
 gc:
     nix-collect-garbage -d
 
