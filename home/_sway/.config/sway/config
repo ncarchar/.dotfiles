@@ -136,6 +136,11 @@ bindsym $mod+r mode "resize"
 bar {
         status_command i3blocks -c ~/.config/i3blocks/config
         position top
+        workspace_buttons yes
+        binding_mode_indicator yes
+        hidden_state hide
+        mode hide
+        modifier none
         colors {
             focused_workspace  #282C34 #61AFEF #282C34
             active_workspace   #282C34 #282C34 #ABB2BF
