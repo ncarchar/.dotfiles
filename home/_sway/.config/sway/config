@@ -13,8 +13,17 @@ input * {
     repeat_delay 300
 }
 
+# Default gaps for all windows
+smart_gaps on
 gaps inner 3
-for_window [title="Picture-in-Picture"] floating enable, border none, sticky enable, resize set 680 px 390 px, move position 20 px 25 px
+gaps outer 0
+
+# Force PiP to always be visible and on top
+for_window [app_id="librewolf" title="^Picture-in-Picture$"] floating enable, border none, sticky enable, resize set 680 px 390 px, move position 20 px 25 px
+for_window [class="^steam_app_"] border none, fullscreen disable
+for_window [instance="^steam_app_"] border none, fullscreen disable
+
+bindsym $mod+m bar mode toggle
 
 exec gammastep -l 40:-80 -b 1:0.85 -t 6500:5500
 exec swaybg -i /home/ncarchar/.config/feh/.leaves.jpg -m fill
