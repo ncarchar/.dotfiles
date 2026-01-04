@@ -116,7 +116,7 @@
         sleep 1
         ${pkgs.pulseaudio}/bin/pactl set-card-profile "$CARD" input:mono-fallback
         sleep 1
-        ${pkgs.noisetorch}/bin/noisetorch -i -t 95
+        ${pkgs.noisetorch}/bin/noisetorch -i -t 90
         sleep 1
         ${pkgs.pulseaudio}/bin/pactl set-default-source "NoiseTorch Microphone for Elgato Wave:3"
       '';
