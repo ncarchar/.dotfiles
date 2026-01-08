@@ -29,6 +29,10 @@ return {
                         "markdown",
                     },
                 },
+                black = {
+                    priority = 100,
+                    filetypes = { "python" },
+                },
                 jdtls = {
                     priority = 100,
                     filetypes = { "java" },
