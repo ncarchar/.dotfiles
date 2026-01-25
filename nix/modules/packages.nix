@@ -25,7 +25,6 @@
     tree-sitter
     unzip
     util-linux
-    vit
     wget
     zip
     zoxide
