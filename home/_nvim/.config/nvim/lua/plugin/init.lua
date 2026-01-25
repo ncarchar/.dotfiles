@@ -9,6 +9,7 @@ return {
     require("plugin.undotree"),
     require("plugin.vim_qf"),
     require("plugin.vim_simple_todo"),
+    require("plugin.vimtex"),
     { "tpope/vim-fugitive" },
     { "tpope/vim-rhubarb" },
     { "tpope/vim-vinegar" },

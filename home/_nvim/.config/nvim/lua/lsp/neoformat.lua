@@ -49,6 +49,10 @@ return {
                     priority = 100,
                     filetypes = { "lua" },
                 },
+                texlab = {
+                    priority = 100,
+                    filetypes = { "tex" },
+                },
             }
 
             local function has_root_file(server_name, filenames)

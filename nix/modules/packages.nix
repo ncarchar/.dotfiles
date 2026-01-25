@@ -22,6 +22,7 @@
     starship
     stow
     tmux
+    tree-sitter
     unzip
     util-linux
     vit
@@ -49,6 +50,8 @@
     openconnect
     pavucontrol
     pulseaudio
+    texliveFull
     vlc
+    zathura
   ];
 }
