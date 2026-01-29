@@ -9,13 +9,28 @@ return {
         config = function()
             local tbl_keys = require("utils").TBL_KEYS
             vim.g.neoformat_run_all_formatters = 0
+            vim.g.neoformat_verbose = 1
+            vim.g.neoformat_enabled_html = { "biome" }
 
+            vim.g.neoformat_htmlangular_biome = {
+                exe = "biome",
+                args = { "format", "--stdin-file-path", "%:p" },
+                stdin = 1,
+            }
             local BIOME_ROOT_MARKERS = { "biome.json", "biome.jsonc" }
 
             local TOOLS = {
                 biome = {
                     priority = 100,
-                    filetypes = { "typescript", "javascript", "json", "html", "htmlangular" },
+                    filetypes = {
+                        "typescript",
+                        "javascript",
+                        "json",
+                        "html",
+                        "htmlangular",
+                        "css",
+                        "scss",
+                    },
                     root_markers = BIOME_ROOT_MARKERS,
                 },
                 prettier = {
