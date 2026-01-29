@@ -15,7 +15,7 @@ return {
             local TOOLS = {
                 biome = {
                     priority = 100,
-                    filetypes = { "typescript", "javascript", "json" },
+                    filetypes = { "typescript", "javascript", "json", "html", "htmlangular" },
                     root_markers = BIOME_ROOT_MARKERS,
                 },
                 prettier = {
