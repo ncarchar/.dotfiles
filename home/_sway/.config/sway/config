@@ -13,6 +13,11 @@ input * {
     repeat_delay 300
 }
 
+input type:pointer {
+    accel_profile flat
+    pointer_accel 0.25
+}
+
 # Default gaps for all windows
 smart_gaps on
 gaps inner 3
