@@ -27,10 +27,6 @@ return {
                         "javascript",
                         "json",
                         "jsonc",
-                        "html",
-                        "htmlangular",
-                        "css",
-                        "scss",
                     },
                     root_markers = BIOME_ROOT_MARKERS,
                 },
@@ -44,6 +40,9 @@ return {
                         "htmlangular",
                         "html",
                         "markdown",
+                        "css",
+                        "scss",
+                        "less"
                     },
                 },
                 black = {
