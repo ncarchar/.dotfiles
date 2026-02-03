@@ -66,6 +66,10 @@ return {
                     priority = 100,
                     filetypes = { "tex" },
                 },
+                nixfmt = {
+                    priority = 100,
+                    filetypes = { "nix" },
+                },
             }
 
             local function has_root_file(server_name, filenames)
