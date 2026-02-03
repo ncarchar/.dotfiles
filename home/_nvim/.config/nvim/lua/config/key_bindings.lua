@@ -100,3 +100,36 @@ vim.api.nvim_create_autocmd("FileType", {
         )
     end,
 })
+
+-- CD Commands
+local aug = vim.api.nvim_create_augroup("CwdHelpers", { clear = true })
+
+vim.api.nvim_create_autocmd("VimEnter", {
+    group = aug,
+    once = true,
+    callback = function()
+        vim.g.initial_cwd = vim.fn.getcwd()
+    end,
+})
+
+local function cd_to_buf_dir()
+    local name = vim.api.nvim_buf_get_name(0)
+    if name == "" then
+        return
+    end
+    local dir = vim.fn.fnamemodify(name, ":p:h")
+    print("cd: " .. dir)
+    vim.cmd.cd(vim.fn.fnameescape(dir))
+end
+
+local function cd_to_initial()
+    local dir = vim.g.initial_cwd
+    if type(dir) ~= "string" or dir == "" then
+        return
+    end
+    print("restore: " .. dir)
+    vim.cmd.cd(vim.fn.fnameescape(dir))
+end
+
+vim.keymap.set("n", "<leader>cd", cd_to_buf_dir, { desc = "cd to current file dir" })
+vim.keymap.set("n", "<leader>cD", cd_to_initial, { desc = "cd to initial cwd" })
