@@ -46,23 +46,31 @@ if vim.fn.has("win32") == 0 and os.getenv("WSL_DISTRO_NAME") then
     vim.g.clipboard = {
         name = "windows-clipboard",
         copy = {
-            ["+"] = { "sh", "-c", "iconv -f UTF-8 -t UTF-16LE | " .. clip },
-            ["*"] = { "sh", "-c", "iconv -f UTF-8 -t UTF-16LE | " .. clip },
+            ["+"] = {
+                "sh",
+                "-c",
+                "tr -d '\\r' | iconv -f UTF-8 -t UTF-16LE | " .. clip,
+            },
+            ["*"] = {
+                "sh",
+                "-c",
+                "tr -d '\\r' | iconv -f UTF-8 -t UTF-16LE | " .. clip,
+            },
         },
         paste = {
             ["+"] = {
-                powershell,
-                "-NoProfile",
-                "-Command",
-                "[Console]::OutputEncoding=[System.Text.UTF8Encoding]::new(); "
-                    .. 'Get-Clipboard -Raw | ForEach-Object { $_ -replace "`r", "" }',
+                "sh",
+                "-c",
+                powershell
+                    .. " -NoProfile -Command '[Console]::OutputEncoding=[System.Text.UTF8Encoding]::new(); "
+                    .. "Get-Clipboard -Raw' | tr -d '\\r'",
             },
             ["*"] = {
-                powershell,
-                "-NoProfile",
-                "-Command",
-                "[Console]::OutputEncoding=[System.Text.UTF8Encoding]::new(); "
-                    .. 'Get-Clipboard -Raw | ForEach-Object { $_ -replace "`r", "" }',
+                "sh",
+                "-c",
+                powershell
+                    .. " -NoProfile -Command '[Console]::OutputEncoding=[System.Text.UTF8Encoding]::new(); "
+                    .. "Get-Clipboard -Raw' | tr -d '\\r'",
             },
         },
         cache_enabled = 0,
