@@ -1,6 +1,7 @@
 alias tms="tms.sh"
 alias cp="cp -a"
 alias git-search="source ~/.scripts/git-search.sh"
+alias git-prune="source ~/.scripts/git-prune.sh"
 alias nvim-min="nvim -u ~/.config/nvim/init-min.lua"
 alias _npm="$(command -v npm)"
 alias npm="pnpm"
