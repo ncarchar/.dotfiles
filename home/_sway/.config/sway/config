@@ -24,7 +24,7 @@ gaps inner 3
 gaps outer 0
 
 # Force PiP to always be visible and on top
-for_window [app_id="librewolf" title="^Picture-in-Picture$"] floating enable, border none, sticky enable, resize set 476 px 273 px, move position 20 px 25 px
+for_window [app_id="librewolf" title="^Picture-in-Picture$"] floating enable, border none, sticky enable, resize set 680 px 390 px, move position 20 px 25 px
 for_window [class="^steam_app_"] border none, fullscreen disable
 for_window [instance="^steam_app_"] border none, fullscreen disable
 
