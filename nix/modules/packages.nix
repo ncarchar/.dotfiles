@@ -49,8 +49,6 @@
     openconnect
     pavucontrol
     pulseaudio
-    texliveFull
     vlc
-    zathura
   ];
 }
