@@ -1,6 +1,6 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
-format = "$nix_shell$directory$git_branch$git_status"
+format = "$nix_shell$directory$git_commit$git_branch$git_status"
 
 add_newline = false
 
@@ -12,8 +12,13 @@ truncate_to_repo = true
 truncation_length = 1
 truncation_symbol = ""
 
+[git_commit]
+format = '[\($hash$tag|](bold red)'
+commit_hash_length = 7
+only_detached = true
+
 [git_branch]
-format = '[\($branch(:$remote_branch)\)](bold red) '
+format = '[$branch(:$remote_branch)\)](bold red) '
 
 [git_status]
 format = '[(\[$ahead_behind\] )]($style)[($all_status )]($style)'
