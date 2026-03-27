@@ -28,6 +28,9 @@ export QT_SCALE_FACTOR=1.4
 export GDK_SCALE=1.0
 export GDK_DPI_SCALE=1.4
 
+# direnv
+eval "$(direnv hook bash)"
+
 # prompt
 eval "$(starship init bash)"
 
