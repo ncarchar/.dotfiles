@@ -6,6 +6,7 @@
     coreutils
     curl
     diffutils
+    direnv
     eza
     fastfetch
     file
