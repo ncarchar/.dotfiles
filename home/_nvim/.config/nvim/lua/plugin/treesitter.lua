@@ -8,6 +8,10 @@ return {
         build = ":TSUpdate",
         config = function()
             local function disable(_, bufnr)
+                local ft = vim.bo[bufnr].filetype
+                if ft == "dockerfile" then
+                    return true
+                end
                 local line_count = vim.api.nvim_buf_line_count(bufnr)
                 if line_count > 50000 then
                     return true
