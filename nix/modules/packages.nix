@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   core = with pkgs; [
     bash
     blesh
@@ -36,7 +37,7 @@
     cargo
     clang
     cmake
-    jdk
+    javaPackages.compiler.openjdk21
     maven
     nodejs
     pnpm
