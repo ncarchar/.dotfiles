@@ -51,6 +51,7 @@
     openconnect
     pavucontrol
     pulseaudio
+    spotify
     vlc
   ];
 }
