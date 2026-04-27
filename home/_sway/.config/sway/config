@@ -1,6 +1,6 @@
 set $mod Mod1
 
-output DP-1 scale 1
+output DP-1 render_bit_depth 10
 
 font pango:Berkeley Mono 16
 

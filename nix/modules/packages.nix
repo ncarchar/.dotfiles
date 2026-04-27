@@ -46,6 +46,7 @@
 
   desktop = with pkgs; [
     alacritty
+    brave
     librewolf
     obsidian
     openconnect

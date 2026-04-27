@@ -1,6 +1,15 @@
-{ pkgs, packages, stateVersion, ... }: {
+{
+  pkgs,
+  packages,
+  stateVersion,
+  ...
+}:
+{
   nixpkgs.config.allowUnfree = true;
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   system.stateVersion = stateVersion;
   nix.gc = {
     automatic = true;
@@ -23,8 +32,12 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   # packages
-  environment.systemPackages = packages.core ++ packages.dev
-    ++ packages.desktop;
+  environment.systemPackages = packages.core ++ packages.dev ++ packages.desktop;
+
+  environment.sessionVariables = {
+    WLR_RENDERER = "vulkan";
+    NIXOS_OZONE_WL = "1";
+  };
 
   # docker
   virtualisation.docker.enable = true;
@@ -98,7 +111,10 @@
   systemd.user.services.wave3-init = {
     description = "Initialize Wave:3";
     bindsTo = [ "sys-subsystem-sound-wave3.device" ];
-    after = [ "pipewire-pulse.service" "wireplumber.service" ];
+    after = [
+      "pipewire-pulse.service"
+      "wireplumber.service"
+    ];
     serviceConfig = {
       Type = "oneshot";
       Restart = "on-failure";
@@ -146,9 +162,15 @@
   programs.git = {
     enable = true;
     config = {
-      init = { defaultBranch = "main"; };
-      core = { pager = "less -F -X"; };
-      push = { autoSetupRemote = true; };
+      init = {
+        defaultBranch = "main";
+      };
+      core = {
+        pager = "less -F -X";
+      };
+      push = {
+        autoSetupRemote = true;
+      };
     };
   };
 
