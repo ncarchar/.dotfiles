@@ -46,7 +46,6 @@
 
   desktop = with pkgs; [
     alacritty
-    brave
     librewolf
     obsidian
     openconnect
@@ -54,5 +53,6 @@
     pulseaudio
     spotify
     vlc
+    nur.repos.Ev357.helium
   ];
 }
