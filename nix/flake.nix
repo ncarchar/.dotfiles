@@ -4,16 +4,11 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    nur = {
-      url = "github:nix-community/NUR";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
   outputs =
     {
       nixpkgs,
       home-manager,
-      nur,
       ...
     }:
     let
@@ -25,7 +20,6 @@
         pkgs = import nixpkgs {
           system = nixosSystem;
           config.allowUnfree = true;
-          overlays = [ nur.overlays.default ];
         };
       };
 
@@ -72,7 +66,6 @@
           (
             { pkgs, ... }:
             {
-              nixpkgs.overlays = [ nur.overlays.default ];
               _module.args = {
                 packages = nixosPackages;
                 inherit stateVersion;

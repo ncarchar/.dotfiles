@@ -53,6 +53,5 @@
     pulseaudio
     spotify
     vlc
-    nur.repos.Ev357.helium
   ];
 }
