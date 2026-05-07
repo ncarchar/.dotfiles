@@ -28,7 +28,7 @@ end
 
 function M.setup()
     return {
-        filetypes = { "javascript", "typescript" },
+        filetypes = { "javascript", "typescript", "typescriptreact" },
         settings = {
             implicitProjectConfiguration = {
                 checkJs = true,
