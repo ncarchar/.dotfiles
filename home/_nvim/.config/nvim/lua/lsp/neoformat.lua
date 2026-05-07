@@ -21,6 +21,7 @@ return {
                     priority = 100,
                     filetypes = {
                         "typescript",
+                        "typescriptreact",
                         "javascript",
                         "json",
                         "jsonc",
@@ -33,6 +34,7 @@ return {
                         "htmlangular",
                         "html",
                         "typescript",
+                        "typescriptreact",
                         "javascript",
                         "json",
                         "jsonc",
