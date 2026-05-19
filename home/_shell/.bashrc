@@ -43,5 +43,6 @@ if [[ $HOSTNAME == COV* ]]; then
     alias ps-copy="/mnt/c/WINDOWS/system32/clip.exe"
     export BROWSER="/mnt/c/Users/CVHEW/AppData/Local/Mozilla Firefox/firefox.exe"
     export JAVA_TOOL_OPTIONS="-Djavax.net.ssl.trustStore=$HOME/.certs-java/ca-trust.p12 -Djavax.net.ssl.trustStorePassword=changeit"
-    export store=/mnt/c/my/dir/store
+    export store=/mnt/c/Store
+    export winhome=/mnt/c/Users/CVHEW
 fi
