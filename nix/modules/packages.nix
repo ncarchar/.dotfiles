@@ -48,7 +48,6 @@
     alacritty
     librewolf
     obsidian
-    openconnect
     pavucontrol
     pulseaudio
     spotify
