@@ -33,12 +33,12 @@ ansible:
 
 _commit:
     if [ -n "$(git status --porcelain)" ]; then \
-    	check=$(git ls-tree -r HEAD | md5sum | awk '{print $1}'); \
-    	echo "Committing to Git..."; \
+        check="$(date -u +%Y%m%d-%H%M%S) $(hostname)"; \
+    	echo "committing to git..."; \
     	git add .; \
-    	git commit -m "$check __"; \
+    	git commit -m "$check"; \
     	git push origin; \
-    	echo "Complete..."; \
+    	echo "complete..."; \
     else \
-    	echo "No changes - nothing to commit..."; \
+    	echo "nothing to commit..."; \
     fi
