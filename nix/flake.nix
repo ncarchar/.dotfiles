@@ -1,86 +1,77 @@
 {
   description = "system flake";
+
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     home-manager.url = "github:nix-community/home-manager/release-26.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
-  outputs =
-    {
-      nixpkgs,
-      home-manager,
-      ...
-    }:
-    let
-      nixosSystem = "x86_64-linux";
 
+  outputs =
+    { nixpkgs, home-manager, ... }:
+    let
       stateVersion = "26.05";
 
-      nixosPackages = import ./modules/packages.nix {
-        pkgs = import nixpkgs {
-          system = nixosSystem;
+      mkPkgs =
+        system:
+        import nixpkgs {
+          inherit system;
           config.allowUnfree = true;
         };
-      };
 
-      covUsername = "cvhew";
-      covDirectory = "/home/${covUsername}";
-      covPkgs = import nixpkgs {
-        system = "x86_64-linux";
-        config.allowUnfree = true;
-      };
-      covPackages = import ./modules/packages.nix {
-        pkgs = covPkgs;
-      };
-      covModule = import ./modules/home.nix {
-        pkgs = covPkgs;
-        packages = covPackages;
-        stateVersion = stateVersion;
-        username = covUsername;
-        homeDirectory = covDirectory;
-      };
-
-      macUsername = "ncarchar";
-      macDirectory = "/Users/${macUsername}";
-      macPkgs = import nixpkgs {
-        system = "aarch64-darwin";
-        config.allowUnfree = true;
-      };
-      macPackages = import ./modules/packages.nix {
-        pkgs = macPkgs;
-      };
-      macModule = import ./modules/home.nix {
-        pkgs = macPkgs;
-        packages = macPackages;
-        stateVersion = stateVersion;
-        username = macUsername;
-        homeDirectory = macDirectory;
-      };
+      mkHome =
+        {
+          system,
+          username,
+          homeDirectory,
+        }:
+        let
+          pkgs = mkPkgs system;
+        in
+        home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          modules = [
+            (import ./modules/home.nix {
+              inherit
+                pkgs
+                stateVersion
+                username
+                homeDirectory
+                ;
+              packages = import ./modules/packages.nix { inherit pkgs; };
+            })
+          ];
+        };
     in
     {
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-        system = nixosSystem;
+        system = "x86_64-linux";
         modules = [
           ./modules/hardware-configuration.nix
           ./modules/configuration.nix
-          (
-            { pkgs, ... }:
-            {
-              _module.args = {
-                packages = nixosPackages;
-                inherit stateVersion;
+          {
+            _module.args = {
+              inherit stateVersion;
+              packages = import ./modules/packages.nix {
+                pkgs = mkPkgs "x86_64-linux";
               };
-            }
-          )
+            };
+          }
         ];
       };
-      homeConfigurations.${covUsername} = home-manager.lib.homeManagerConfiguration {
-        pkgs = covPkgs;
-        modules = [ covModule ];
-      };
-      homeConfigurations.mac = home-manager.lib.homeManagerConfiguration {
-        pkgs = macPkgs;
-        modules = [ macModule ];
+
+      homeConfigurations = {
+        "cvhew" = mkHome {
+          system = "x86_64-linux";
+          username = "cvhew";
+          homeDirectory = "/home/cvhew";
+        };
+
+        "mac" = mkHome {
+          system = "aarch64-darwin";
+          username = "ncarchar";
+          homeDirectory = "/Users/ncarchar";
+        };
       };
     };
 }
