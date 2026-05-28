@@ -1,6 +1,8 @@
 set $mod Mod1
 
 output DP-1
+output DP-1 render_bit_depth 10
+output DP-1 hdr on
 
 font pango:Berkeley Mono 16
 

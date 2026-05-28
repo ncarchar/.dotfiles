@@ -1,8 +1,8 @@
 {
   description = "system flake";
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
-    home-manager.url = "github:nix-community/home-manager/release-25.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
+    home-manager.url = "github:nix-community/home-manager/release-26.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs =
@@ -14,7 +14,7 @@
     let
       nixosSystem = "x86_64-linux";
 
-      stateVersion = "25.11";
+      stateVersion = "26.05";
 
       nixosPackages = import ./modules/packages.nix {
         pkgs = import nixpkgs {

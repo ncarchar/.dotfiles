@@ -48,7 +48,9 @@ return {
                 },
                 refactor = {
                     highlight_definitions = {
-                        enable = true,
+                        -- enable = true,
+                        -- disable = disable,
+                        enable = false,
                         disable = disable,
                     },
                 },
