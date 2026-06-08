@@ -17,10 +17,10 @@ bind 'set show-all-if-ambiguous on'
 # disable shell exit on Ctrl+d
 export IGNOREEOF=999
 
-# hist
+# history
 shopt -s histappend
 HISTFILESIZE=5000
-HISTCONTROL=ignorespace
+HISTCONTROL=ignorespace:ignoredups
 HISTTIMEFORMAT="%F %T "
 
 # Scale QT & GDK Apps
@@ -38,6 +38,9 @@ eval "$(starship init bash)"
 export _ZO_ECHO=1
 eval "$(zoxide init bash --no-cmd)"
 alias z="__zoxide_z"
+
+# atuin history
+eval "$(atuin init bash --disable-up-arrow)"
 
 if [[ $HOSTNAME == COV* ]]; then
     alias ps-copy="/mnt/c/WINDOWS/system32/clip.exe"

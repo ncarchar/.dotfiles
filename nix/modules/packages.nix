@@ -1,6 +1,7 @@
 { pkgs, ... }:
 {
   core = with pkgs; [
+    atuin
     bash
     blesh
     btop
