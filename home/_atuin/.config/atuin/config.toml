@@ -1,4 +1,4 @@
-# enter_accept = true
+store_failed = false
 
 [stats]
 ## Set commands where we should consider the subcommand for statistics. Eg, kubectl get vs just kubectl
@@ -68,3 +68,4 @@ records = true
 ##
 ## Default:
 columns = [ "time", "command" ]
+filters = ["global", "session", "directory"]
