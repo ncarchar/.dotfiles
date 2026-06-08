@@ -1,6 +1,5 @@
 {
   pkgs,
-  pkgs-unstable,
   packages,
   stateVersion,
   ...
@@ -10,6 +9,25 @@
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
+  ];
+
+  # temporary override of sway to version 1.12
+  nixpkgs.overlays = [
+    (final: prev: {
+      sway-unwrapped =
+        (prev.sway-unwrapped.override {
+          wlroots_0_19 = final.wlroots_0_20;
+        }).overrideAttrs
+          (old: rec {
+            version = "1.12";
+            src = prev.fetchFromGitHub {
+              owner = "swaywm";
+              repo = "sway";
+              rev = version;
+              hash = "sha256-OcF7jOOHhFPhM5APn5riy8S5jsEr9jALCVh9nBtD7Nk=";
+            };
+          });
+    })
   ];
   system.stateVersion = stateVersion;
   nix.gc = {
@@ -22,6 +40,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.systemd-boot.configurationLimit = 5;
   boot.loader.timeout = 0;
+  boot.initrd.systemd.enable = true;
   systemd.network.wait-online.enable = false;
 
   # network manager
@@ -66,7 +85,6 @@
   # sway
   programs.sway = {
     enable = true;
-    package = pkgs-unstable.sway;
     wrapperFeatures.gtk = true;
     extraPackages = with pkgs; [
       bemenu
