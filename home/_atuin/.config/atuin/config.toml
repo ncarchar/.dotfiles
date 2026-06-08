@@ -1,4 +1,4 @@
-enter_accept = true
+# enter_accept = true
 
 [stats]
 ## Set commands where we should consider the subcommand for statistics. Eg, kubectl get vs just kubectl
