@@ -14,6 +14,11 @@
     enable = true;
     defaultEditor = true;
   };
+  xdg.configFile."nvim/init.lua" = {
+    source = ../../home/_nvim/.config/nvim/init.lua;
+    force = true;
+  };
+
 
   programs.starship = {
     enable = true;

@@ -1,1 +1,14 @@
-/nix/store/gj6i8kx219cfqzsk3ss9k96wknbsfjss-home-manager-files/.config/nvim/init.lua
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
+vim.opt_local.conceallevel = 2
+
+
+require("bootstrap")
+
+require("config")
+
+require("lazy").setup({
+    require("plugin"),
+    require("lsp"),
+})
