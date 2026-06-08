@@ -10,7 +10,11 @@
 
   home.packages = packages.core ++ packages.dev;
 
-  programs.neovim.enable = true;
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+  };
+
   programs.starship = {
     enable = true;
   };
