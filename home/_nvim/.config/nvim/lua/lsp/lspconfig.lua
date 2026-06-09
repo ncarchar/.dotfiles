@@ -38,8 +38,11 @@ return {
                 -- bind lsp specific keys
                 require("lsp.key_bindings").setup(event)
 
+                vim.lsp.document_color.enable(false, { bufnr = event.buf })
+
                 -- highlight references under cursor
                 local client = vim.lsp.get_client_by_id(event.data.client_id)
+
                 if
                     client
                     and client:supports_method(
