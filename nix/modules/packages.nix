@@ -47,7 +47,6 @@
 
   desktop = with pkgs; [
     alacritty
-    bottles
     librewolf
     obsidian
     pavucontrol
