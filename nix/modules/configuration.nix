@@ -5,6 +5,13 @@
   ...
 }:
 {
+  nixpkgs.config.allowUnfree = true;
+
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
+
   # temporary override of sway to version 1.12
   nixpkgs.overlays = [
     (final: prev: {
@@ -23,12 +30,6 @@
           });
     })
   ];
-
-  nixpkgs.config.allowUnfree = true;
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
   system.stateVersion = stateVersion;
   nix.gc = {
     automatic = true;
@@ -39,7 +40,8 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.enable = true;
   boot.loader.systemd-boot.configurationLimit = 5;
-  boot.loader.timeout = 3;
+  boot.loader.timeout = 0;
+  boot.initrd.systemd.enable = true;
   systemd.network.wait-online.enable = false;
 
   # network manager
