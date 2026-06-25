@@ -90,7 +90,7 @@
     extraPackages = with pkgs; [
       bemenu
       capitaine-cursors
-      # gammastep
+      gammastep
       grim
       i3blocks
       slurp
