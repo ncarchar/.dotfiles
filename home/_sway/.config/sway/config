@@ -32,7 +32,7 @@ for_window [instance="^steam_app_"] border none, fullscreen disable
 
 bindsym $mod+m bar mode toggle
 
-exec gammastep -l 40:-80 -b 1:0.85 -t 6500:5500
+exec gammastep -l 40:-80 -b 1:0.92 -t 6500:5800
 exec swaybg -i /home/ncarchar/.config/feh/.leaves.jpg -m fill
 
 # use pactl to adjust volume in PulseAudio.
