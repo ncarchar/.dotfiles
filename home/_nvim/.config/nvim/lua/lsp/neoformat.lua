@@ -16,6 +16,12 @@ return {
                 args = { "prettier", "--stdin-filepath", "%:p" },
                 stdin = 1,
             }
+            vim.g.neoformat_sql_sqlformatter = {
+                exe = "sql-formatter",
+                stdin = 1,
+            }
+            vim.g.neoformat_enabled_sql = { "sqlformatter" }
+
             local TOOLS = {
                 biome = {
                     priority = 100,
@@ -114,6 +120,7 @@ return {
 
             local function resolve_formatter(filetype)
                 local current_best_name = nil
+                local current_best_exe = nil
                 local current_best_priority = -1
 
                 for tool_name, config in pairs(TOOLS) do
@@ -121,18 +128,19 @@ return {
                         if config.priority > current_best_priority then
                             if has_root_file(tool_name, config.root_markers) then
                                 current_best_name = tool_name
+                                current_best_exe = config.exe or tool_name
                                 current_best_priority = config.priority
                             end
                         end
                     end
                 end
 
-                return current_best_name
+                return current_best_name, current_best_exe
             end
 
             local function format_buffer()
                 local filetype = vim.bo.filetype
-                local fmt_name = resolve_formatter(filetype)
+                local fmt_name, fmt_exe = resolve_formatter(filetype)
 
                 if not fmt_name then
                     print("No applicable formatter found for " .. filetype)
@@ -147,7 +155,7 @@ return {
                         end,
                     })
                 else
-                    vim.cmd("Neoformat " .. fmt_name)
+                    vim.cmd("Neoformat " .. fmt_exe)
                 end
             end
 
