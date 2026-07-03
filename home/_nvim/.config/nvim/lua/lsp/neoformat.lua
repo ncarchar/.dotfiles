@@ -143,7 +143,20 @@ return {
                 local fmt_name, fmt_exe = resolve_formatter(filetype)
 
                 if not fmt_name then
-                    print("No applicable formatter found for " .. filetype)
+                    local clients = vim.lsp.get_clients({ bufnr = 0 })
+                    local lsp_formatted = false
+
+                    for _, client in ipairs(clients) do
+                        if client:supports_method("textDocument/formatting") then
+                            vim.lsp.buf.format({ bufnr = 0 })
+                            lsp_formatted = true
+                            break
+                        end
+                    end
+
+                    if not lsp_formatted then
+                        print("No applicable formatter found for " .. filetype)
+                    end
                     return
                 end
 
