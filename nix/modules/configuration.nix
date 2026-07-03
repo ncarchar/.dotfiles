@@ -51,13 +51,14 @@
     isNormalUser = true;
     home = "/home/ncarchar";
     extraGroups = [
-      "networkmanager"
-      "wheel"
-      "libvirtd"
+      "dialout"
+      "disk"
       "docker"
       "fuse"
+      "libvirtd"
+      "networkmanager"
       "vboxusers"
-      "disk"
+      "wheel"
     ];
   };
 
