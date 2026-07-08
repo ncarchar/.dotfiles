@@ -47,6 +47,7 @@ function M.setup()
             eclipse = { downloadSources = true },
             configuration = { updateBuildConfiguration = "interactive" },
             maven = { downloadSources = true },
+            gradle = { downloadSources = true },
             implementationsCodeLens = { enabled = true },
             referencesCodeLens = { enabled = true },
             references = { includeDecompiledSources = true },
