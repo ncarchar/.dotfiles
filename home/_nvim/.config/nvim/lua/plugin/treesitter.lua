@@ -11,7 +11,7 @@ return {
                 install_dir = vim.fn.stdpath("data") .. "/site",
             })
 
-            require("nvim-treesitter").install({
+            local pre_installed = {
                 "bash",
                 "c",
                 "cpp",
@@ -26,7 +26,8 @@ return {
                 "markdown_inline",
                 "sql",
                 "typescript",
-            })
+            }
+            require("nvim-treesitter").install(pre_installed)
 
             vim.api.nvim_create_autocmd("FileType", {
                 pattern = {
@@ -64,7 +65,7 @@ return {
                     if vim.list_contains(treesitter.get_available(), lang) then
                         if
                             not vim.list_contains(treesitter.get_installed(), lang)
-                            and not vim.list_contains(pre_installed_parsers, lang)
+                            and not vim.list_contains(pre_installed, lang)
                         then
                             treesitter.install(lang):wait()
                         end
