@@ -2,7 +2,6 @@ return {
     require("plugin.gitsigns"),
     require("plugin.harpoon"),
     require("plugin.lualine"),
-    require("plugin.nvim_quick_switcher"),
     require("plugin.obsidian"),
     require("plugin.telescope"),
     require("plugin.theme"),
