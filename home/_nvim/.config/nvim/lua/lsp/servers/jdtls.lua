@@ -19,7 +19,7 @@ local WORKSPACE_ROOT = vim.fn.stdpath("data") .. "/jdtls-workspace/"
 ensure_dir(WORKSPACE_ROOT)
 
 function M.setup()
-    local root_markers = { "mvnw", "gradlew", "pom.xml" }
+    local root_markers = { "mvnw", "gradlew", "pom.xml", "build.gradle", "build.gradle.kts" }
     local root_dir = require("jdtls.setup").find_root(root_markers)
     if root_dir == nil or root_dir == "" then
         return
@@ -45,7 +45,7 @@ function M.setup()
     local settings = {
         java = {
             eclipse = { downloadSources = true },
-            configuration = { updateBuildConfiguration = "interactive" },
+            configuration = { updateBuildConfiguration = "automatic" },
             maven = { downloadSources = true },
             gradle = { downloadSources = true },
             implementationsCodeLens = { enabled = true },

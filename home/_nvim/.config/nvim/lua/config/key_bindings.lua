@@ -133,3 +133,12 @@ end
 
 vim.keymap.set("n", "<leader>cd", cd_to_buf_dir, { desc = "cd to current file dir" })
 vim.keymap.set("n", "<leader>cD", cd_to_initial, { desc = "cd to initial cwd" })
+
+-- Alias LspInfo and LspLog since it was dropped by nvim-lspconfig
+vim.api.nvim_create_user_command("LspInfo", "checkhealth vim.lsp", {})
+vim.api.nvim_create_user_command("LspLog", function()
+    local log_file = vim.lsp.log.get_filename()
+    vim.cmd("tabedit " .. log_file)
+    local buf = vim.api.nvim_get_current_buf()
+    vim.keymap.set("n", "q", "<cmd>tabclose<cr>", { buffer = buf, silent = true })
+end, {})
