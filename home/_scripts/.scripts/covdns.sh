@@ -16,4 +16,5 @@ printf "$CONTENT\n" | sudo tee /etc/resolv.conf >/dev/null
 sudo chattr +i /etc/resolv.conf
 
 echo "Done. Current resolv.conf:"
+echo ""
 cat /etc/resolv.conf
