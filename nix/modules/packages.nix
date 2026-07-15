@@ -39,7 +39,7 @@
     clang
     cmake
     javaPackages.compiler.openjdk25
-    maven
+    (maven.override { jdk_headless = javaPackages.compiler.openjdk25; })
     nodejs
     pnpm
     python3
