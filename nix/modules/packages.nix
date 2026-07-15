@@ -38,7 +38,7 @@
     cargo
     clang
     cmake
-    javaPackages.compiler.openjdk21
+    javaPackages.compiler.openjdk25
     maven
     nodejs
     pnpm
