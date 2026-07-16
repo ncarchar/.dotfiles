@@ -19,7 +19,7 @@ local WORKSPACE_ROOT = vim.fn.stdpath("data") .. "/jdtls-workspace/"
 ensure_dir(WORKSPACE_ROOT)
 
 function M.setup()
-    local root_markers = { "mvnw", "gradlew", "pom.xml", "build.gradle", "build.gradle.kts" }
+    local root_markers = { "mvnw", "gradlew", "pom.xml", "settings.gradle", "build.gradle.kts" }
     local root_dir = require("jdtls.setup").find_root(root_markers)
     if root_dir == nil or root_dir == "" then
         return
