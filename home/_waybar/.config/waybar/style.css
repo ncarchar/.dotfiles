@@ -2,7 +2,7 @@
     border: none;
     border-radius: 0;
     font-family: "Berkeley Mono", monospace;
-    font-size: 18px;
+    font-size: 20px;
     min-height: 0;
 }
 
@@ -12,6 +12,7 @@ window#waybar {
 }
 
 #workspaces button {
+    font-size: 20px;
     padding: 0 6px;
     background-color: #000000;
     color: #abb2bf;
