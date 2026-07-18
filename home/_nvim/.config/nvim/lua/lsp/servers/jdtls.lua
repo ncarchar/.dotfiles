@@ -19,7 +19,7 @@ local WORKSPACE_ROOT = vim.fn.stdpath("data") .. "/jdtls-workspace/"
 ensure_dir(WORKSPACE_ROOT)
 
 function M.setup()
-    local root_markers = { "mvnw", "gradlew", "pom.xml", "build.gradle", "build.gradle.kts" }
+    local root_markers = { "mvnw", "gradlew", "pom.xml", "settings.gradle", "build.gradle.kts" }
     local root_dir = require("jdtls.setup").find_root(root_markers)
     if root_dir == nil or root_dir == "" then
         return
@@ -38,8 +38,11 @@ function M.setup()
         return
     end
 
-    local project_name = vim.fs.basename(root_dir)
+    local project_name = vim.fn.fnamemodify(root_dir, ":t")
+        .. "-"
+        .. string.sub(vim.fn.sha256(root_dir), 1, 8)
     local workspace_dir = WORKSPACE_ROOT .. project_name
+
     ensure_dir(workspace_dir)
 
     local settings = {
@@ -47,7 +50,16 @@ function M.setup()
             eclipse = { downloadSources = true },
             configuration = { updateBuildConfiguration = "automatic" },
             maven = { downloadSources = true },
-            gradle = { downloadSources = true },
+            gradle = {
+                downloadSources = true,
+                enabled = true,
+                wrapper = { enabled = true },
+                offline = { enabled = false },
+            },
+            import = {
+                gradle = { enabled = true },
+                maven = { enabled = false },
+            },
             implementationsCodeLens = { enabled = true },
             referencesCodeLens = { enabled = true },
             references = { includeDecompiledSources = true },
@@ -70,8 +82,12 @@ function M.setup()
         "-Dlog.protocol=true",
         "-Dlog.level=ALL",
         "-javaagent:" .. lombok_path,
-        "-Xms256m",
-        "-Xmx2g",
+        "-Xms1g",
+        "-Xmx4g",
+        "-XX:+UseG1GC",
+        "-XX:+UseStringDeduplication",
+        "-XX:+TieredCompilation",
+        "-XX:TieredStopAtLevel=1",
         "--add-modules=ALL-SYSTEM",
         "--add-opens",
         "java.base/java.util=ALL-UNNAMED",

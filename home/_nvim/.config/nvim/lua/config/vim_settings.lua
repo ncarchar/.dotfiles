@@ -36,14 +36,6 @@ vim.o.foldmethod = "indent"
 vim.o.foldnestmax = 12
 vim.o.foldminlines = 12
 
--- Conceal
-vim.api.nvim_create_autocmd("FileType", {
-    pattern = "markdown",
-    callback = function()
-        vim.opt_local.conceallevel = 2
-    end,
-})
-
 -- Clipboard
 vim.o.clipboard = "unnamedplus"
 -- Required to properly use system clipboard using WSL
