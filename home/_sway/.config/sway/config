@@ -25,12 +25,13 @@ smart_gaps on
 gaps inner 3
 gaps outer 0
 
+exec waybar
+
 # Force PiP to always be visible and on top
 for_window [app_id="librewolf" title="^Picture-in-Picture$"] floating enable, border none, sticky enable, resize set 610 px 350 px, move position 20 px 25 px
 for_window [class="^steam_app_"] border none, fullscreen disable
 for_window [instance="^steam_app_"] border none, fullscreen disable
 
-exec_always bash -c 'pkill waybar || true; sleep 0.5; waybar'
 exec gammastep -l 40:-80 -b 1:0.92 -t 6500:5800
 exec swaybg -i /home/ncarchar/.config/feh/.leaves.jpg -m fill
 
@@ -120,7 +121,7 @@ bindsym $mod+Shift+8 move container to workspace number $ws8; workspace number $
 bindsym $mod+Shift+9 move container to workspace number $ws9; workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10; workspace number $ws10
 
-# restart i3 inplace
+# restart inplace
 bindsym $mod+Shift+r restart
 
 # disable scroll to switch
