@@ -52,6 +52,7 @@
     librewolf
     obsidian
     pavucontrol
+    proton-vpn
     pulseaudio
     spotify
     vlc

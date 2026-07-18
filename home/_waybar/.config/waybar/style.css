@@ -1,0 +1,39 @@
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "Berkeley Mono", monospace;
+    font-size: 18px;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: #000000;
+    color: #abb2bf;
+}
+
+#workspaces button {
+    padding: 0 6px;
+    background-color: #000000;
+    color: #abb2bf;
+    border: 1px solid transparent;
+}
+
+#workspaces button.focused {
+    font-weight: 700;
+    background-color: #1f1f1f;
+}
+
+#workspaces button.urgent {
+    background-color: #e06c75;
+    color: #282c34;
+}
+
+#cpu,
+#memory,
+#disk,
+#pulseaudio,
+#clock,
+#tray {
+    padding: 0 12.5px;
+    color: #abb2bf;
+}

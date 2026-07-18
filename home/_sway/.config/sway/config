@@ -30,16 +30,17 @@ for_window [app_id="librewolf" title="^Picture-in-Picture$"] floating enable, bo
 for_window [class="^steam_app_"] border none, fullscreen disable
 for_window [instance="^steam_app_"] border none, fullscreen disable
 
-bindsym $mod+m bar mode toggle
-
+exec_always bash -c 'pkill waybar || true; sleep 0.5; waybar'
 exec gammastep -l 40:-80 -b 1:0.92 -t 6500:5800
 exec swaybg -i /home/ncarchar/.config/feh/.leaves.jpg -m fill
 
+bindsym $mod+m exec pkill -SIGUSR1 waybar
+
 # use pactl to adjust volume in PulseAudio.
-bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 10%+ --limit 1.0; exec pkill -RTMIN+2 i3blocks
-bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 10%-; exec pkill -RTMIN+2 i3blocks
-bindsym XF86AudioMute        exec wpctl set-mute   @DEFAULT_AUDIO_SINK@ toggle; exec pkill -RTMIN+2 i3blocks
-bindsym XF86AudioMicMute     exec wpctl set-mute   @DEFAULT_AUDIO_SOURCE@ toggle; exec pkill -RTMIN+2 i3blocks
+bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 10%+ --limit 1.0
+bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 10%-
+bindsym XF86AudioMute        exec wpctl set-mute   @DEFAULT_AUDIO_SINK@ toggle
+bindsym XF86AudioMicMute     exec wpctl set-mute   @DEFAULT_AUDIO_SOURCE@ toggle
 
 # bemenu
 bindsym $mod+d exec bemenu-run  --fn 'Berkeley Mono 16' --tb '#282C34' --tf '#61AFEF' --hb '#98C379' --hf '#282C34' --hp '8' --list 10 -W 0.2 --counter 'always'
@@ -139,27 +140,6 @@ mode "resize" {
         bindsym $mod+r mode "default"
 }
 bindsym $mod+r mode "resize"
-
-bar {
-        status_command i3blocks -c ~/.config/i3blocks/config
-        position top
-        workspace_buttons yes
-        binding_mode_indicator yes
-        hidden_state hide
-        mode hide
-        modifier none
-        colors {
-            focused_workspace  #282C34 #61AFEF #282C34
-            active_workspace   #282C34 #282C34 #ABB2BF
-            inactive_workspace #282C34 #282C34 #ABB2BF
-            urgent_workspace   #282C34 #282C34 #ABB2BF
-        }
-}
-
-client.focused          #ABB2BF #ABB2BF #282C34
-client.unfocused        #282C34 #282C34 #ABB2BF
-client.focused_inactive #282C34 #282C34 #ABB2BF
-client.urgent           #282C34 #282C34 #ABB2BF
 
 default_border pixel 2
 default_floating_border pixel 2

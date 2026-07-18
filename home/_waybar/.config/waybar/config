@@ -1,0 +1,41 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 30,
+    "spacing": 4,
+    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-center": [],
+    "modules-right": ["cpu", "memory", "disk", "pulseaudio", "clock", "tray"],
+    "sway/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true
+    },
+    "cpu": {
+        "interval": 1,
+        "format": "CPU {usage}%"
+    },
+    "memory": {
+        "interval": 1,
+        "format": "MEM {percentage}%"
+    },
+    "disk": {
+        "interval": 60,
+        "format": "DSK {free}",
+        "path": "/"
+    },
+    "pulseaudio": {
+        "format": "VOL: {volume}%",
+        "format-muted": "VOL: Muted",
+        "scroll-step": 5,
+        "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+    },
+    "clock": {
+        "interval": 1,
+        "format": "{:%Y-%m-%d %H:%M:%S}",
+        "tooltip": false
+    },
+    "tray": {
+        "icon-size": 18,
+        "spacing": 10
+    }
+}

@@ -75,9 +75,9 @@
       capitaine-cursors
       gammastep
       grim
-      i3blocks
       slurp
       swaybg
+      waybar
       wl-clipboard
     ];
   };
