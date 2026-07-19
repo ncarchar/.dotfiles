@@ -150,4 +150,6 @@
     nssmdns4 = true;
     openFirewall = true;
   };
+
+  hardware.keyboard.zsa.enable = true;
 }
