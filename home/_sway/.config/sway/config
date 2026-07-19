@@ -27,6 +27,7 @@ gaps inner 3
 gaps outer 0
 
 exec waybar
+exec protonvpn-app
 
 # Force PiP to always be visible and on top
 for_window [app_id="librewolf" title="^Picture-in-Picture$"] floating enable, border none, sticky enable, resize set 610 px 350 px, move position 0 ppt 0 ppt, move right 20 px, move down 20 px
