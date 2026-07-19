@@ -1,4 +1,5 @@
 set $mod Mod1
+floating_modifier Ctrl
 
 output DP-1
 output DP-1 render_bit_depth 10
@@ -28,7 +29,11 @@ gaps outer 0
 exec waybar
 
 # Force PiP to always be visible and on top
-for_window [app_id="librewolf" title="^Picture-in-Picture$"] floating enable, border none, sticky enable, resize set 610 px 350 px, move position 20 px 25 px
+for_window [app_id="librewolf" title="^Picture-in-Picture$"] floating enable, border none, sticky enable, resize set 610 px 350 px, move position 0 ppt 0 ppt, move right 20 px, move down 20 px
+
+bindsym $mod+u [app_id="librewolf" title="^Picture-in-Picture$"] move position 0 ppt 0 ppt, move right 20 px, move down 20 px
+bindsym $mod+i [app_id="librewolf" title="^Picture-in-Picture$"] move position 100 ppt 0 ppt, move left 630 px, move down 20px
+
 for_window [class="^steam_app_"] border none, fullscreen disable
 for_window [instance="^steam_app_"] border none, fullscreen disable
 
@@ -141,6 +146,11 @@ mode "resize" {
         bindsym $mod+r mode "default"
 }
 bindsym $mod+r mode "resize"
+
+client.focused          #ABB2BF #ABB2BF #282C34
+client.unfocused        #282C34 #282C34 #ABB2BF
+client.focused_inactive #282C34 #282C34 #ABB2BF
+client.urgent           #282C34 #282C34 #ABB2BF
 
 default_border pixel 2
 default_floating_border pixel 2
