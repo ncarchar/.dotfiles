@@ -47,6 +47,7 @@
 
   desktop = with pkgs; [
     alacritty
+    claude-code
     bambu-studio
     discord
     librewolf
