@@ -1,4 +1,5 @@
 return {
+    require("plugin.claudecode"),
     require("plugin.gitsigns"),
     require("plugin.harpoon"),
     require("plugin.lualine"),
