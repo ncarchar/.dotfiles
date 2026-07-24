@@ -5,6 +5,7 @@
     bash
     blesh
     btop
+    claude-code
     coreutils
     curl
     diffutils
@@ -47,7 +48,6 @@
 
   desktop = with pkgs; [
     alacritty
-    claude-code
     bambu-studio
     discord
     librewolf
