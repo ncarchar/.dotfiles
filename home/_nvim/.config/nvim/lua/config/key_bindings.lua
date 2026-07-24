@@ -133,6 +133,9 @@ end
 
 vim.keymap.set("n", "<leader>cd", cd_to_buf_dir, { desc = "cd to current file dir" })
 vim.keymap.set("n", "<leader>cD", cd_to_initial, { desc = "cd to initial cwd" })
+vim.keymap.set("n", "<leader>cp", function()
+    vim.fn.setreg("*", vim.fn.expand("%:p"))
+end, { desc = "cp current file path" })
 
 -- Alias LspInfo and LspLog since it was dropped by nvim-lspconfig
 vim.api.nvim_create_user_command("LspInfo", "checkhealth vim.lsp", {})
@@ -142,7 +145,3 @@ vim.api.nvim_create_user_command("LspLog", function()
     local buf = vim.api.nvim_get_current_buf()
     vim.keymap.set("n", "q", "<cmd>tabclose<cr>", { buffer = buf, silent = true })
 end, {})
-
-vim.keymap.set("n", "<leader>cp", function()
-    vim.fn.setreg("+", vim.fn.expand("%:p"))
-end)
