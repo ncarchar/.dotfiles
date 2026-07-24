@@ -44,6 +44,10 @@
     nodejs
     pnpm
     python3
+    typescript
+    typescript-language-server
+    angular-language-server
+    jdt-language-server
   ];
 
   desktop = with pkgs; [
