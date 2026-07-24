@@ -38,7 +38,7 @@ return {
         { "<leader>cb", "<cmd>ClaudeCodeAdd %<cr>", desc = "[C]laude Add [B]uffer" },
         { "<leader>cs", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "[C]laude [S]end Selection" },
         { "<leader>ca", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "[C]laude [A]ccept Diff" },
-        { "<leader>cd", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "[C]laude [D]eny Diff" },
+        { "<leader>cx", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "[C]laude [D]eny Diff" },
     },
     config = function()
         require("claudecode").setup({

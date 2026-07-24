@@ -142,3 +142,7 @@ vim.api.nvim_create_user_command("LspLog", function()
     local buf = vim.api.nvim_get_current_buf()
     vim.keymap.set("n", "q", "<cmd>tabclose<cr>", { buffer = buf, silent = true })
 end, {})
+
+vim.keymap.set("n", "<leader>cp", function()
+    vim.fn.setreg("+", vim.fn.expand("%:p"))
+end)
