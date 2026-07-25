@@ -21,8 +21,9 @@ ensure_dir(WORKSPACE_ROOT)
 function M.setup()
     local root_markers = { "mvnw", "gradlew", "pom.xml", "settings.gradle", "build.gradle.kts" }
     local root_dir = require("jdtls.setup").find_root(root_markers)
-    if root_dir == nil or root_dir == "" then
-        return
+    local single_file = root_dir == nil or root_dir == ""
+    if single_file then
+        root_dir = vim.fn.expand("%:p:h")
     end
 
     local home = vim.env.HOME or vim.fn.expand("$HOME")
@@ -57,7 +58,7 @@ function M.setup()
                 offline = { enabled = false },
             },
             import = {
-                gradle = { enabled = true },
+                gradle = { enabled = not single_file },
                 maven = { enabled = false },
             },
             implementationsCodeLens = { enabled = true },
