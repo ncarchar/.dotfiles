@@ -29,6 +29,7 @@
     tree-sitter
     unzip
     util-linux
+    uv
     wget
     zip
     zoxide

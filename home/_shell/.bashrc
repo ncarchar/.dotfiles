@@ -4,6 +4,7 @@
 [[ $- == *i* ]] || return
 
 export PATH="$HOME/.scripts:$PATH"
+export PATH="/home/cvhew/.local/bin:$PATH"
 
 source ~/.shell/alias.sh
 source ~/.shell/fzfconf.sh
