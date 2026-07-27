@@ -56,22 +56,22 @@ Tailor shell commands, paths, and config suggestions to the active environment.
 
 ## Skills
 
-# graphify
+### graphify
 
 - **graphify** (`~/.claude/skills/graphify/SKILL.md`) - any input to knowledge graph. Trigger: `/graphify`
   When the user types `/graphify`, use the installed graphify skill or instructions before doing anything else.
 
-# angular-lsp
+### angular-lsp
 
-- **angular-lsp** (`~/.claude/skills/angular-lsp/SKILL.md`) - Angular language server protocol integration. Trigger: `/angular-lsp`
-  When the user types `/angular-lsp`, use the installed angular-lsp skill or instructions before doing anything else.
+- **angular-lsp** (`~/.claude/skills/angular-lsp/SKILL.md`) - Angular and TypeScript LSP integration. Trigger: `/angular-lsp`
+  Use automatically when working in Angular projects (.ts, .html component files). When the user types `/angular-lsp`, use the installed skill before doing anything else.
 
-# java-lsp
+### java-lsp
 
-- **java-lsp** (`~/.claude/skills/java-lsp/SKILL.md`) - Java language server protocol integration. Trigger: `/java-lsp`
-  When the user types `/java-lsp`, use the installed java-lsp skill or instructions before doing anything else.
+- **java-lsp** (`~/.claude/skills/java-lsp/SKILL.md`) - Java LSP integration via Eclipse JDT LS. Trigger: `/java-lsp`
+  Use automatically when working in Java or Spring Boot projects. When the user types `/java-lsp`, use the installed skill before doing anything else.
 
-# typescript-lsp
+### typescript-lsp
 
-- **typescript-lsp** (`~/.claude/skills/typescript-lsp/SKILL.md`) - TypeScript language server protocol integration. Trigger: `/typescript-lsp`
-  When the user types `/typescript-lsp`, use the installed typescript-lsp skill or instructions before doing anything else.
+- **typescript-lsp** (`~/.claude/skills/typescript-lsp/SKILL.md`) - TypeScript LSP integration. Trigger: `/typescript-lsp`
+  Use automatically when working in TypeScript projects (.ts, .tsx files). When the user types `/typescript-lsp`, use the installed skill before doing anything else.
