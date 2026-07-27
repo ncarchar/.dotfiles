@@ -48,6 +48,7 @@ if [[ $HOSTNAME == COV* ]]; then
     alias claude='AWS_PROFILE=bedrock claude'
     export BROWSER="/mnt/c/Users/CVHEW/AppData/Local/Mozilla Firefox/firefox.exe"
     export JAVA_TOOL_OPTIONS="-Djavax.net.ssl.trustStore=$HOME/.certs-java/ca-trust.p12 -Djavax.net.ssl.trustStorePassword=changeit"
+    export COV=1
     export wstore=/mnt/c/Store
     export whome=/mnt/c/Users/CVHEW
 fi
