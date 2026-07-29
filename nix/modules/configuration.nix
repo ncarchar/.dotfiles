@@ -38,7 +38,6 @@
   environment.systemPackages = packages.core ++ packages.dev ++ packages.desktop;
 
   environment.sessionVariables = {
-    WLR_RENDERER = "vulkan";
     NIXOS_OZONE_WL = "1";
   };
 
