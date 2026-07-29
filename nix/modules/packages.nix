@@ -3,6 +3,7 @@
   core = with pkgs; [
     atuin
     bash
+    bc
     blesh
     btop
     claude-code
