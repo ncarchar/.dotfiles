@@ -45,6 +45,7 @@
     (maven.override { jdk_headless = javaPackages.compiler.openjdk25; })
     nodejs
     pnpm
+    postgresql
     python3
     typescript
     typescript-language-server
