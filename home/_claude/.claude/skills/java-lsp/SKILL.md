@@ -9,7 +9,7 @@ Provides Java language server integration via Eclipse JDT LS for type checking, 
 
 ## Environment
 
-Server jars and config are installed under `/home/cvhew/.local/share/nvim/mason/packages/jdtls/`. Workspace data is isolated per project using `${CLAUDE_PROJECT_DIR}`.
+Server jars and config are installed under `$HOME/.local/share/nvim/mason/packages/jdtls/` (do not hardcode a username; this resolves correctly on both the work and personal machines). Workspace data is isolated per project using `${CLAUDE_PROJECT_DIR}`.
 
 ## Steps
 

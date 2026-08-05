@@ -41,6 +41,7 @@
     cargo
     clang
     cmake
+    gradle
     javaPackages.compiler.openjdk25
     (maven.override { jdk_headless = javaPackages.compiler.openjdk25; })
     nodejs
