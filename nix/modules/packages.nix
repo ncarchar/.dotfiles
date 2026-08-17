@@ -57,6 +57,7 @@
   desktop = with pkgs; [
     alacritty
     bambu-studio
+    chromium
     discord
     librewolf
     obsidian
