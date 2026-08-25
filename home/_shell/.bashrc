@@ -97,4 +97,43 @@ if [[ $HOSTNAME == COV* ]]; then
             --region "$region"
 
     }
+
+    ssm-rds-kill() {
+        if [[ -z "$1" || -z "$2" ]]; then
+            echo "Usage: ssm-rds-kill <profile> <region>"
+            echo "  profile     AWS profile name (e.g. omd-dev)"
+            echo "  region      AWS region (e.g. us-east-1)"
+            return 1
+        fi
+
+        local profile="$1"
+        local region="$2"
+
+        local instance_id_param=$(aws configure get bastion_instance_id --profile "$profile")
+
+        local instance_id=$(
+            aws ssm get-parameter \
+                --name "$instance_id_param" \
+                --query "Parameter.Value" \
+                --output text \
+                --profile "$profile" \
+                --region "$region"
+        )
+
+        echo "Terminating active SSM sessions for instance: $instance_id"
+
+        aws ssm describe-sessions \
+            --state Active \
+            --filters "key=Target,value=$instance_id" \
+            --query "Sessions[*].SessionId" \
+            --output text \
+            --profile "$profile" \
+            --region "$region" \
+        | tr '\t' '\n' \
+        | xargs -I{} aws ssm terminate-session \
+            --session-id {} \
+            --profile "$profile" \
+            --region "$region"
+    }
+
 fi
