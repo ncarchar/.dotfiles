@@ -11,9 +11,9 @@ Stages and commits changes to a local git repository using conventional commit s
 - Prefers single-line commit messages
 - Uses multi-line body only when the change genuinely requires explanation
 - Never commits unrelated changes together
-- Ask about any changes which are unrelated or unsure.
+- Commit all changes including those not made by the current session.
+- Ask about any changes which are unrelated or you are unsure about.
     - If asked to commit those changes infer the message
-
 
 ## Conventional Commit Format
 
