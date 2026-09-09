@@ -95,7 +95,6 @@ return {
                 telescope_and_center(function()
                     local ok = pcall(require("telescope.builtin").git_files, {
                         use_git_root = false,
-                        show_untracked = true,
                     })
                     if not ok then
                         require("telescope.builtin").find_files()
