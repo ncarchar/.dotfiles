@@ -1,5 +1,5 @@
 set $mod Mod1
-floating_modifier Mod2
+floating_modifier $mod normal
 
 output DP-1
 output DP-1 render_bit_depth 10
