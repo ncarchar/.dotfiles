@@ -1,6 +1,6 @@
 ---
 name: typescript-lsp
-description: Use when working with TypeScript files, diagnosing TS errors, refactoring TS code, or navigating a TypeScript project. Trigger phrases: "fix TS error", "check types", "refactor TypeScript", "go to definition", "diagnose TypeScript".
+description: Use for any task that reads, edits, or navigates .ts/.tsx files — invoke before grepping or editing to get LSP diagnostics, go-to-definition, and find-references instead of text search. Also diagnosing TS errors, refactoring TS code, or navigating a TypeScript project.
 ---
 
 # typescript-lsp

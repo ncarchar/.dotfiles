@@ -1,6 +1,6 @@
 ---
 name: java-lsp
-description: Use when working with Java files, diagnosing Java errors, refactoring Java code, navigating a Java project, or working with Spring Boot. Trigger phrases: "fix Java error", "check types", "refactor Java", "go to definition", "diagnose Java", "Spring Boot issue".
+description: Use for any task that reads, edits, or navigates .java files — invoke before grepping or editing to get LSP diagnostics, go-to-definition, and find-references instead of text search. Also diagnosing Java errors, refactoring Java code, or working with Spring Boot.
 ---
 
 # java-lsp

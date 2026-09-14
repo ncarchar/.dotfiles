@@ -1,6 +1,6 @@
 ---
 name: angular-lsp
-description: Use when working with Angular or Angular template (.html) files, diagnosing Angular/TypeScript errors, checking template bindings, refactoring components, or navigating an Angular project. Trigger phrases: "fix Angular error", "check template", "refactor component", "go to definition", "check bindings", "diagnose Angular".
+description: Use for any task that reads, edits, or navigates .ts or Angular template .html files in an Angular project — invoke before grepping or editing to get LSP diagnostics, template binding checks, go-to-definition, and find-references instead of text search. Also diagnosing Angular/TypeScript errors or refactoring components.
 ---
 
 # angular-lsp
