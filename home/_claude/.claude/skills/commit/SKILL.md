@@ -1,3 +1,13 @@
+---
+description: Stage and commit changes using conventional commit syntax. Use when the user asks to commit, save changes to git, or create a commit.
+disable-model-invocation: true
+allowed-tools:
+    - Bash(git add *)
+    - Bash(git commit *)
+    - Bash(git status *)
+    - Bash(git diff *)
+---
+
 # Git Commit Skill
 
 ## Overview

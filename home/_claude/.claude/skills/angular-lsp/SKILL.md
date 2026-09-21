@@ -1,6 +1,11 @@
 ---
 name: angular-lsp
 description: Use for any task that reads, edits, or navigates .ts or Angular template .html files in an Angular project — invoke before grepping or editing to get LSP diagnostics, template binding checks, go-to-definition, and find-references instead of text search. Also diagnosing Angular/TypeScript errors or refactoring components.
+allowed-tools:
+    - Bash(npx typescript-language-server *)
+    - Bash(npx ngserver *)
+    - Bash(node_modules/.bin/typescript-language-server *)
+    - Bash(node_modules/.bin/ngserver *)
 ---
 
 # angular-lsp

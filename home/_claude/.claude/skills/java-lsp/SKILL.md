@@ -1,6 +1,9 @@
 ---
 name: java-lsp
 description: Use for any task that reads, edits, or navigates .java files — invoke before grepping or editing to get LSP diagnostics, go-to-definition, and find-references instead of text search. Also diagnosing Java errors, refactoring Java code, or working with Spring Boot.
+allowed-tools:
+    - Bash(java *)
+    - Bash($HOME/.local/share/nvim/mason/packages/jdtls/*)
 ---
 
 # java-lsp

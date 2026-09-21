@@ -1,6 +1,10 @@
 ---
 name: typescript-lsp
 description: Use for any task that reads, edits, or navigates .ts/.tsx files — invoke before grepping or editing to get LSP diagnostics, go-to-definition, and find-references instead of text search. Also diagnosing TS errors, refactoring TS code, or navigating a TypeScript project.
+allowed-tools:
+    - Bash(typescript-language-server *)
+    - Bash(npx typescript-language-server *)
+    - Bash(node_modules/.bin/typescript-language-server *)
 ---
 
 # typescript-lsp

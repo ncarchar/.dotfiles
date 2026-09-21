@@ -30,6 +30,8 @@ Types: `feat|fix|docs|style|refactor|test|chore|perf`
 
 - Be succinct and direct
 - Ask clarifying questions when needed rather than making assumptions
+- Do not overly explore the code base or run large explore loops that use a lot of tokens to read random files!
+- Use the minimum reasonible amount of reads/exploring. Ask before large explore steps.
 
 ## Safety
 
