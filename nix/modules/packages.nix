@@ -22,7 +22,6 @@
     gnumake
     jq
     just
-    opencode
     parallel
     ripgrep
     starship
