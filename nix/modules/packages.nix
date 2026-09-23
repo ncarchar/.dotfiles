@@ -6,6 +6,7 @@
     bc
     blesh
     btop
+    bubblewrap
     claude-code
     coreutils
     curl
@@ -26,6 +27,7 @@
     parallel
     pi-coding-agent
     ripgrep
+    socat
     starship
     stow
     tmux
