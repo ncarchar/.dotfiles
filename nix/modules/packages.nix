@@ -24,6 +24,7 @@
     just
     opencode
     parallel
+    pi-coding-agent
     ripgrep
     starship
     stow
