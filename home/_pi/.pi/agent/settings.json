@@ -3,11 +3,13 @@
   "theme": "dark",
   "defaultProvider": "deepseek",
   "defaultModel": "deepseek-v4-pro",
+  "defaultThinkingLevel": "medium",
   "packages": [
     "npm:pi-web-access",
     "npm:pi-subagents",
     "npm:@juicesharp/rpiv-ask-user-question",
-    "npm:pi-sandbox"
+    "npm:pi-sandbox",
+    "git:github.com/DietrichGebert/ponytail"
   ],
-  "hideThinkingBlock": true
+  "hideThinkingBlock": false
 }
