@@ -1,0 +1,13 @@
+{
+  "lastChangelogVersion": "0.86.1",
+  "theme": "dark",
+  "defaultProvider": "deepseek",
+  "defaultModel": "deepseek-v4-pro",
+  "packages": [
+    "npm:pi-web-access",
+    "npm:pi-subagents",
+    "npm:@juicesharp/rpiv-ask-user-question",
+    "npm:pi-sandbox"
+  ],
+  "hideThinkingBlock": true
+}
