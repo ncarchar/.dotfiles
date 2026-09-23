@@ -15,9 +15,7 @@
 
       # Certain tools are only usable from unstable, so pull them from
       # nixpkgs-unstable until fixes backport to 26.05.
-      # - opencode: a bun --compile binary; 26.05's patchelf'd bun segfaults on WSL2.
       unstableOverlay = final: prev: {
-        opencode = nixpkgs-unstable.legacyPackages.${prev.system}.opencode;
         pi-coding-agent = nixpkgs-unstable.legacyPackages.${prev.system}.pi-coding-agent;
       };
 

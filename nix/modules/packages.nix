@@ -23,7 +23,6 @@
     gnumake
     jq
     just
-    opencode
     parallel
     pi-coding-agent
     ripgrep
