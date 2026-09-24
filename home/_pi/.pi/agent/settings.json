@@ -1,8 +1,12 @@
 {
   "lastChangelogVersion": "0.86.1",
-  "theme": "dark",
-  "defaultProvider": "deepseek",
-  "defaultModel": "deepseek-v4-pro",
+  "theme": "one-dark",
+  "defaultProvider": "openrouter",
+  "defaultModel": "deepseek/deepseek-v4-pro-0813",
+  "enabledModels": [
+    "deepseek/deepseek-v4-pro-0813",
+    "deepseek/deepseek-v4-flash-0731"
+  ],
   "defaultThinkingLevel": "medium",
   "packages": [
     "npm:pi-web-access",

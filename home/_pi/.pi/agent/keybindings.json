@@ -1,3 +1,5 @@
 {
-  "app.thinking.toggle": ["ctrl+q", "ctrl+t"]
+  "app.thinking.toggle": ["ctrl+q", "ctrl+t"],
+  "app.model.cycleForward": "ctrl+p",
+  "app.thinking.cycle": []
 }

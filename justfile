@@ -26,6 +26,11 @@ list-gen:
     sudo nix-env -p /nix/var/nix/profiles/system --list-generations
 
 stow:
+    # Keep pi's runtime dir real so stow folds the *tracked subdirs*
+    # (extensions/, skills/, …) into symlinks instead of folding ~/.pi/agent
+    # itself. If agent is ever empty when stow runs, stow folds it into one
+    # symlink and runtime state (git/, npm/, auth.json) leaks into the repo.
+    mkdir -p ~/.pi/agent/sessions
     find ~/.dotfiles/home -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | xargs -I {} stow -d ~/.dotfiles/home -t ~ -v -R {}
 
 ansible:

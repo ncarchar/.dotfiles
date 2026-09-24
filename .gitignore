@@ -10,4 +10,10 @@ home/_pi/.pi/agent/models-store.json
 home/_pi/.pi/agent/sessions/
 home/_pi/.pi/agent/npm/
 home/_pi/.pi/agent/git/
+home/_pi/.pi/agent/sandbox.json
 home/_pi/.pi/agent/web-search-cache/
+
+# Failsafe — never commit credentials or env files, at any depth.
+auth.json
+.env
+.env.*
