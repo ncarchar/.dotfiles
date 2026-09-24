@@ -5,7 +5,6 @@
 // /resume lists something meaningful. Runs once at session start, then
 // refreshes every REFRESH_EVERY_TURNS turns — not every prompt — so the extra
 // model call costs almost nothing.
-import { randomUUID } from "node:crypto";
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 
 const REFRESH_EVERY_TURNS = 3;
@@ -13,9 +12,10 @@ const MAX_HISTORY_CHARS = 5000; // cap the prompt size we pay for each refresh
 const MAX_TOPIC_WORDS = 4;
 
 // Topic model defaults to the active session model. Pin a cheaper one to cut
-// cost further, e.g.:
-// const TOPIC_MODEL: { provider: string; modelId: string } | undefined = undefined;
-const TOPIC_MODEL = { provider: "openrouter", modelId: "deepseek/deepseek-v4-flash-0731" };
+// cost, e.g.
+// const TOPIC_MODEL: { provider: string; modelId: string } | undefined =
+//     { provider: "openrouter", modelId: "deepseek/deepseek-v4-flash-0731" };
+const TOPIC_MODEL: { provider: string; modelId: string } | undefined = undefined;
 
 type Entry = { type?: string; message?: { role?: string; content?: unknown } };
 
@@ -74,7 +74,7 @@ async function generateTopic(ctx: ExtensionContext, pi: ExtensionAPI): Promise<v
                 },
             ],
         },
-        { maxTokens: 24, cacheRetention: "none", sessionId: randomUUID() }
+        { maxTokens: 24, reasoningEffort: ctx.thinkingLevel, sessionId: ctx.sessionManager.getSessionId() }
     );
 
     const topic = response.content
