@@ -20,7 +20,7 @@ const WRITE_TOOLS = new Set<string>(["edit", "write", "bash"]);
 // Anchor with ^ so compound commands (`a && rm x`) still prompt.
 const READ_ONLY_BASH = [
 	/^\s*cat\b/, /^\s*head\b/, /^\s*tail\b/, /^\s*less\b/, /^\s*more\b/, /^\s*grep\b/,
-	/^\s*find\b/, /^\s*ls\b/, /^\s*pwd\b/, /^\s*wc\b/, /^\s*sort\b/, /^\s*uniq\b/, /^\s*diff\b/,
+	/^\s*find\b/, /^\s*ls\b/, /^\s*pwd\b/, /^\s*cd\b/, /^\s*wc\b/, /^\s*sort\b/, /^\s*uniq\b/, /^\s*diff\b/,
 	/^\s*file\b/, /^\s*stat\b/, /^\s*du\b/, /^\s*df\b/, /^\s*tree\b/, /^\s*which\b/, /^\s*type\b/,
 	/^\s*env\b/, /^\s*printenv\b/, /^\s*uname\b/, /^\s*whoami\b/, /^\s*id\b/, /^\s*date\b/,
 	/^\s*uptime\b/, /^\s*ps\b/, /^\s*rg\b/, /^\s*fd\b/, /^\s*bat\b/, /^\s*eza\b/, /^\s*jq\b/,
