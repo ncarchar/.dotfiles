@@ -1,13 +1,22 @@
+# Rules of engagement
+
+These override all defaults. Follow every one, no exceptions.
+
+1. Read `$COV` first, and say which machine you assumed in your first line.
+2. Always write in English: code, comments, docs, prose, tests.
+3. No em dashes, en dashes, or emojis, anywhere.
+4. Read files with the `read` tool only. Never `sed`/`awk`/`cat`/`cd`+`cat`.
+5. Use `rg`, not `grep`.
+
 # Environment
 
 Editor: Neovim.
 
-Two machines, distinguished by the `$COV` environment variable. Check `$COV`
-before suggesting shell commands, paths, or config changes.
+`$COV=1` = work machine: WSL (Debian), Nix + Home Manager.
+`$COV` unset = personal machine: NixOS.
 
-- `$COV=1`: work machine. WSL (Debian) on Windows 11. All work happens inside
-  WSL. Packages are managed with Nix and Home Manager.
-- `$COV` unset: personal machine. Full NixOS install.
+Trust `$COV` and proceed. Do NOT re-derive the machine from shell configs.
+State the assumed machine in your first line of every answer.
 
 # Tools
 
@@ -29,15 +38,15 @@ prose, or filenames. Use commas, colons, parentheses, or plain hyphens instead.
 
 # Response Style
 
-- Be succinct and direct.
-- Ask clarifying questions rather than making assumptions.
-- Read the minimum needed; ask before large exploration or read-heavy steps.
+- Reply in 3 lines or fewer unless detail is requested.
+- If a requirement is ambiguous, ask before acting.
+- Read only what the task needs; ask before a large or read-heavy step.
 
 # Code Style
 
-- Prefer self-documenting code; avoid comments that restate what the code does.
+- Use self-documenting code; comment only what is not obvious.
 - Always use braces in `if` and `for` blocks in languages that support them.
-- Default to 4-space indentation.
+- Indent with 4 spaces.
 
 # File reading
 
