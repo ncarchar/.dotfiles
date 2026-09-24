@@ -29,8 +29,15 @@ const READ_ONLY_BASH = [
 	/^\s*npm\s+(list|ls|view|info|search|outdated|audit)/i,
 ];
 
+// Split compound commands on shell operators so `cd x && rm y` is not judged
+// by its `cd` prefix alone. Every segment must be read-only or we prompt.
+const SEGMENT_SPLIT = /&&|\|\||[;|]|\n/;
+
 function isReadOnlyBash(command: string): boolean {
-	return READ_ONLY_BASH.some((p) => p.test(command));
+	return command.split(SEGMENT_SPLIT).every((seg) => {
+		const trimmed = seg.trim();
+		return trimmed === "" || READ_ONLY_BASH.some((p) => p.test(trimmed));
+	});
 }
 
 interface ModeState {

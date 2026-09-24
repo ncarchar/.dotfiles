@@ -8,9 +8,9 @@
 import { randomUUID } from "node:crypto";
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 
-const REFRESH_EVERY_TURNS = 4;
-const MAX_HISTORY_CHARS = 3000; // cap the prompt size we pay for each refresh
-const MAX_TOPIC_WORDS = 3;
+const REFRESH_EVERY_TURNS = 3;
+const MAX_HISTORY_CHARS = 5000; // cap the prompt size we pay for each refresh
+const MAX_TOPIC_WORDS = 4;
 
 // Topic model defaults to the active session model. Pin a cheaper one to cut
 // cost further, e.g.:
@@ -82,7 +82,8 @@ async function generateTopic(ctx: ExtensionContext, pi: ExtensionAPI): Promise<v
         .map((c) => c.text)
         .join(" ")
         .replace(/\s+/g, " ")
-        .trim();
+        .trim()
+        .toLowerCase();
     if (!topic) return;
 
     ctx.ui?.setStatus("session-focus", ctx.ui.theme.fg("muted", ctx.ui.theme.italic(topic)));
