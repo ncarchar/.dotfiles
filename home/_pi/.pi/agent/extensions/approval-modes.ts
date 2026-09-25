@@ -324,11 +324,24 @@ function showApprovalPrompt(
   });
 }
 
+// Default mode for a new interactive session: manual (approve every edit).
+// Headless runs always enforce auto via effectiveMode below. CLI override:
+// PI_APPROVAL_MODE=auto pi (or =plan).
+const envMode = process.env.PI_APPROVAL_MODE;
+let mode: Mode =
+  envMode === "auto" || envMode === "manual" || envMode === "plan" ? envMode : "manual";
+
+// Headless runs share this module's state across sessions but have no UI to
+// answer a manual/plan prompt: spawned agents (pi-subagents bind with
+// "print"), `pi -p`, `--mode rpc`, and `--mode json` always enforce auto,
+// regardless of the interactive session's mode. Only the interactive TUI
+// honors the selected mode.
+function effectiveMode(ctx: ExtensionContext): Mode {
+  return ctx.mode === "tui" ? mode : "auto";
+}
+
 export default function approvalModes(pi: ExtensionAPI): void {
   const bash = loadBashConfig();
-  // Default to auto so headless children (pi-subagents) can write; they have
-  // no UI to answer a manual/plan-mode prompt.
-  let mode: Mode = "auto";
 
   // Notes typed on an approval, keyed by toolCallId, injected into the tool result.
   const pendingNotes = new Map<string, string>();
@@ -390,7 +403,7 @@ export default function approvalModes(pi: ExtensionAPI): void {
   // Steer the model with the active mode's hint. Toggling updates `mode`; the
   // next turn swaps the current guideline into the system prompt, dropping any
   // stale mode hint left over from a previous cycle.
-  pi.on("before_agent_start", async (event) => {
+  pi.on("before_agent_start", async (event, ctx) => {
     const opts = event.systemPromptOptions;
     if (!Array.isArray(opts.promptGuidelines)) {
       opts.promptGuidelines = [];
@@ -400,10 +413,14 @@ export default function approvalModes(pi: ExtensionAPI): void {
       const index = guidelines.indexOf(stale);
       if (index !== -1) guidelines.splice(index, 1);
     }
-    guidelines.push(MODE_GUIDELINES[mode]);
+    guidelines.push(MODE_GUIDELINES[effectiveMode(ctx)]);
   });
 
   pi.on("session_start", async (_event, ctx) => {
+    // Only the interactive session restores (and shows) its saved mode. A
+    // headless run or child session's entries must never flip the shared
+    // module state, and headless enforcement is auto regardless (effectiveMode).
+    if (ctx.mode !== "tui") return;
     for (const entry of ctx.sessionManager.getEntries()) {
       if (entry.type === "custom" && entry.customType === statusKey) {
         const data = entry.data as ModeState | { manual?: boolean } | undefined;
@@ -427,15 +444,16 @@ export default function approvalModes(pi: ExtensionAPI): void {
       if (cls === "readonly") return undefined;
     }
 
+    const effective = effectiveMode(ctx);
     let decision: "allow" | "prompt" | "block";
     if (event.toolName === "bash") {
-      if (mode === "plan") decision = "block";
-      else if (mode === "manual") decision = "prompt";
+      if (effective === "plan") decision = "block";
+      else if (effective === "manual") decision = "prompt";
       else decision = cls === "safe" ? "allow" : "prompt";
     } else {
       // write/edit
-      if (mode === "plan") decision = "block";
-      else if (mode === "manual") decision = "prompt";
+      if (effective === "plan") decision = "block";
+      else if (effective === "manual") decision = "prompt";
       else decision = "allow";
     }
 
@@ -450,7 +468,7 @@ export default function approvalModes(pi: ExtensionAPI): void {
 
     if (!ctx.hasUI) {
       // Non-interactive (subagent): can't ask, so fail safe.
-      return { block: true, reason: `${mode} mode: ${event.toolName} blocked (no UI to confirm)` };
+      return { block: true, reason: `${effective} mode: ${event.toolName} blocked (no UI to confirm)` };
     }
 
     const result = await showApprovalPrompt(
@@ -462,10 +480,10 @@ export default function approvalModes(pi: ExtensionAPI): void {
     const note = result?.note;
 
     if (action === undefined || action === "cancel") {
-      return { block: true, reason: `${event.toolName} cancelled by user (${mode} mode)` };
+      return { block: true, reason: `${event.toolName} cancelled by user (${effective} mode)` };
     }
     if (action === "reject") {
-      return { block: true, reason: note ? `${event.toolName} rejected: ${note}` : `${event.toolName} rejected by user (${mode} mode)` };
+      return { block: true, reason: note ? `${event.toolName} rejected: ${note}` : `${event.toolName} rejected by user (${effective} mode)` };
     }
     if (note) {
       pendingNotes.set(event.toolCallId, note);

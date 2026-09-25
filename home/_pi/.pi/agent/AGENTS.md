@@ -15,17 +15,25 @@ A name that does not exist yet becomes a mount point: a char device (`c`),
 These hold no data and are not repo files, secrets, or leaked host dotfiles.
 Do not read, edit, or commit them, and do not flag them as leaks. Ignore them.
 
-# tools
+# file reading
 
 Read files with the `read` tool only; never `sed`, `awk`, `perl`, or `cut`.
 For partial views, `offset` is the 1-based first line and `limit` the line
 count. (`read` never triggers an approval prompt; `sed -i` mutates in place.)
 
+- `sed -n '101,170p' f` → `read path=f offset=101 limit=70`
+- `sed -n '1,50p' f` → `read path=f limit=50`
+- `cat f` → `read path=f`
+
+# tools
+
+Use `rg`, not `grep`, for searching. Available on both machines:
+
 `git gh rg find jq make just cmake node pnpm tsc python3 cargo clang mvn curl wget parallel tmux awscli2 direnv unzip zip`
 
 # response style
 
-- Write code, comments, docs, and replies in English; 
+- Write code, comments, docs, and replies in English;
 - Replies should be succinct and easy to understand.
 - No em dashes, en dashes, or emojis, anywhere.
 - Read only what the task needs; ask before a large or read-heavy step.
