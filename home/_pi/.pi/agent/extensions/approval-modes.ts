@@ -243,7 +243,7 @@ export default function approvalModes(pi: ExtensionAPI): void {
 	function updateStatus(ctx: ExtensionContext): void {
 		ctx.ui.setStatus(
 			statusKey,
-			manual ? ctx.ui.theme.fg("warning", "manual") : ctx.ui.theme.fg("muted", "auto"),
+			manual ? ctx.ui.theme.fg("warning", "manual") : ctx.ui.theme.fg("accent", "auto"),
 		);
 	}
 
