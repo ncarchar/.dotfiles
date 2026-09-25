@@ -1,0 +1,27 @@
+{
+  "readonlyBash": [
+    "cat", "head", "tail", "less", "more", "grep", "rg", "find", "ls", "pwd", "cd",
+    "wc", "sort", "uniq", "diff", "file", "stat", "du", "df", "tree", "which", "type",
+    "whereis", "env", "printenv", "uname", "whoami", "id", "date", "uptime", "ps",
+    "bat", "eza", "jq", "echo", "printf", "node --version", "npm --version", "git --version",
+    "git status", "git diff", "git log", "git show", "git branch", "git remote",
+    "git ls-", "git stash list", "git blame", "git tag", "git rev-parse",
+    "git config", "git ls-files", "git reflog", "git shortlog", "git describe",
+    "npm list", "npm ls", "npm view", "npm info", "npm search", "npm outdated", "npm audit"
+  ],
+  "safeBash": [
+    "mkdir", "touch", "mv", "cp", "rm", "rmdir", "ln", "chmod", "chown",
+    "sed", "awk", "tr", "tee", "dirname", "basename", "realpath", "readlink",
+    "git add", "git mv", "git rm", "git commit", "git checkout", "git switch",
+    "git merge", "git rebase", "git push", "git pull", "git fetch", "git stash",
+    "git reset", "git restore", "git apply", "git cherry-pick", "git init", "git clone",
+    "npm run", "npm test", "npm start", "npm install", "npm ci", "npm build",
+    "pnpm", "yarn", "cargo test", "cargo build", "cargo check",
+    "make", "just", "nix flake", "nix build", "nix develop", "nix shell",
+    "nixos-rebuild", "home-manager", "tsc", "tsx"
+  ],
+  "unsafePatterns": [
+    "rm -rf", "rm -fr", "sudo", "chmod 777", "docker system prune",
+    "git reset --hard", "git push --force", "git push -f", "shutdown", "reboot"
+  ]
+}
