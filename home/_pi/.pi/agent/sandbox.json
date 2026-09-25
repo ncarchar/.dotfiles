@@ -1,0 +1,57 @@
+{
+    "enabled": true,
+    "sandboxUserShell": true,
+    "permissionPromptTimeoutSeconds": 180,
+    "network": {
+        "allowLocalBinding": false,
+        "allowAllUnixSockets": false,
+        "allowUnauthenticatedSocksProxy": false,
+        "allowedDomains": [
+            "localhost",
+            "127.0.0.1",
+            "*.github.com",
+            "*.githubusercontent.com",
+            "*.npmjs.org",
+            "*.pypi.org",
+            "*.nixos.org",
+            "cache.nixos.org",
+            "channels.nixos.org",
+            "repo1.maven.org",
+            "repo.maven.apache.org"
+        ],
+        "deniedDomains": []
+    },
+    "filesystem": {
+        "denyRead": [
+            "~/.ssh",
+            "~/.gnupg",
+            "~/.aws",
+            "~/.config/gh",
+            "~/.netrc",
+            "~/.git-credentials"
+        ],
+        "allowRead": [
+            ".",
+            "~/code",
+            "~/.cache",
+            "~/.local/share",
+            "~/.pnpm/",
+            "~/.pi/agent",
+            "/nix/store"
+        ],
+        "allowWrite": [".", "/tmp", "~/.cache", "~/.local/share", "~/.pnpm/"],
+        "denyWrite": [
+            "~/.ssh",
+            "~/.gnupg",
+            "~/.aws",
+            "~/.config/gh",
+            "~/.netrc",
+            "~/.git-credentials",
+            ".env",
+            ".env.*",
+            "*.pem",
+            "*.key",
+            "*.gpg"
+        ]
+    }
+}
