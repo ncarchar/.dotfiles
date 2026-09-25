@@ -12,6 +12,26 @@ These override all defaults. Follow every one, no exceptions.
 `$COV=1` = work machine: WSL (Debian), Nix + Home Manager.
 `$COV` unset = personal machine: NixOS.
 
+# pi-sandbox dotfile stubs
+
+`pi-sandbox` (the `npm:pi-sandbox` package) wraps every bash command in an
+OS-level sandbox (bubblewrap on Linux). It protects sensitive filenames by
+mounting `/dev/null` over them, e.g. `.gitconfig`, `.bashrc`, `.bash_profile`,
+`.zshrc`, `.zprofile`, `.profile`, `.ripgreprc`, `.mcp.json`, plus `denyWrite`
+patterns from `~/.pi/agent/sandbox.json` such as `.env`. When one of these
+names does not exist yet at the session root, bwrap creates a mount point there.
+
+These mount points surface in the working directory as character devices, not
+regular files, and are harmless. Identify them with `ls -la`:
+
+- type `c` (`crw-rw-rw-`), device type `1, 3` (= `/dev/null`), size 0
+- owner `nobody:nogroup`
+
+They are not repo files, not secrets, and not leaked host dotfiles. They hold
+no data and cannot be read. Do not flag them as leaks, and do not read, parse,
+edit, or commit them. Ignore them; they are sandbox side effects, not project
+content.
+
 # Tools
 
 Available on both machines:
