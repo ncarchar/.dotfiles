@@ -129,8 +129,14 @@ interface ModeState {
   mode: Mode;
 }
 
-const PLAN_GUIDELINE =
-  "Plan mode: read-only. Investigate the codebase and produce a structured implementation plan as your final response. Do not call write, edit, or non-read-only bash.";
+// One-line steering hint per mode, injected into the system prompt and swapped
+// out on mode change. Real enforcement lives in the tool-call gate below; these
+// only prime the model to behave consistently with the active mode.
+const MODE_GUIDELINES: Record<Mode, string> = {
+  auto: "Auto mode: apply edits and safe commands automatically.",
+  manual: "Manual mode: each edit requires approval; state what you intend to change before editing.",
+  plan: "Plan mode: read-only. Investigate the codebase and produce a structured implementation plan as your final response. Do not call write, edit, or non-read-only bash.",
+};
 
 function truncate(text: string, maxLines: number): string {
   const lines = String(text).split("\n");
@@ -381,21 +387,20 @@ export default function approvalModes(pi: ExtensionAPI): void {
     handler: async (ctx) => cycleMode(ctx),
   });
 
-  // Steer the model while plan mode is active. Toggling updates `mode`, and the
-  // next turn diffs this guideline in or out of the system prompt.
+  // Steer the model with the active mode's hint. Toggling updates `mode`; the
+  // next turn swaps the current guideline into the system prompt, dropping any
+  // stale mode hint left over from a previous cycle.
   pi.on("before_agent_start", async (event) => {
     const opts = event.systemPromptOptions;
-    const guidelines = opts.promptGuidelines;
-    if (Array.isArray(guidelines)) {
-      const index = guidelines.indexOf(PLAN_GUIDELINE);
-      if (mode === "plan") {
-        if (index === -1) guidelines.push(PLAN_GUIDELINE);
-      } else if (index !== -1) {
-        guidelines.splice(index, 1);
-      }
-    } else if (mode === "plan") {
-      opts.promptGuidelines = [PLAN_GUIDELINE];
+    if (!Array.isArray(opts.promptGuidelines)) {
+      opts.promptGuidelines = [];
     }
+    const guidelines = opts.promptGuidelines;
+    for (const stale of Object.values(MODE_GUIDELINES)) {
+      const index = guidelines.indexOf(stale);
+      if (index !== -1) guidelines.splice(index, 1);
+    }
+    guidelines.push(MODE_GUIDELINES[mode]);
   });
 
   pi.on("session_start", async (_event, ctx) => {
