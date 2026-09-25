@@ -1,20 +1,16 @@
-// Session focus status line.
-//
-// Generates a few-word description of what this session is working on, shown
-// in the footer, and (if the session has no name yet) used as its name so
-// /resume lists something meaningful. Runs once at session start, then
-// refreshes every REFRESH_EVERY_TURNS turns — not every prompt — so the extra
-// model call costs almost nothing.
+/*
+ * Generates a few-word description of what this session is working on, shown
+ * in the footer, and (if the session has no name yet) used as its name so
+ * /resume lists something meaningful. Runs once at session start, then
+ * refreshes every REFRESH_EVERY_TURNS turns, not every prompt, so the extra
+ * model call costs almost nothing.
+ */
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 
 const REFRESH_EVERY_TURNS = 3;
-const MAX_HISTORY_CHARS = 5000; // cap the prompt size we pay for each refresh
+const MAX_HISTORY_CHARS = 5000;
 const MAX_TOPIC_WORDS = 4;
 
-// Topic model defaults to the active session model. Pin a cheaper one to cut
-// cost, e.g.
-// const TOPIC_MODEL: { provider: string; modelId: string } | undefined =
-//     { provider: "openrouter", modelId: "deepseek/deepseek-v4-flash-0731" };
 const TOPIC_MODEL: { provider: string; modelId: string } | undefined = undefined;
 
 type Entry = { type?: string; message?: { role?: string; content?: unknown } };
@@ -41,7 +37,6 @@ export function buildFocusText(entries: Entry[]): string {
         const text = extractText(entry.message.content).trim();
         if (text) lines.push(`${role === "user" ? "User" : "Assistant"}: ${text}`);
     }
-    // Take the opening context: it holds the session's raison d'être.
     return lines.join("\n").slice(0, MAX_HISTORY_CHARS);
 }
 
@@ -74,7 +69,11 @@ async function generateTopic(ctx: ExtensionContext, pi: ExtensionAPI): Promise<v
                 },
             ],
         },
-        { maxTokens: 24, reasoningEffort: ctx.thinkingLevel, sessionId: ctx.sessionManager.getSessionId() }
+        {
+            maxTokens: 24,
+            reasoningEffort: ctx.thinkingLevel,
+            sessionId: ctx.sessionManager.getSessionId(),
+        }
     );
 
     const topic = response.content
@@ -114,13 +113,10 @@ export default function sessionFocus(pi: ExtensionAPI) {
 
     pi.on("turn_end", async (_event, ctx) => {
         turns += 1;
-        // First turn is a second chance (session_start can run before the model
-        // is resolved); after that, refresh on a cadence only.
         if (turns === 1 || turns % REFRESH_EVERY_TURNS === 0) refresh(ctx);
     });
 }
 
-// Self-check: SESSION_FOCUS_SELFTEST=1 node extensions/session-focus.ts
 if (process.env.SESSION_FOCUS_SELFTEST) {
     const sample: Entry[] = [
         {
