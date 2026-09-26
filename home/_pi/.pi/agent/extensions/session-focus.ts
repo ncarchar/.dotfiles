@@ -37,17 +37,23 @@ export function buildFocusText(entries: Entry[]): string {
         const text = extractText(entry.message.content).trim();
         if (text) lines.push(`${role === "user" ? "User" : "Assistant"}: ${text}`);
     }
-    return lines.join("\n").slice(0, MAX_HISTORY_CHARS);
+    return lines.join("\n").slice(-MAX_HISTORY_CHARS);
 }
 
 async function generateTopic(ctx: ExtensionContext, pi: ExtensionAPI): Promise<void> {
     const history = buildFocusText(ctx.sessionManager.getBranch());
-    if (!history.trim()) return;
+    if (!history.trim()) {
+        console.error("[session-focus] no history yet");
+        return;
+    }
 
     const model = TOPIC_MODEL
         ? ctx.modelRegistry.find(TOPIC_MODEL.provider, TOPIC_MODEL.modelId)
         : ctx.model;
-    if (!model || !ctx.modelRegistry.hasConfiguredAuth(model)) return;
+    if (!model || !ctx.modelRegistry.hasConfiguredAuth(model)) {
+        ctx.ui?.notify(`session-focus: no authed model (${model?.id ?? "none"})`, "error");
+        return;
+    }
 
     const prompt = [
         `Write a title of at most ${MAX_TOPIC_WORDS} words describing what this coding session is focused on.`,
@@ -70,23 +76,33 @@ async function generateTopic(ctx: ExtensionContext, pi: ExtensionAPI): Promise<v
             ],
         },
         {
-            maxTokens: 24,
-            reasoningEffort: ctx.thinkingLevel,
+            maxTokens: 256,
+            // No reasoningEffort: for deepseek (thinkingFormat "deepseek") this sends
+            // thinking: { type: "disabled" }, so the title call runs without reasoning.
             sessionId: ctx.sessionManager.getSessionId(),
         }
     );
 
-    const topic = response.content
+    const text = response.content
         .filter((c): c is { type: "text"; text: string } => c.type === "text")
         .map((c) => c.text)
-        .join(" ")
-        .replace(/\s+/g, " ")
-        .trim()
-        .toLowerCase();
-    if (!topic) return;
+        .join(" ");
+    const thinking = response.content
+        .filter((c): c is { type: "thinking"; thinking: string } => c.type === "thinking")
+        .map((c) => c.thinking)
+        .join(" ");
+    const topic = (text || thinking).replace(/\s+/g, " ").trim().toLowerCase();
+    if (!topic) {
+        console.error(
+            "[session-focus] empty topic; content types:",
+            JSON.stringify(response.content.map((c) => (c as { type?: string }).type))
+        );
+        ctx.ui?.notify("session-focus: model returned no title", "error");
+        return;
+    }
 
-    ctx.ui?.setStatus("session-focus", ctx.ui.theme.fg("muted", ctx.ui.theme.italic(topic)));
-    if (!pi.getSessionName()) pi.setSessionName(topic);
+    // Keep the footer title current; this overrides any manually-set name.
+    pi.setSessionName(topic);
 }
 
 export default function sessionFocus(pi: ExtensionAPI) {
@@ -97,17 +113,17 @@ export default function sessionFocus(pi: ExtensionAPI) {
         if (running) return;
         running = true;
         generateTopic(ctx, pi)
-            .catch(() => {})
+            .catch((error) => {
+                const message = error instanceof Error ? error.message : String(error);
+                console.error("[session-focus] topic generation failed:", error);
+                ctx.ui?.notify(`session-focus failed: ${message}`, "error");
+            })
             .finally(() => {
                 running = false;
             });
     };
 
     pi.on("session_start", async (_event, ctx) => {
-        ctx.ui?.setStatus(
-            "session-focus",
-            ctx.ui.theme.fg("muted", ctx.ui.theme.italic("focusing…"))
-        );
         refresh(ctx);
     });
 
