@@ -12,6 +12,7 @@
             "*.github.com",
             "*.githubusercontent.com",
             "*.npmjs.org",
+            "openrouter.ai",
             "*.pypi.org",
             "*.nixos.org",
             "cache.nixos.org",
