@@ -31,6 +31,15 @@ Use `rg`, not `grep`, for searching. Available on both machines:
 
 `git gh rg find jq make just cmake node pnpm tsc python3 cargo clang mvn curl wget parallel tmux awscli2 direnv unzip zip`
 
+# redaction
+
+Email addresses, phone numbers, social security numbers, credit card
+numbers, and other secrets may be automatically redacted before they reach
+you, appearing as placeholders such as `[REDACTED]` or similar. This is
+intended behavior. Do not treat a redacted value as an error or a loss of
+context; proceed with the information you have and do not try to recover or
+reconstruct the original value.
+
 # response style
 
 - Write code, comments, docs, and replies in English;
