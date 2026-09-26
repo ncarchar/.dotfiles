@@ -9,17 +9,6 @@
     "git config", "git ls-files", "git reflog", "git shortlog", "git describe",
     "npm list", "npm ls", "npm view", "npm info", "npm search", "npm outdated", "npm audit"
   ],
-  "safeBash": [
-    "mkdir", "touch", "mv", "cp", "rm", "rmdir", "ln", "chmod", "chown",
-    "sed", "awk", "tr", "tee", "dirname", "basename", "realpath", "readlink",
-    "git add", "git mv", "git rm", "git commit", "git checkout", "git switch",
-    "git merge", "git rebase", "git push", "git pull", "git fetch", "git stash",
-    "git reset", "git restore", "git apply", "git cherry-pick", "git init", "git clone",
-    "npm run", "npm test", "npm start", "npm install", "npm ci", "npm build",
-    "pnpm", "yarn", "cargo test", "cargo build", "cargo check",
-    "make", "just", "nix flake", "nix build", "nix develop", "nix shell",
-    "nixos-rebuild", "home-manager", "tsc", "tsx", "node"
-  ],
   "unsafePatterns": [
     "rm -rf", "rm -fr", "sudo", "chmod 777", "docker system prune",
     "git reset --hard", "git push --force", "git push -f", "shutdown", "reboot"

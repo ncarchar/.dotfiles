@@ -7,7 +7,7 @@
  * /auto    - write/edit and known-safe bash apply automatically (default).
  * shift+tab - cycles auto -> manual -> plan -> auto.
  *
- * Bash classification (readonlyBash / safeBash / unsafePatterns) loads from
+ * Bash classification (readonlyBash / unsafePatterns) loads from
  * ~/.pi/agent/bash-classification.json.
  *
  * pi-sandbox is the real OS-level guard underneath (bwrap blocks writes to
@@ -32,7 +32,6 @@ type BashClass = "readonly" | "safe" | "unsafe";
 
 interface BashConfig {
     readonlyBash: string[];
-    safeBash: string[];
     unsafePatterns: string[];
 }
 
@@ -42,7 +41,6 @@ interface BashConfig {
  */
 const DEFAULT_BASH: BashConfig = {
     readonlyBash: [],
-    safeBash: [],
     unsafePatterns: [],
 };
 
@@ -109,7 +107,6 @@ function loadBashConfig(): BashConfig {
         };
         return {
             readonlyBash: list("readonlyBash"),
-            safeBash: list("safeBash"),
             unsafePatterns: list("unsafePatterns"),
         };
     } catch {
@@ -132,23 +129,16 @@ function classifyBash(command: string, cfg: BashConfig): BashClassification {
     const segments = splitSegments(command);
     if (segments.length === 0) return { cls: "readonly" };
 
-    const isReadonly = (seg: string): boolean =>
-        cfg.readonlyBash.some((e) => matchesCommand(seg, e));
-    const isSafeOrReadonly = (seg: string): boolean =>
-        isReadonly(seg) || cfg.safeBash.some((e) => matchesCommand(seg, e));
-
     for (const seg of segments) {
         if (cfg.unsafePatterns.some((p) => seg.includes(p))) {
             return { cls: "unsafe", command: commandName(seg) };
         }
     }
+    const isReadonly = (s: string): boolean =>
+        cfg.readonlyBash.some((e) => matchesCommand(s, e));
     if (segments.every(isReadonly)) return { cls: "readonly" };
-    if (segments.every(isSafeOrReadonly)) {
-        const seg = segments.find((s) => !isReadonly(s));
-        return { cls: "safe", command: seg ? commandName(seg) : undefined };
-    }
-    const seg = segments.find((s) => !isSafeOrReadonly(s));
-    return { cls: "unsafe", command: seg ? commandName(seg) : undefined };
+    const seg = segments.find((s) => !isReadonly(s));
+    return { cls: "safe", command: seg ? commandName(seg) : undefined };
 }
 
 type Mode = "auto" | "manual" | "plan";
