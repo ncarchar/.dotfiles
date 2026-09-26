@@ -6,6 +6,9 @@
 export PATH="$HOME/.scripts:$PATH"
 export PATH="/home/cvhew/.local/bin:$PATH"
 
+# Secrets (not committed); may be absent on some systems
+[[ -f ~/.env ]] && source ~/.env
+
 source ~/.shell/alias.sh
 source ~/.shell/fzfconf.sh
 

@@ -7,8 +7,20 @@
  */
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 
+import { decide } from "./lib/jev";
+
 const REFRESH_EVERY_TURNS = 3;
-const MAX_HISTORY_CHARS = 5000;
+
+/* Only regenerate when Jev is confident the title no longer fits. A higher bar
+ * here flaps on borderline titles (e.g. p=0.67) and toggles between synonyms.
+ */
+
+const TITLE_ACCURATE_THRESHOLD = 0.4;
+
+/* Small window keeps the title tracking the *recent* topic. A large window
+ * dilutes new topics with old ones, so the title lags and Jev always says stale.
+ */
+const MAX_HISTORY_CHARS = 3000;
 const MAX_TOPIC_WORDS = 4;
 
 const TOPIC_MODEL: { provider: string; modelId: string } | undefined = undefined;
@@ -40,10 +52,44 @@ export function buildFocusText(entries: Entry[]): string {
     return lines.join("\n").slice(-MAX_HISTORY_CHARS);
 }
 
+async function titleStillAccurate(title: string, history: string): Promise<boolean> {
+    const state = { title, conversation: history };
+    const questions = {
+        title_accurate: {
+            type: "noul" as const,
+            instructions:
+                "Does the current title accurately describe the most recent topic of this coding session?",
+            criteria: {
+                true: "The title accurately captures the most recent topic of discussion.",
+                false: "The conversation has moved to a different topic, or the title is too vague or wrong.",
+            },
+        },
+    };
+    try {
+        const { answers } = await decide(state, questions);
+
+        const answer = answers.title_accurate;
+        if (answer?.type === "noul") {
+            return answer.noul >= TITLE_ACCURATE_THRESHOLD;
+        }
+
+        console.error("[session-focus] jev: unexpected answer", JSON.stringify(answer));
+        return false;
+    } catch (error) {
+        console.error("[session-focus] jev check failed, regenerating:", error);
+        return false;
+    }
+}
+
 async function generateTopic(ctx: ExtensionContext, pi: ExtensionAPI): Promise<void> {
     const history = buildFocusText(ctx.sessionManager.getBranch());
     if (!history.trim()) {
         console.error("[session-focus] no history yet");
+        return;
+    }
+
+    const current = pi.getSessionName();
+    if (current && (await titleStillAccurate(current, history))) {
         return;
     }
 
@@ -56,7 +102,7 @@ async function generateTopic(ctx: ExtensionContext, pi: ExtensionAPI): Promise<v
     }
 
     const prompt = [
-        `Write a title of at most ${MAX_TOPIC_WORDS} words describing what this coding session is focused on.`,
+        `Write a specific 2-${MAX_TOPIC_WORDS} word title for the MOST RECENT topic of this coding session. Include the subject and its focus (e.g. "tiger conservation", not "tiger"). The last messages matter most; ignore older, completed topics.`,
         "Reply with only the title: no punctuation, no quotes, no explanation.",
         "",
         "<conversation>",
