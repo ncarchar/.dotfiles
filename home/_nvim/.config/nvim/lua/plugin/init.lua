@@ -6,6 +6,7 @@ return {
     require("plugin.telescope"),
     require("plugin.theme"),
     require("plugin.treesitter"),
+    require("plugin.fundo"),
     require("plugin.undotree"),
     require("plugin.vim_qf"),
     require("plugin.vim_simple_todo"),
