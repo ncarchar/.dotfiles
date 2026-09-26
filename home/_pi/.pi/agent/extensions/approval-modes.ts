@@ -46,15 +46,53 @@ const DEFAULT_BASH: BashConfig = {
     unsafePatterns: [],
 };
 
-/* Split compound commands on shell operators so `cd x && rm y` is not judged
- * by its `cd` prefix alone. Every segment must be classified. No single `|`
- * here: it appears inside quoted regex/string args (e.g. `rg "a|b"`) and would
- * split those into bogus non-command fragments.
+/* Strip leading `VAR=value ` env assignments from a command segment. */
+const ENV_PREFIX = /^(?:[A-Za-z_][A-Za-z0-9_]*=[^\s]+\s+)+/;
+
+/* Split a command on shell operators (`&&`, `||`, `;`) and top-level newlines,
+ * but not inside quotes. A multi-line `jq`/`awk` program is one segment, not a
+ * pile of continuation lines (`[`, `test(`) that would classify as unsafe.
  */
-const SEGMENT_SPLIT = /&&|\|\||;|\n/;
+function splitSegments(command: string): string[] {
+    const segments: string[] = [];
+    let current = "";
+    let quote: "'" | '"' | null = null;
+    for (let i = 0; i < command.length; i++) {
+        const ch = command[i]!;
+        if (quote !== null) {
+            current += ch;
+            if (ch === quote) quote = null;
+            continue;
+        }
+        if (ch === "'" || ch === '"') {
+            quote = ch;
+            current += ch;
+            continue;
+        }
+        const two = command.slice(i, i + 2);
+        if (two === "&&" || two === "||") {
+            const seg = current.trim();
+            if (seg !== "") segments.push(seg);
+            current = "";
+            i++;
+            continue;
+        }
+        if (ch === ";" || ch === "\n") {
+            const seg = current.trim();
+            if (seg !== "") segments.push(seg);
+            current = "";
+            continue;
+        }
+        current += ch;
+    }
+    const last = current.trim();
+    if (last !== "") segments.push(last);
+    return segments;
+}
 
 function matchesCommand(segment: string, entry: string): boolean {
-    return segment === entry || segment.startsWith(entry + " ");
+    const seg = segment.replace(ENV_PREFIX, "");
+    return seg === entry || seg.startsWith(entry + " ");
 }
 
 function loadBashConfig(): BashConfig {
@@ -79,26 +117,38 @@ function loadBashConfig(): BashConfig {
     }
 }
 
-function classifyBash(command: string, cfg: BashConfig): BashClass {
-    const segments = command
-        .split(SEGMENT_SPLIT)
-        .map((s) => s.trim())
-        .filter((s) => s !== "");
-    if (segments.length === 0) return "readonly";
+interface BashClassification {
+    cls: BashClass;
+    command?: string;
+}
+
+function commandName(segment: string): string {
+    const rest = segment.replace(ENV_PREFIX, "");
+    const word = rest.split(/\s+/)[0] ?? "";
+    return word.split("/").pop() || "command";
+}
+
+function classifyBash(command: string, cfg: BashConfig): BashClassification {
+    const segments = splitSegments(command);
+    if (segments.length === 0) return { cls: "readonly" };
+
+    const isReadonly = (seg: string): boolean =>
+        cfg.readonlyBash.some((e) => matchesCommand(seg, e));
+    const isSafeOrReadonly = (seg: string): boolean =>
+        isReadonly(seg) || cfg.safeBash.some((e) => matchesCommand(seg, e));
 
     for (const seg of segments) {
-        for (const pattern of cfg.unsafePatterns) {
-            if (seg.includes(pattern)) return "unsafe";
+        if (cfg.unsafePatterns.some((p) => seg.includes(p))) {
+            return { cls: "unsafe", command: commandName(seg) };
         }
     }
-    if (segments.every((seg) => cfg.readonlyBash.some((e) => matchesCommand(seg, e)))) {
-        return "readonly";
+    if (segments.every(isReadonly)) return { cls: "readonly" };
+    if (segments.every(isSafeOrReadonly)) {
+        const seg = segments.find((s) => !isReadonly(s));
+        return { cls: "safe", command: seg ? commandName(seg) : undefined };
     }
-    const safeOrReadonly = [...cfg.readonlyBash, ...cfg.safeBash];
-    if (segments.every((seg) => safeOrReadonly.some((e) => matchesCommand(seg, e)))) {
-        return "safe";
-    }
-    return "unsafe";
+    const seg = segments.find((s) => !isSafeOrReadonly(s));
+    return { cls: "unsafe", command: seg ? commandName(seg) : undefined };
 }
 
 type Mode = "auto" | "manual" | "plan";
@@ -113,6 +163,13 @@ const MODE_GUIDELINES: Record<Mode, string> = {
     auto: "Auto mode: apply edits and safe commands automatically.",
     manual: "Manual mode: each edit requires approval; state what you intend to change before editing.",
     plan: "Plan mode: read-only. Investigate the codebase and produce a structured implementation plan as your final response. Do not call write, edit, or non-read-only bash.",
+};
+
+/* Short human-facing summaries, distinct from the long model guidelines above. */
+const MODE_SUMMARIES: Record<Mode, string> = {
+    auto: "edits and safe commands apply automatically",
+    manual: "approve each edit before it applies",
+    plan: "read-only; produce a plan instead of editing",
 };
 
 function truncate(text: string, maxLines: number): string {
@@ -170,7 +227,8 @@ const APPROVAL_OPTIONS: { label: string; key: string; action: ApprovalAction }[]
 function showApprovalPrompt(
     ctx: ExtensionContext,
     heading: string,
-    body: string
+    body: string,
+    reason: string
 ): Promise<ApprovalResult | undefined> {
     return ctx.ui.custom<ApprovalResult>((tui, theme, _kb, done) => {
         const input = new Input();
@@ -200,7 +258,11 @@ function showApprovalPrompt(
                 updateFocus();
             },
             render(width: number): string[] {
-                const out: string[] = [truncateToWidth(theme.fg("warning", heading), width), ""];
+                const out: string[] = [
+                    truncateToWidth(theme.fg("warning", heading), width),
+                    truncateToWidth(theme.fg("dim", `Reason: ${reason}`), width),
+                    "",
+                ];
                 for (const line of bodyLines) out.push(truncateToWidth(line, width));
                 out.push("");
                 for (let i = 0; i < APPROVAL_OPTIONS.length; i++) {
@@ -336,33 +398,19 @@ export default function approvalModes(pi: ExtensionAPI): void {
         mode = next;
         updateStatus(ctx);
         persist();
-        const message =
-            next === "auto"
-                ? "Auto mode: edits and safe commands apply automatically"
-                : next === "manual"
-                  ? "Manual mode: approve each edit before it applies"
-                  : "Plan mode: read-only; produce a plan instead of editing";
-        ctx.ui.notify(message, "info");
+        ctx.ui.notify(`${next} mode: ${MODE_SUMMARIES[next]}`, "info");
     }
 
     function cycleMode(ctx: ExtensionContext): void {
         setMode(MODES[(MODES.indexOf(mode) + 1) % MODES.length]!, ctx);
     }
 
-    pi.registerCommand("manual", {
-        description: "Manual mode: approve/reject every file edit",
-        handler: async (_args, ctx) => setMode("manual", ctx),
-    });
-
-    pi.registerCommand("auto", {
-        description: "Auto mode: apply file edits and safe commands automatically",
-        handler: async (_args, ctx) => setMode("auto", ctx),
-    });
-
-    pi.registerCommand("plan", {
-        description: "Plan mode: read-only analysis that produces a plan",
-        handler: async (_args, ctx) => setMode("plan", ctx),
-    });
+    for (const m of MODES) {
+        pi.registerCommand(m, {
+            description: `${m} mode: ${MODE_SUMMARIES[m]}`,
+            handler: async (_args, ctx) => setMode(m, ctx),
+        });
+    }
 
     pi.registerShortcut("shift+tab", {
         description: "Cycle auto/manual/plan approval mode",
@@ -394,19 +442,12 @@ export default function approvalModes(pi: ExtensionAPI): void {
         if (ctx.mode !== "tui") return;
         for (const entry of ctx.sessionManager.getEntries()) {
             if (entry.type === "custom" && entry.customType === statusKey) {
-                const data = entry.data as ModeState | { manual?: boolean } | undefined;
+                const data = entry.data as ModeState | undefined;
                 if (
                     data &&
-                    "mode" in data &&
                     (data.mode === "auto" || data.mode === "manual" || data.mode === "plan")
                 ) {
-                    mode = (data as ModeState).mode;
-                } else if (
-                    data &&
-                    "manual" in data &&
-                    typeof (data as { manual?: boolean }).manual === "boolean"
-                ) {
-                    mode = (data as { manual: boolean }).manual ? "manual" : "auto";
+                    mode = data.mode;
                 }
             }
         }
@@ -416,10 +457,10 @@ export default function approvalModes(pi: ExtensionAPI): void {
     pi.on("tool_call", async (event, ctx) => {
         if (!WRITE_TOOLS.has(event.toolName)) return undefined;
 
-        let cls: BashClass | undefined;
+        let classification: BashClassification | undefined;
         if (event.toolName === "bash") {
-            cls = classifyBash(String(event.input.command ?? ""), bash);
-            if (cls === "readonly") return undefined;
+            classification = classifyBash(String(event.input.command ?? ""), bash);
+            if (classification.cls === "readonly") return undefined;
         }
 
         const effective = effectiveMode(ctx);
@@ -427,7 +468,7 @@ export default function approvalModes(pi: ExtensionAPI): void {
         if (event.toolName === "bash") {
             if (effective === "plan") decision = "block";
             else if (effective === "manual") decision = "prompt";
-            else decision = cls === "safe" ? "allow" : "prompt";
+            else decision = classification?.cls === "safe" ? "allow" : "prompt";
         } else {
             if (effective === "plan") decision = "block";
             else if (effective === "manual") decision = "prompt";
@@ -450,10 +491,19 @@ export default function approvalModes(pi: ExtensionAPI): void {
             };
         }
 
+        const flaggedCmd = classification?.command ?? "command";
+        const reason =
+            event.toolName === "bash"
+                ? effective === "manual"
+                    ? `manual mode: \`${flaggedCmd}\` requires approval`
+                    : `auto mode: \`${flaggedCmd}\` classified unsafe`
+                : "manual mode requires approval for file edits";
+
         const result = await showApprovalPrompt(
             ctx,
             `Approve ${event.toolName}?`,
-            formatEdit(event.toolName, event.input as Record<string, unknown>)
+            formatEdit(event.toolName, event.input as Record<string, unknown>),
+            reason
         );
         const action = result?.action;
         const note = result?.note;

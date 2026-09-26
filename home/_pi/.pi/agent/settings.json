@@ -5,7 +5,9 @@
   "defaultModel": "deepseek/deepseek-v4-pro-0813",
   "enabledModels": [
     "deepseek/deepseek-v4-pro-0813",
-    "deepseek/deepseek-v4-flash-0731"
+    "deepseek/deepseek-v4-flash-0731",
+    "deepseek-v4-pro",
+    "deepseek-flash"
   ],
   "defaultThinkingLevel": "medium",
   "packages": [
