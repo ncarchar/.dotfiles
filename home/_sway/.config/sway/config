@@ -155,3 +155,14 @@ client.urgent           #282C34 #282C34 #ABB2BF
 
 default_border pixel 2
 default_floating_border pixel 2
+
+# --- soundboard ---
+bindsym Ctrl+Alt+q exec $HOME/code/sound/soundboard stop
+bindsym Ctrl+Alt+w exec $HOME/code/sound/soundboard play $HOME/code/sound/clips/villager.mp3
+bindsym Ctrl+Alt+e exec $HOME/code/sound/soundboard play $HOME/code/sound/clips/villager-hmm.mp3
+bindsym Ctrl+Alt+r exec $HOME/code/sound/soundboard play $HOME/code/sound/clips/villager-trade.mp3
+bindsym Ctrl+Alt+t exec $HOME/code/sound/soundboard play $HOME/code/sound/clips/smoke-detector.mp3
+
+bindsym Ctrl+Alt+u exec $HOME/code/sound/soundboard play $HOME/code/sound/clips/jeopardy.mp3
+bindsym Ctrl+Alt+y exec $HOME/code/sound/soundboard play $HOME/code/sound/clips/suspense.mp3
+# --- end soundboard ---
