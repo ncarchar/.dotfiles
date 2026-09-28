@@ -17,6 +17,7 @@
       # nixpkgs-unstable until fixes backport to 26.05.
       unstableOverlay = final: prev: {
         pi-coding-agent = nixpkgs-unstable.legacyPackages.${prev.system}.pi-coding-agent;
+        herdr = nixpkgs-unstable.legacyPackages.${prev.system}.herdr;
       };
 
       mkPkgs =
