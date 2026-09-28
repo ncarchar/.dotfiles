@@ -97,7 +97,7 @@ async function generateTopic(ctx: ExtensionContext, pi: ExtensionAPI): Promise<v
         ? ctx.modelRegistry.find(TOPIC_MODEL.provider, TOPIC_MODEL.modelId)
         : ctx.model;
     if (!model || !ctx.modelRegistry.hasConfiguredAuth(model)) {
-        ctx.ui?.notify(`session-focus: no authed model (${model?.id ?? "none"})`, "error");
+        console.error("[session-focus] no authed model:", model?.id ?? "none");
         return;
     }
 
@@ -143,7 +143,6 @@ async function generateTopic(ctx: ExtensionContext, pi: ExtensionAPI): Promise<v
             "[session-focus] empty topic; content types:",
             JSON.stringify(response.content.map((c) => (c as { type?: string }).type))
         );
-        ctx.ui?.notify("session-focus: model returned no title", "error");
         return;
     }
 
@@ -160,9 +159,7 @@ export default function sessionFocus(pi: ExtensionAPI) {
         running = true;
         generateTopic(ctx, pi)
             .catch((error) => {
-                const message = error instanceof Error ? error.message : String(error);
                 console.error("[session-focus] topic generation failed:", error);
-                ctx.ui?.notify(`session-focus failed: ${message}`, "error");
             })
             .finally(() => {
                 running = false;
