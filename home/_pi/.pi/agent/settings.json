@@ -15,7 +15,8 @@
     "npm:pi-subagents",
     "npm:@juicesharp/rpiv-ask-user-question",
     "npm:pi-sandbox",
-    "git:github.com/DietrichGebert/ponytail"
+    "git:github.com/DietrichGebert/ponytail",
+    "npm:billion-context-pi"
   ],
   "hideThinkingBlock": false
 }
