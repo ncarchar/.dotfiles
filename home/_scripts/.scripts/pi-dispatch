@@ -1,14 +1,17 @@
 #!/usr/bin/env bash
 # pi-dispatch: run a task in a herdr-dispatched, sandboxed pi sub-agent and print its result.
 #
-#   pi-dispatch <task...>         spawn one sub-agent, run it, print result/result.md, reap the tab
-#   pi-dispatch --reap            close tabs recorded by dispatches that died mid-run
-#   printf 'task' | pi-dispatch   task from stdin (when no args)
+#   pi-dispatch <task...>              spawn one sub-agent in $PWD, run it, print result, reap
+#   pi-dispatch --cwd DIR <task...>    same, but the worker sits in DIR (another project/repo)
+#   pi-dispatch --branch NAME <task...> create worktree+branch NAME off DIR, worker commits there;
+#                                       checkout is removed on completion, branch is kept
+#   pi-dispatch --keep <task...>       leave the tab/checkout and run dir for inspection
+#   pi-dispatch --reap                 close tabs/worktrees recorded by dispatches that died mid-run
+#   printf 'task' | pi-dispatch        task from stdin (when no args)
 #
-# Requires HERDR_ENV=1 (run inside a herdr pane) and jq.
+# Requires HERDR_ENV=1 (run inside a herdr pane), git, and jq.
 set -euo pipefail
 
-POLL=3
 TIMEOUT=900
 STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/share}/pi-dispatch"
 WORKSPACE="${HERDR_WORKSPACE_ID:?not inside a herdr pane (HERDR_ENV=1)}"
@@ -17,22 +20,34 @@ h() { herdr "$@"; }
 
 reap() {
     [[ "${KEEP:-0}" == 1 ]] && return 0
-    [[ -n "${TAB_ID:-}" ]] || return 0
-    h agent send-keys "$NAME" ctrl+d >/dev/null 2>&1 || true    # best-effort graceful quit
-    sleep 1
-    h tab close "$TAB_ID" >/dev/null 2>&1 || h pane close "$PANE_ID" >/dev/null 2>&1 || true
+    if [[ -n "${WT_WS:-}" ]]; then
+        # the workspace hosts the checkout; quit the agent, then remove the
+        # checkout (branch is kept) and close the workspace it opened
+        h agent send-keys "$NAME" ctrl+d >/dev/null 2>&1 || true
+        h agent wait "$NAME" --until done --timeout 15000 >/dev/null 2>&1 || true
+        h worktree remove --workspace "$WT_WS" --trust-repository >/dev/null 2>&1 || true
+        h workspace close "$WT_WS" >/dev/null 2>&1 || true
+    elif [[ -n "${TAB_ID:-}" ]]; then
+        h agent send-keys "$NAME" ctrl+d >/dev/null 2>&1 || true
+        sleep 1
+        h tab close "$TAB_ID" >/dev/null 2>&1 || h pane close "$PANE_ID" >/dev/null 2>&1 || true
+    fi
     [[ -n "${STATE:-}" ]] && rm -f "$STATE"
-    [[ -n "${RUN_DIR:-}" && "${KEEP:-0}" != 1 ]] && rm -rf "$RUN_DIR"
+    [[ -n "${RUN_DIR:-}" ]] && rm -rf "$RUN_DIR"
 }
 
 if [[ "${1:-}" == "--reap" ]]; then
     shopt -s nullglob
     for s in "$STATE_DIR"/*.json; do
         tid=$(jq -r '.tab_id // ""' "$s" 2>/dev/null)
-        [[ -n "$tid" ]] || continue
-        if h tab get "$tid" >/dev/null 2>&1; then
+        wws=$(jq -r '.wt_workspace // ""' "$s" 2>/dev/null)
+        if [[ -n "$tid" ]] && h tab get "$tid" >/dev/null 2>&1; then
             h tab close "$tid" >/dev/null 2>&1 || true
             echo "reaped $tid ($(jq -r '.agent // "?"' "$s"))"
+        elif [[ -n "$wws" ]] && h workspace get "$wws" >/dev/null 2>&1; then
+            h worktree remove --workspace "$wws" --trust-repository >/dev/null 2>&1 || true
+            h workspace close "$wws" >/dev/null 2>&1 || true
+            echo "reaped workspace $wws ($(jq -r '.agent // "?"' "$s"))"
         fi
         rm -f "$s"
     done
@@ -40,10 +55,29 @@ if [[ "${1:-}" == "--reap" ]]; then
 fi
 
 KEEP=0
-if [[ "${1:-}" == "--keep" ]]; then KEEP=1; shift; fi
+BRANCH=""
+CWD=""
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --keep) KEEP=1; shift ;;
+        --branch) BRANCH="$2"; shift 2 ;;
+        --cwd) CWD="$2"; shift 2 ;;
+        --*) echo "unknown flag: $1" >&2; exit 2 ;;
+        *) break ;;
+    esac
+done
 
 TASK="${*:-$(cat)}"
-[[ -n "$TASK" ]] || { echo "usage: pi-dispatch [--keep] <task...>" >&2; exit 2; }
+[[ -n "$TASK" ]] || { echo "usage: pi-dispatch [--keep] [--branch NAME] [--cwd DIR] <task...>" >&2; exit 2; }
+
+REPO="${CWD:-$PWD}"
+if [[ -n "$BRANCH" ]]; then
+    # minimal validation; git itself is the authority on the rest
+    [[ "$BRANCH" != *' '* && "$BRANCH" != -* ]] || { echo "invalid branch name: $BRANCH" >&2; exit 2; }
+    if git -C "$REPO" show-ref --verify -q "refs/heads/$BRANCH" 2>/dev/null; then
+        echo "branch already exists: $BRANCH" >&2; exit 2
+    fi
+fi
 
 mkdir -p "$STATE_DIR"
 RUN_DIR=$(mktemp -d /tmp/pi-dispatch.XXXXXX)
@@ -54,10 +88,24 @@ ID=${ID//./-}             # herdr agent names reject dots
 NAME="pi-$ID"
 trap 'reap' EXIT
 
-resp=$(h tab create --workspace "$WORKSPACE" --cwd "$PWD" --no-focus 2>&1) || true
-TAB_ID=$(jq -r '.result.tab.tab_id // empty' <<<"$resp")
-PANE_ID=$(jq -r '.result.root_pane.pane_id // empty' <<<"$resp")
-[[ -n "$TAB_ID" && -n "$PANE_ID" ]] || { echo "tab create failed: $resp" >&2; exit 1; }
+TAB_ID=""
+WT_WS=""
+CHECKOUT=""
+if [[ -n "$BRANCH" ]]; then
+    # checkout dir = repo/branch + the agent's process name, so the on-disk
+    # checkout and the running worker can be traced to each other
+    CHECKOUT="$HOME/.herdr/worktrees/$(basename "$REPO")/${BRANCH}-${NAME}"
+    resp=$(h worktree create --cwd "$REPO" --branch "$BRANCH" --path "$CHECKOUT" --no-focus --trust-repository 2>&1) || true
+    CHECKOUT=$(jq -r '.result.worktree.path // empty' <<<"$resp")
+    PANE_ID=$(jq -r '.result.root_pane.pane_id // empty' <<<"$resp")
+    WT_WS=$(jq -r '.result.workspace.workspace_id // empty' <<<"$resp")
+    [[ -n "$CHECKOUT" && -n "$PANE_ID" && -n "$WT_WS" ]] || { echo "worktree create failed: $resp" >&2; exit 1; }
+else
+    resp=$(h tab create --workspace "$WORKSPACE" --cwd "$REPO" --no-focus 2>&1) || true
+    TAB_ID=$(jq -r '.result.tab.tab_id // empty' <<<"$resp")
+    PANE_ID=$(jq -r '.result.root_pane.pane_id // empty' <<<"$resp")
+    [[ -n "$TAB_ID" && -n "$PANE_ID" ]] || { echo "tab create failed: $resp" >&2; exit 1; }
+fi
 
 printf '%s\n' "$TASK" > "$RUN_DIR/brief.md"
 
@@ -65,28 +113,34 @@ printf '%s\n' "$TASK" > "$RUN_DIR/brief.md"
 STATE="$STATE_DIR/$ID.json"
 jq -n --arg id "$ID" --arg name "$NAME" --arg tab "$TAB_ID" --arg pane "$PANE_ID" \
     --arg run "$RUN_DIR" --arg task "$TASK" --arg ts "$(date -Iseconds)" \
-    '{id:$id, agent:$name, tab_id:$tab, pane_id:$pane, run_dir:$run, task:$task, started:$ts}' > "$STATE"
+    --arg branch "$BRANCH" --arg cwd "$REPO" --arg checkout "$CHECKOUT" --arg wtws "$WT_WS" \
+    '{id:$id, agent:$name, tab_id:$tab, pane_id:$pane, run_dir:$run, task:$task, started:$ts, branch:$branch, cwd:$cwd, checkout_path:$checkout, wt_workspace:$wtws}' > "$STATE"
 
 out=$(h agent start "$NAME" --kind pi --pane "$PANE_ID" 2>&1) || true
 [[ $(jq -r '.result.type // ""' <<<"$out") == "agent_started" ]] || { echo "agent start failed: $out" >&2; exit 1; }
 
-INSTR="You are running a dispatched task. Read the instructions file $RUN_DIR/brief.md with your read tool. Complete the task using your tools. When finished, write only your final answer to $RUN_DIR/result.md, then reply with exactly: DONE"
-pout=$(h agent prompt "$NAME" "$INSTR" 2>&1) || true
-[[ $(jq -r '.result.type // ""' <<<"$pout") == "agent_prompted" ]] || { echo "prompt failed: $pout" >&2; exit 1; }
+INSTR="You are running a dispatched task. Read the instructions file $RUN_DIR/brief.md with your read tool. Complete the task using your tools. When finished, write your result to $RUN_DIR/result.md: first line exactly 'status: done' or 'status: failed', then your final answer on the following lines. Then reply with exactly: DONE"
+# Submit and block until the child settles. --wait tracks the working->idle
+# transition so the pre-submission idle state cannot false-match (a bare
+# `agent wait` after a fire-and-forget prompt returns on that idle at once).
+pout=$(h agent prompt "$NAME" "$INSTR" --wait --until idle --until done --until blocked --timeout $((TIMEOUT * 1000)) 2>&1) || {
+    echo "error: $NAME did not settle within ${TIMEOUT}s ($pout); run dir $RUN_DIR (reap with: pi-dispatch --reap)" >&2
+    exit 1
+}
 
-# ponytail: poll-for-file completion (no turn_end hook yet); a child that exits
-# without writing result.md is a failure, not silence.
-deadline=$(( $(date +%s) + TIMEOUT ))
-while [[ ! -s "$RUN_DIR/result.md" ]]; do
-    if ! h agent get "$NAME" 2>/dev/null | jq -e '.result.agent' >/dev/null 2>&1; then
-        echo "error: $NAME exited without writing $RUN_DIR/result.md (reap with: pi-dispatch --reap)" >&2
-        exit 1
-    fi
-    if [[ $(date +%s) -ge $deadline ]]; then
-        echo "error: timed out after ${TIMEOUT}s; run dir $RUN_DIR (reap with: pi-dispatch --reap)" >&2
-        exit 1
-    fi
-    sleep "$POLL"
-done
+if [[ ! -s "$RUN_DIR/result.md" ]]; then
+    # Settled without writing result.md: record the transcript tail as the
+    # durable result rather than failing (script records facts, not the model).
+    h agent read "$NAME" --source recent-unwrapped --lines 400 > "$RUN_DIR/result.md" 2>/dev/null || true
+fi
+[[ -s "$RUN_DIR/result.md" ]] || {
+    echo "error: $NAME settled with no result; run dir $RUN_DIR (reap with: pi-dispatch --reap)" >&2
+    exit 1
+}
 
+rc=0
+case "$(head -n 1 "$RUN_DIR/result.md")" in
+    "status: failed") rc=1; echo "worker reported: FAILED" >&2 ;;
+esac
 cat "$RUN_DIR/result.md"
+exit "$rc"

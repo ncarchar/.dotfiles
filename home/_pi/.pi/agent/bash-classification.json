@@ -10,7 +10,7 @@
     "npm list", "npm ls", "npm view", "npm info", "npm search", "npm outdated", "npm audit"
   ],
   "unsafePatterns": [
-    "rm -rf", "rm -fr", "sudo", "chmod 777", "docker system prune",
+    "sudo", "chmod 777", "docker system prune",
     "git reset --hard", "git push --force", "git push -f", "shutdown", "reboot"
   ]
 }

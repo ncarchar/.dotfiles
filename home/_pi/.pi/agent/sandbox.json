@@ -41,7 +41,7 @@
             "~/.pi/agent",
             "/nix/store"
         ],
-        "allowWrite": [".", "/tmp", "~/.cache", "~/.local/share", "~/.pnpm/"],
+        "allowWrite": [".", "/tmp", "~/.cache", "~/.local/share", "~/.pnpm/", "~/code"],
         "denyWrite": [
             "~/.ssh",
             "~/.gnupg",

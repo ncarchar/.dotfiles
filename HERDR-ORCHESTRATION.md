@@ -208,10 +208,12 @@ pi-dispatch --reap            close tabs recorded by dispatches that died mid-ru
 ```
 
 Flow: `tab create` (new tab, `--no-focus`) -> `agent start --kind pi` -> write the
-task to `/tmp/pi-dispatch.<id>/brief.md` -> `agent prompt` the child to read the
-brief, do the work, write the final answer to `/tmp/pi-dispatch.<id>/result.md`,
-and reply `DONE` -> poll `result.md` (3s interval, 900s timeout) -> print the
-result -> reap (graceful `ctrl+d`, then close the tab).
+task to `/tmp/pi-dispatch.<id>/brief.md` -> `agent prompt ... --wait --until idle`
+the child (read the brief, do the work, write the final answer to
+`/tmp/pi-dispatch.<id>/result.md`, reply `DONE`); `--wait` tracks the
+working->idle transition so it returns when the turn settles -> print
+`result.md`, or the transcript tail if the child settled without writing it ->
+reap (graceful `ctrl+d`, then close the tab).
 
 State and cleanup:
 
@@ -232,16 +234,17 @@ Gotchas hit while building (do not relearn these):
   non-zero exit, so capture `2>&1` in the `$(...)`; `herdr ... 2>/dev/null` under
   `set -e` aborts silently and hides the real reason (e.g. `invalid_agent_name`).
 
-Verified end to end: a trivial task returned `pong` in ~23s with a clean reap (no
+Verified end to end: a trivial task returned `pong` in ~10s with a clean reap (no
 stray tabs, no state files). The dispatched child's own bash calls are
 bwrap-sandboxed as described above; the limits of that are in "What the sandbox
 is and is not".
 
 Known ceilings (deliberate simplifications):
 
-- Completion is poll-for-`result.md`, not a `turn_end`/`agent_settled` hook; a
-  child that exits without writing the file is reported as failure. The hook is
-  the upgrade path if polling ever races or hangs.
+- Completion is herdr-detected (`agent prompt --wait --until idle/done/blocked`);
+  but a `turn_end` extension could still write a precise completion marker if the
+  herdr state ever proves unreliable. The transcript-tail fallback covers a child
+  that settles without writing `result.md`.
 - `--reap` is manual, not a background reconciler.
 - Single dispatch only; no parallel fanout yet.
 
