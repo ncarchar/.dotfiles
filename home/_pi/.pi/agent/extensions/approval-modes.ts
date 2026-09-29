@@ -354,9 +354,7 @@ function showApprovalPrompt(
     });
 }
 
-const envMode = process.env.PI_APPROVAL_MODE;
-let mode: Mode =
-    envMode === "auto" || envMode === "manual" || envMode === "plan" ? envMode : "manual";
+let mode: Mode = "auto";
 
 function effectiveMode(ctx: ExtensionContext): Mode {
     return ctx.mode === "tui" ? mode : "auto";

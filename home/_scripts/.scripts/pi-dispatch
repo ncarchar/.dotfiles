@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+# pi-dispatch: run a task in a herdr-dispatched, sandboxed pi sub-agent and print its result.
+#
+#   pi-dispatch <task...>         spawn one sub-agent, run it, print result/result.md, reap the tab
+#   pi-dispatch --reap            close tabs recorded by dispatches that died mid-run
+#   printf 'task' | pi-dispatch   task from stdin (when no args)
+#
+# Requires HERDR_ENV=1 (run inside a herdr pane) and jq.
+set -euo pipefail
+
+POLL=3
+TIMEOUT=900
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/share}/pi-dispatch"
+WORKSPACE="${HERDR_WORKSPACE_ID:?not inside a herdr pane (HERDR_ENV=1)}"
+
+h() { herdr "$@"; }
+
+reap() {
+    [[ "${KEEP:-0}" == 1 ]] && return 0
+    [[ -n "${TAB_ID:-}" ]] || return 0
+    h agent send-keys "$NAME" ctrl+d >/dev/null 2>&1 || true    # best-effort graceful quit
+    sleep 1
+    h tab close "$TAB_ID" >/dev/null 2>&1 || h pane close "$PANE_ID" >/dev/null 2>&1 || true
+    [[ -n "${STATE:-}" ]] && rm -f "$STATE"
+    [[ -n "${RUN_DIR:-}" && "${KEEP:-0}" != 1 ]] && rm -rf "$RUN_DIR"
+}
+
+if [[ "${1:-}" == "--reap" ]]; then
+    shopt -s nullglob
+    for s in "$STATE_DIR"/*.json; do
+        tid=$(jq -r '.tab_id // ""' "$s" 2>/dev/null)
+        [[ -n "$tid" ]] || continue
+        if h tab get "$tid" >/dev/null 2>&1; then
+            h tab close "$tid" >/dev/null 2>&1 || true
+            echo "reaped $tid ($(jq -r '.agent // "?"' "$s"))"
+        fi
+        rm -f "$s"
+    done
+    exit 0
+fi
+
+KEEP=0
+if [[ "${1:-}" == "--keep" ]]; then KEEP=1; shift; fi
+
+TASK="${*:-$(cat)}"
+[[ -n "$TASK" ]] || { echo "usage: pi-dispatch [--keep] <task...>" >&2; exit 2; }
+
+mkdir -p "$STATE_DIR"
+RUN_DIR=$(mktemp -d /tmp/pi-dispatch.XXXXXX)
+ID=$(basename "$RUN_DIR")
+ID=${ID#pi-dispatch.}     # just the 6 random chars
+ID=${ID,,}                # mktemp suffix has uppercase; herdr wants lowercase
+ID=${ID//./-}             # herdr agent names reject dots
+NAME="pi-$ID"
+trap 'reap' EXIT
+
+resp=$(h tab create --workspace "$WORKSPACE" --cwd "$PWD" --no-focus 2>&1) || true
+TAB_ID=$(jq -r '.result.tab.tab_id // empty' <<<"$resp")
+PANE_ID=$(jq -r '.result.root_pane.pane_id // empty' <<<"$resp")
+[[ -n "$TAB_ID" && -n "$PANE_ID" ]] || { echo "tab create failed: $resp" >&2; exit 1; }
+
+printf '%s\n' "$TASK" > "$RUN_DIR/brief.md"
+
+# ponytail: durable state so a dead dispatch can be reaped later (see --reap)
+STATE="$STATE_DIR/$ID.json"
+jq -n --arg id "$ID" --arg name "$NAME" --arg tab "$TAB_ID" --arg pane "$PANE_ID" \
+    --arg run "$RUN_DIR" --arg task "$TASK" --arg ts "$(date -Iseconds)" \
+    '{id:$id, agent:$name, tab_id:$tab, pane_id:$pane, run_dir:$run, task:$task, started:$ts}' > "$STATE"
+
+out=$(h agent start "$NAME" --kind pi --pane "$PANE_ID" 2>&1) || true
+[[ $(jq -r '.result.type // ""' <<<"$out") == "agent_started" ]] || { echo "agent start failed: $out" >&2; exit 1; }
+
+INSTR="You are running a dispatched task. Read the instructions file $RUN_DIR/brief.md with your read tool. Complete the task using your tools. When finished, write only your final answer to $RUN_DIR/result.md, then reply with exactly: DONE"
+pout=$(h agent prompt "$NAME" "$INSTR" 2>&1) || true
+[[ $(jq -r '.result.type // ""' <<<"$pout") == "agent_prompted" ]] || { echo "prompt failed: $pout" >&2; exit 1; }
+
+# ponytail: poll-for-file completion (no turn_end hook yet); a child that exits
+# without writing result.md is a failure, not silence.
+deadline=$(( $(date +%s) + TIMEOUT ))
+while [[ ! -s "$RUN_DIR/result.md" ]]; do
+    if ! h agent get "$NAME" 2>/dev/null | jq -e '.result.agent' >/dev/null 2>&1; then
+        echo "error: $NAME exited without writing $RUN_DIR/result.md (reap with: pi-dispatch --reap)" >&2
+        exit 1
+    fi
+    if [[ $(date +%s) -ge $deadline ]]; then
+        echo "error: timed out after ${TIMEOUT}s; run dir $RUN_DIR (reap with: pi-dispatch --reap)" >&2
+        exit 1
+    fi
+    sleep "$POLL"
+done
+
+cat "$RUN_DIR/result.md"

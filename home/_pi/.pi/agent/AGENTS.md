@@ -52,3 +52,30 @@ reconstruct the original value.
 - Self-documenting code; comment only what is not obvious.
 - Always use braces in `if`/`for` blocks where the language supports them.
 - Indent with 4 spaces.
+
+# sub-agent dispatch (herdr + pi-dispatch)
+
+This machine runs a master + sandboxed-sub-agent pattern. This
+section applies to both roles, because master and children share this `~/.pi`.
+The full model, including verified findings and known limits, is
+`/home/cvhew/.dotfiles/HERDR-ORCHESTRATION.md`. Read it before extending the tooling.
+
+## As the master (dispatching work)
+
+- Stay sandboxed. Dispatch goes over the herdr socket to the already-running
+  herdr server, never as your own child process, so `--die-with-parent` does not
+  apply. You need no unsandboxed powers to orchestrate.
+- Run one sub-agent with `~/.scripts/pi-dispatch <task...>` (or stdin). It returns
+  the child's answer and reaps the tab. `pi-dispatch --reap` closes tabs left by
+  dispatches that died mid-run; `--keep` leaves the tab and run dir for inspection.
+
+## As a dispatched child (doing the work)
+
+- Your task is at `<run>/brief.md` (the absolute path is in your prompt). Do the
+  work, write only your final answer to `<run>/result.md`, then reply exactly
+  `DONE`. The master polls `result.md`; do not close your own tab or pane.
+- Your `bash` runs under pi-sandbox (bwrap). `read`/`write`/`edit` and any
+  extension tools are not OS-sandboxed, and the sandbox can be disabled; treat it
+  as accident mitigation, not a security boundary.
+- Never read `~/.pi/agent/auth.json` (the credential store) or another agent's
+  session transcripts.
