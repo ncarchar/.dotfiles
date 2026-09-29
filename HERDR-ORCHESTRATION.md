@@ -202,26 +202,39 @@ After adding or editing it, run `just stow` outside the sandbox.
 
 ```
 pi-dispatch <task...>         spawn one sub-agent, run it, print the result, reap the tab
+pi-dispatch --cwd DIR <task...>     same, but the worker sits in DIR (another project/repo)
+pi-dispatch --branch NAME <task...> create a worktree+branch NAME off DIR; the worker commits there, the checkout is removed on completion, the branch is kept
 printf 'task' | pi-dispatch   task from stdin
 pi-dispatch --keep <task...>  leave the tab and run dir for inspection
 pi-dispatch --reap            close tabs recorded by dispatches that died mid-run
 ```
 
-Flow: `tab create` (new tab, `--no-focus`) -> `agent start --kind pi` -> write the
+Flow: spawn the worker on one of three paths: default `tab create` (new tab,
+`--no-focus` in the current workspace), `--cwd DIR` (same tab, but it sits in
+DIR), or `--branch NAME` (a `herdr worktree create` checkout off DIR/`$PWD`; the
+tab sits in that checkout). Then `agent start --kind pi` -> write the
 task to `/tmp/pi-dispatch.<id>/brief.md` -> `agent prompt ... --wait --until idle`
 the child (read the brief, do the work, write the final answer to
 `/tmp/pi-dispatch.<id>/result.md`, reply `DONE`); `--wait` tracks the
 working->idle transition so it returns when the turn settles -> print
 `result.md`, or the transcript tail if the child settled without writing it ->
-reap (graceful `ctrl+d`, then close the tab).
+reap (graceful `ctrl+d`, then close the tab; on the `--branch` path, remove the
+worktree checkout while keeping the branch).
 
 State and cleanup:
 
 - Durable record written before spawn: `~/.local/share/pi-dispatch/<id>.json`
-  (id, agent name, tab/pane ids, run dir, task, start time). `--reap` reads these
-  and closes any tab that still exists, then removes the record. A `trap ... EXIT`
-  reaps the tab and run dir on every normal-exit path; `--keep` skips it.
+  (id, agent name, tab/pane ids, run dir, task, start time, branch, cwd,
+  checkout_path, wt_workspace). `--reap` reads these and closes any tab or
+  worktree workspace that still exists, then removes the record. A `trap ... EXIT`
+  reaps the tab (or worktree checkout) and run dir on every normal-exit path;
+  `--keep` skips it.
 - Run dirs live under `/tmp` (inside the child's `allowWrite`; never the repo).
+- The `--branch` checkout directory embeds the worker's process name, so an
+  on-disk checkout can be traced to its worker:
+  `~/.herdr/worktrees/<repo>/<branch>-pi-<id>`.
+- Result contract: the first line of `result.md` is `status: done` or
+  `status: failed`; pi-dispatch exits non-zero when the worker reports `failed`.
 
 Gotchas hit while building (do not relearn these):
 
@@ -294,4 +307,6 @@ Known ceilings (deliberate simplifications):
   `home/_pi/.pi/agent/sandbox.json`: `enabled: true`, `allowAllUnixSockets: true`,
   `denyRead` includes `~/.pi/agent/auth.json` (bash-only stub), `allowRead`
   includes `~/.pi/agent` (read tool sees the real files), and `allowWrite` is
-  `[".", "/tmp", "~/.cache", "~/.local/share", "~/.pnpm/"]`.
+  `[".", "/tmp", "~/.cache", "~/.local/share", "~/.pnpm/", "~/code"]` (`~/code`
+  was added so workers can git-commit inside `~/code` repositories; verified end
+  to end).
