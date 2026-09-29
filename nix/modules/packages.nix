@@ -21,7 +21,6 @@
     git
     gnugrep
     gnumake
-    herdr
     jq
     just
     parallel
