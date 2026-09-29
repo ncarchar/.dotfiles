@@ -201,34 +201,36 @@ docs recommend exactly this).
 After adding or editing it, run `just stow` outside the sandbox.
 
 ```
-pi-dispatch <task...>         spawn one sub-agent, run it, print the result, reap the tab
-pi-dispatch --cwd DIR <task...>     same, but the worker sits in DIR (another project/repo)
+pi-dispatch <task...>              spawn one sub-agent in its own workspace, run it, print the result, and leave it open (keep is default)
+pi-dispatch --cwd DIR <task...>    same, but the worker sits in DIR (another project/repo)
 pi-dispatch --branch NAME <task...> create a worktree+branch NAME off DIR; the worker commits there, the checkout is removed on completion, the branch is kept
-printf 'task' | pi-dispatch   task from stdin
-pi-dispatch --keep <task...>  leave the tab and run dir for inspection
-pi-dispatch --reap            close tabs recorded by dispatches that died mid-run
+printf 'task' | pi-dispatch        task from stdin
+pi-dispatch --close <task...>      reap the workspace/checkout, state, and run dir when it settles
+pi-dispatch --reap                 close workspaces/worktrees recorded by dispatches (kept or dead)
 ```
 
-Flow: spawn the worker on one of three paths: default `tab create` (new tab,
-`--no-focus` in the current workspace), `--cwd DIR` (same tab, but it sits in
-DIR), or `--branch NAME` (a `herdr worktree create` checkout off DIR/`$PWD`; the
-tab sits in that checkout). Then `agent start --kind pi` -> write the
-task to `/tmp/pi-dispatch.<id>/brief.md` -> `agent prompt ... --wait --until idle`
-the child (read the brief, do the work, write the final answer to
-`/tmp/pi-dispatch.<id>/result.md`, reply `DONE`); `--wait` tracks the
-working->idle transition so it returns when the turn settles -> print
-`result.md`, or the transcript tail if the child settled without writing it ->
-reap (graceful `ctrl+d`, then close the tab; on the `--branch` path, remove the
-worktree checkout while keeping the branch).
+Flow: spawn the worker on one of three paths: default `herdr workspace create`
+(a new workspace labeled with the worker name, `--no-focus`), `--cwd DIR` (same
+workspace, but it sits in DIR), or `--branch NAME` (a `herdr worktree create`
+checkout off DIR/`$PWD`; the workspace sits in that checkout). Then
+`agent start --kind pi` -> write the task to `/tmp/pi-dispatch.<id>/brief.md` ->
+`agent prompt ... --wait --until idle` the child (read the brief, do the work,
+write the final answer to `/tmp/pi-dispatch.<id>/result.md`, reply `DONE`);
+`--wait` tracks the working->idle transition so it returns when the turn settles
+-> print `result.md`, or the transcript tail if the child settled without
+writing it -> reap on `--close` only (graceful `ctrl+d`, then close the whole
+workspace; on the `--branch` path, remove the worktree checkout while keeping
+the branch).
 
 State and cleanup:
 
 - Durable record written before spawn: `~/.local/share/pi-dispatch/<id>.json`
-  (id, agent name, tab/pane ids, run dir, task, start time, branch, cwd,
-  checkout_path, wt_workspace). `--reap` reads these and closes any tab or
-  worktree workspace that still exists, then removes the record. A `trap ... EXIT`
-  reaps the tab (or worktree checkout) and run dir on every normal-exit path;
-  `--keep` skips it.
+  (id, agent name, tab/pane/workspace ids, run dir, task, start time, branch,
+  cwd, checkout_path, wt_workspace). `--reap` reads these and closes any
+  workspace, then worktree workspace, then legacy tab that still exists, then
+  removes the record. Workers stay open by default; `--close` opts into the
+  `trap ... EXIT` reap of the workspace (or worktree checkout) and run dir on
+  every normal-exit path.
 - Run dirs live under `/tmp` (inside the child's `allowWrite`; never the repo).
 - The `--branch` checkout directory embeds the worker's process name, so an
   on-disk checkout can be traced to its worker:

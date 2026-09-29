@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 # pi-dispatch: run a task in a herdr-dispatched, sandboxed pi sub-agent and print its result.
 #
-#   pi-dispatch <task...>              spawn one sub-agent in $PWD, run it, print result, reap
+#   pi-dispatch <task...>              spawn one sub-agent in its own workspace (space), run it,
+#                                       print the result, and leave it open (keep is default)
 #   pi-dispatch --cwd DIR <task...>    same, but the worker sits in DIR (another project/repo)
-#   pi-dispatch --branch NAME <task...> create worktree+branch NAME off DIR, worker commits there;
-#                                       checkout is removed on completion, branch is kept
-#   pi-dispatch --keep <task...>       leave the tab/checkout and run dir for inspection
-#   pi-dispatch --reap                 close tabs/worktrees recorded by dispatches that died mid-run
+#   pi-dispatch --branch NAME <task...> create a git worktree+branch NAME off DIR, worker commits
+#                                       there; the checkout is removed on completion, branch is kept
+#   pi-dispatch --close <task...>      reap the workspace/checkout, state, and run dir when it settles
+#   pi-dispatch --reap                 close workspaces/worktrees recorded by dispatches (kept or dead)
 #   printf 'task' | pi-dispatch        task from stdin (when no args)
 #
 # Requires HERDR_ENV=1 (run inside a herdr pane), git, and jq.
@@ -27,10 +28,11 @@ reap() {
         h agent wait "$NAME" --until done --timeout 15000 >/dev/null 2>&1 || true
         h worktree remove --workspace "$WT_WS" --trust-repository >/dev/null 2>&1 || true
         h workspace close "$WT_WS" >/dev/null 2>&1 || true
-    elif [[ -n "${TAB_ID:-}" ]]; then
+    elif [[ -n "${WS_ID:-}" ]]; then
+        # worker owns a dedicated workspace; quit it and close the whole space
         h agent send-keys "$NAME" ctrl+d >/dev/null 2>&1 || true
         sleep 1
-        h tab close "$TAB_ID" >/dev/null 2>&1 || h pane close "$PANE_ID" >/dev/null 2>&1 || true
+        h workspace close "$WS_ID" >/dev/null 2>&1 || true
     fi
     [[ -n "${STATE:-}" ]] && rm -f "$STATE"
     [[ -n "${RUN_DIR:-}" ]] && rm -rf "$RUN_DIR"
@@ -41,25 +43,37 @@ if [[ "${1:-}" == "--reap" ]]; then
     for s in "$STATE_DIR"/*.json; do
         tid=$(jq -r '.tab_id // ""' "$s" 2>/dev/null)
         wws=$(jq -r '.wt_workspace // ""' "$s" 2>/dev/null)
-        if [[ -n "$tid" ]] && h tab get "$tid" >/dev/null 2>&1; then
-            h tab close "$tid" >/dev/null 2>&1 || true
-            echo "reaped $tid ($(jq -r '.agent // "?"' "$s"))"
-        elif [[ -n "$wws" ]] && h workspace get "$wws" >/dev/null 2>&1; then
+        wsid=$(jq -r '.workspace_id // ""' "$s" 2>/dev/null)
+        pid=$(jq -r '.pane_id // ""' "$s" 2>/dev/null)
+        run=$(jq -r '.run_dir // ""' "$s" 2>/dev/null)
+        agent=$(jq -r '.agent // "?"' "$s" 2>/dev/null)
+        if [[ -n "$wws" ]] && h workspace get "$wws" >/dev/null 2>&1; then
             h worktree remove --workspace "$wws" --trust-repository >/dev/null 2>&1 || true
             h workspace close "$wws" >/dev/null 2>&1 || true
-            echo "reaped workspace $wws ($(jq -r '.agent // "?"' "$s"))"
+            echo "reaped worktree workspace $wws ($agent)"
+        elif [[ -n "$wsid" ]] && h workspace get "$wsid" >/dev/null 2>&1; then
+            h workspace close "$wsid" >/dev/null 2>&1 || true
+            echo "reaped workspace $wsid ($agent)"
+        elif [[ -n "$tid" ]] && h tab get "$tid" >/dev/null 2>&1; then
+            # legacy record from when dispatch opened its own tab; close the whole tab
+            h tab close "$tid" >/dev/null 2>&1 || true
+            echo "reaped $tid ($agent)"
+        elif [[ -n "$pid" ]] && h pane get "$pid" >/dev/null 2>&1; then
+            h pane close "$pid" >/dev/null 2>&1 || true
+            echo "reaped $pid ($agent)"
         fi
         rm -f "$s"
+        rm -rf "$run"
     done
     exit 0
 fi
 
-KEEP=0
+KEEP=1          # keep (leave the worker pane open) is the default
 BRANCH=""
 CWD=""
 while [[ $# -gt 0 ]]; do
     case "$1" in
-        --keep) KEEP=1; shift ;;
+        --close) KEEP=0; shift ;;
         --branch) BRANCH="$2"; shift 2 ;;
         --cwd) CWD="$2"; shift 2 ;;
         --*) echo "unknown flag: $1" >&2; exit 2 ;;
@@ -68,7 +82,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 TASK="${*:-$(cat)}"
-[[ -n "$TASK" ]] || { echo "usage: pi-dispatch [--keep] [--branch NAME] [--cwd DIR] <task...>" >&2; exit 2; }
+[[ -n "$TASK" ]] || { echo "usage: pi-dispatch [--close] [--branch NAME] [--cwd DIR] <task...>" >&2; exit 2; }
 
 REPO="${CWD:-$PWD}"
 if [[ -n "$BRANCH" ]]; then
@@ -90,6 +104,7 @@ trap 'reap' EXIT
 
 TAB_ID=""
 WT_WS=""
+WS_ID=""
 CHECKOUT=""
 if [[ -n "$BRANCH" ]]; then
     # checkout dir = repo/branch + the agent's process name, so the on-disk
@@ -101,10 +116,10 @@ if [[ -n "$BRANCH" ]]; then
     WT_WS=$(jq -r '.result.workspace.workspace_id // empty' <<<"$resp")
     [[ -n "$CHECKOUT" && -n "$PANE_ID" && -n "$WT_WS" ]] || { echo "worktree create failed: $resp" >&2; exit 1; }
 else
-    resp=$(h tab create --workspace "$WORKSPACE" --cwd "$REPO" --no-focus 2>&1) || true
-    TAB_ID=$(jq -r '.result.tab.tab_id // empty' <<<"$resp")
+    resp=$(h workspace create --cwd "$REPO" --label "$NAME" --no-focus 2>&1) || true
+    WS_ID=$(jq -r '.result.workspace.workspace_id // empty' <<<"$resp")
     PANE_ID=$(jq -r '.result.root_pane.pane_id // empty' <<<"$resp")
-    [[ -n "$TAB_ID" && -n "$PANE_ID" ]] || { echo "tab create failed: $resp" >&2; exit 1; }
+    [[ -n "$WS_ID" && -n "$PANE_ID" ]] || { echo "workspace create failed: $resp" >&2; exit 1; }
 fi
 
 printf '%s\n' "$TASK" > "$RUN_DIR/brief.md"
@@ -112,9 +127,9 @@ printf '%s\n' "$TASK" > "$RUN_DIR/brief.md"
 # ponytail: durable state so a dead dispatch can be reaped later (see --reap)
 STATE="$STATE_DIR/$ID.json"
 jq -n --arg id "$ID" --arg name "$NAME" --arg tab "$TAB_ID" --arg pane "$PANE_ID" \
-    --arg run "$RUN_DIR" --arg task "$TASK" --arg ts "$(date -Iseconds)" \
+    --arg ws "$WS_ID" --arg run "$RUN_DIR" --arg task "$TASK" --arg ts "$(date -Iseconds)" \
     --arg branch "$BRANCH" --arg cwd "$REPO" --arg checkout "$CHECKOUT" --arg wtws "$WT_WS" \
-    '{id:$id, agent:$name, tab_id:$tab, pane_id:$pane, run_dir:$run, task:$task, started:$ts, branch:$branch, cwd:$cwd, checkout_path:$checkout, wt_workspace:$wtws}' > "$STATE"
+    '{id:$id, agent:$name, tab_id:$tab, pane_id:$pane, workspace_id:$ws, run_dir:$run, task:$task, started:$ts, branch:$branch, cwd:$cwd, checkout_path:$checkout, wt_workspace:$wtws}' > "$STATE"
 
 out=$(h agent start "$NAME" --kind pi --pane "$PANE_ID" 2>&1) || true
 [[ $(jq -r '.result.type // ""' <<<"$out") == "agent_started" ]] || { echo "agent start failed: $out" >&2; exit 1; }
