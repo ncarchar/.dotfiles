@@ -4,7 +4,7 @@
     "permissionPromptTimeoutSeconds": 180,
     "network": {
         "allowLocalBinding": false,
-        "allowAllUnixSockets": false,
+        "allowAllUnixSockets": true,
         "allowUnauthenticatedSocksProxy": false,
         "allowedDomains": [
             "localhost",
@@ -29,7 +29,8 @@
             "~/.aws",
             "~/.config/gh",
             "~/.netrc",
-            "~/.git-credentials"
+            "~/.git-credentials",
+            "~/.pi/agent/auth.json"
         ],
         "allowRead": [
             ".",
