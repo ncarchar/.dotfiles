@@ -1,11 +1,7 @@
 import { spawn, execSync, type ChildProcess } from "node:child_process";
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 
-// Downloaded with:
-//   curl -L -H "Accept: application/octet-stream" \
-//     -o ~/.local/share/whisper/models/ggml-large-v3-q8_0.bin \
-//     https://api.github.com/repos/sergheinenov/whisper-large-v3-ggml/releases/assets/298763589
-const MODEL = `${process.env.HOME}/.local/share/whisper/models/ggml-large-v3-q8_0.bin`;
+const MODEL = `${process.env.HOME}/.local/share/whisper/models/ggml-large-v3-turbo-q8_0.bin`;
 const WAV = "/tmp/pi-voice.wav";
 
 export default function voice(pi: ExtensionAPI) {
@@ -34,11 +30,15 @@ export default function voice(pi: ExtensionAPI) {
             ctx.ui.notify("No speech detected", "warning");
             return;
         }
-        ctx.ui.setEditorText(text);
+        try {
+            pi.sendUserMessage(text);
+        } catch {
+            pi.sendUserMessage(text, { deliverAs: "steer" });
+        }
     }
 
     pi.registerShortcut("alt+g", {
-        description: "Voice: press to start recording, press again to stop and send",
+        description: "Voice: press to start recording, press again to stop and submit",
         handler: async (ctx) => {
             if (transcribing) {
                 return;
