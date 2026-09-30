@@ -53,36 +53,7 @@ reconstruct the original value.
 - Always use braces in `if`/`for` blocks where the language supports them.
 - Indent with 4 spaces.
 
-# sub-agent dispatch (herdr + pi-dispatch)
+# security
 
-This machine runs a master + sandboxed-sub-agent pattern. This
-section applies to both roles, because master and children share this `~/.pi`.
-The full model, including verified findings and known limits, is
-`/home/cvhew/.dotfiles/HERDR-ORCHESTRATION.md`. Read it before extending the tooling.
-
-## As the master (dispatching work)
-
-- Stay sandboxed. Dispatch goes over the herdr socket to the already-running
-  herdr server, never as your own child process, so `--die-with-parent` does not
-  apply. You need no unsandboxed powers to orchestrate.
-- Run one sub-agent with `~/.scripts/pi-dispatch <task...>` (or stdin). It returns
-  the child's answer; the worker runs in its own workspace (space) and is left
-  open by default. `pi-dispatch --cwd DIR` puts the worker in another project
-  directory; `--branch NAME` creates a git worktree plus branch, the worker commits
-  there, the checkout is removed on completion, and the branch is kept.
-  `pi-dispatch --close` reaps the workspace (and checkout) on completion;
-  `pi-dispatch --reap` closes workspaces, worktrees, and legacy tabs left by
-  dispatches that died mid-run.
-
-## As a dispatched child (doing the work)
-
-- Your task is at `<run>/brief.md` (the absolute path is in your prompt). Do the
-  work, write only your final answer to `<run>/result.md`, then reply exactly
-  `DONE`. The first line of `result.md` must be exactly `status: done` or
-  `status: failed`. The master detects completion via herdr state (you write
-  `result.md`, the master is not polling it); do not close your own workspace or pane.
-- Your `bash` runs under pi-sandbox (bwrap). `read`/`write`/`edit` and any
-  extension tools are not OS-sandboxed, and the sandbox can be disabled; treat it
-  as accident mitigation, not a security boundary.
 - Never read `~/.pi/agent/auth.json` (the credential store) or another agent's
   session transcripts.
