@@ -7,7 +7,9 @@
     "deepseek/deepseek-v4-pro-0813",
     "deepseek/deepseek-v4-flash-0731",
     "deepseek-v4-pro",
-    "deepseek-flash"
+    "deepseek-flash",
+    "z-ai/glm-5.3",
+    "z-ai/glm-5.3-flash"
   ],
   "defaultThinkingLevel": "medium",
   "packages": [
@@ -17,7 +19,7 @@
     "npm:pi-sandbox",
     "git:github.com/DietrichGebert/ponytail"
   ],
-  "hideThinkingBlock": false,
+  "hideThinkingBlock": true,
   "subagents": {
     "agentOverrides": {
       "delegate": {
