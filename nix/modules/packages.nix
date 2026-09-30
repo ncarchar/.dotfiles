@@ -35,6 +35,7 @@
     util-linux
     uv
     wget
+    whisper-cpp
     zip
     zoxide
   ];
