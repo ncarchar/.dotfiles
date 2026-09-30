@@ -9,10 +9,6 @@ cov:
     home-manager switch --flake "./nix#cvhew"
     just _commit
 
-mac:
-    home-manager switch --flake "./nix#mac"
-    just _commit
-
 update:
     nix flake update --flake "path:./nix"
 

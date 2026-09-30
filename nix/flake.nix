@@ -75,12 +75,6 @@
           username = "cvhew";
           homeDirectory = "/home/cvhew";
         };
-
-        "mac" = mkHome {
-          system = "aarch64-darwin";
-          username = "ncarchar";
-          homeDirectory = "/Users/ncarchar";
-        };
       };
     };
 }

@@ -25,6 +25,7 @@
     just
     parallel
     pi-coding-agent
+    pulseaudio
     ripgrep
     socat
     starship
