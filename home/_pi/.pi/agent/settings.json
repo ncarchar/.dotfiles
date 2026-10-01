@@ -19,7 +19,7 @@
     "npm:pi-sandbox",
     "git:github.com/DietrichGebert/ponytail"
   ],
-  "hideThinkingBlock": true,
+  "hideThinkingBlock": false,
   "subagents": {
     "agentOverrides": {
       "delegate": {
