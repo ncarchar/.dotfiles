@@ -165,4 +165,5 @@ bindsym Ctrl+Alt+t exec $HOME/code/sound/soundboard play $HOME/code/sound/clips/
 
 bindsym Ctrl+Alt+u exec $HOME/code/sound/soundboard play $HOME/code/sound/clips/jeopardy.mp3
 bindsym Ctrl+Alt+y exec $HOME/code/sound/soundboard play $HOME/code/sound/clips/suspense.mp3
+bindsym Ctrl+Alt+i exec $HOME/code/sound/soundboard play $HOME/code/sound/clips/the-price-is-right-losing-horn.mp3
 # --- end soundboard ---
