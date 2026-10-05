@@ -9,14 +9,16 @@ bug, reproduce it, and push the upstream fix forward.
   into the focused pane. Same for `alt+j/k/l` (stray j/k/l) and `alt+1..9` (stray
   digit). Only herdr is affected. tmux and a bare shell are not.
 - Root cause: GlazeWM's low-level keyboard hook swallows the key *down* of `alt+h`
-  and moves focus, but Windows still delivers the `h` keydown to the terminal when it
-  regains focus. The outer terminal turns that into a literal `h` byte only because
-  herdr has keyboard-enhancement protocols active (kitty keyboard protocol + focus
-  reporting). herdr faithfully forwards a byte it cannot tell apart from a real keypress.
+  and moves focus, but Windows still delivers the (auto-repeated) `h` keydown to the
+  terminal when it regains focus. In plain alacritty the terminal emits that as a
+  kitty repeat event (`CSI 104;1:2u`, no matching press) only because
+  keyboard-enhancement protocols are active; herdr decodes it and forwards a plain
+  `h` byte to the pane, indistinguishable from a real keypress.
 - Status: known upstream, tracked in herdr issue #3316, currently CLOSED (NOT_PLANNED)
   because the reporter never returned the byte capture the maintainer asked for.
-- Done so far: we produced that exact capture. It is decoded and interpreted below.
-  What remains is to gather a few version strings and post the capture upstream.
+- Done so far: we produced captures both inside herdr (pane receives a bare `h`) and
+  outside herdr in plain alacritty (terminal emits `CSI 104;1:2u`). Both are decoded
+  below. What remains is to gather a few version strings and post them upstream.
 
 ## Links
 
@@ -38,7 +40,8 @@ What the user already established:
 
 - Only herdr shows the stray char. A bare terminal and tmux do not.
 - Confirmed with `stty raw -echo; timeout 15 cat -v; stty sane`: outside herdr no
-  byte arrives at all.
+  byte arrives at all. That test negotiates no enhancement protocols; with them
+  enabled the terminal does emit the leaked key (see "The decisive captures").
 - Rebinding GlazeWM is off the table for the user.
 - Binding overlapping keys in herdr did not help (see "Why that cannot work").
 
@@ -59,9 +62,9 @@ in this repo points to that, but confirm it is not native-Windows herdr.
 Still needed before posting (ask the user or detect):
 
 - `herdr -V` (installed version; repo shows 0.9.1, latest stable is 0.9.3).
-- Outer terminal name and version (Windows Terminal / Alacritty / WezTerm / other).
-  Detect hints in WSL env: `$WT_SESSION` (Windows Terminal), `$ALACRITTY_WINDOW_ID`
-  (Alacritty), `$TERM_PROGRAM`, `$TERM`.
+- Outer terminal: Alacritty (confirmed by the outside-herdr capture below); exact
+  version still needed. Detect hints in WSL env: `$WT_SESSION` (Windows Terminal),
+  `$ALACRITTY_WINDOW_ID` (Alacritty), `$TERM_PROGRAM`, `$TERM`.
 - WSL distro and version (`cat /etc/os-release`, `uname -a`).
 - Windows version (`11` assumed; get exact build).
 - GlazeWM version (issue #3316 reporter was on 3.10.1; must be collected on the
@@ -132,27 +135,30 @@ Maintainer thought the outer terminal reports the leaked key *release* as a kitt
 `CSI <code>;1u` sequence, and herdr mis-translates that release into a printable byte
 for a legacy (non-kitty) inner pane instead of dropping it.
 
-### Hypothesis 2 (proved by our capture): spurious keydown on focus-gain
+### Hypothesis 2 (proved by our captures): spurious keydown on focus-gain
 
-The capture below disproves Hypothesis 1. The terminal emits a bare printable `h`
-keydown (no kitty encoding, no matching press/release pair) immediately after the
-focus-gained escape `CSI I`. Sequence:
+The captures below disprove Hypothesis 1. The leaked event is a key repeat with no
+matching press, delivered immediately after the focus-gained escape `CSI I`.
+Sequence:
 
 1. GlazeWM low-level keyboard hook (WH_KEYBOARD_LL) swallows the `alt+h` keydown and
    switches focus to the terminal window.
-2. Windows still delivers the (held) `h` keydown to the newly focused window.
-3. The outer terminal emits that keydown as a literal `h` byte, but only because the
-   PTY has keyboard enhancement active (kitty keyboard protocol / focus reporting,
-   both of which herdr enables).
-4. herdr forwards the byte to the focused pane; it is indistinguishable from a real
-   typed `h`.
+2. Windows auto-repeat still delivers the (held) `h` keydown to the newly focused
+   window.
+3. The outer terminal emits it, but only because the PTY has keyboard enhancement
+   active (kitty keyboard protocol / focus reporting, both of which herdr enables).
+   In plain alacritty that is a kitty repeat event, `CSI 104;1:2u` (event type 2, no
+   preceding press). herdr decodes it and forwards a plain `h` byte to the focused
+   pane.
+4. The pane receives a byte indistinguishable from a real typed `h`.
 
 This exactly explains the asymmetry the user reported:
 
 - Bare shell (no protocol negotiated): the terminal discards the spurious keydown, so
   `stty raw; cat -v` prints nothing.
 - tmux (does not negotiate these protocols with the outer terminal): also immune.
-- herdr (negotiates them): the terminal emits the byte, herdr forwards it.
+- herdr (negotiates them): the terminal emits the leaked key as a repeat event,
+  herdr decodes it and forwards the plain byte to the pane.
 
 Why the user's attempted workarounds cannot work:
 
@@ -161,10 +167,10 @@ Why the user's attempted workarounds cannot work:
 - There is no "capture all keys" or "drop stray keys" option; herdr keybindings match
   presses, not this leaked keydown, and the byte reaches the pane as ordinary input.
 
-## The decisive capture
+## The decisive captures
 
-Run OUTSIDE herdr, in the same outer terminal / WSL window. Script (kept here verbatim
-so it can be rerun):
+Script (kept here verbatim so it can be rerun). Run it inside a herdr pane to capture
+what the pane receives, or in a plain alacritty to capture what the terminal emits:
 
 ```python
 import os, select, sys, termios, time, tty
@@ -194,6 +200,8 @@ Notes on the modes the script enables (these are what herdr enables in real use)
 - `>7u` - kitty keyboard protocol flags: 1 disambiguate + 2 report event types +
   4 report alternate keys.
 
+### Inside herdr: what the pane receives
+
 Raw captured output (verbatim):
 
 ```
@@ -204,7 +212,7 @@ Decoded:
 
 ```
 \x1b[I          = CSI I  -> focus gained
-h               = bare 'h' byte (leaked keydown, no kitty encoding)
+h               = bare 'h' byte (the leaked key, decoded and forwarded by herdr)
 \x1b[O          = CSI O  -> focus lost
 \x1b[99;5:1u    = keycode 99 ('c'), modifier 5 (shift+ctrl), event 1 (press)
 \x1b[99;5:3u    = same key, event 3 (release)
@@ -223,10 +231,45 @@ cycle: CSI I , h , CSI O
 Five focus-gain events, each immediately followed by a bare `h`. The three
 `99;5:1u/3u` pairs are the user's own ctrl+shift+C (copy) presses and are unrelated.
 
+### Outside herdr, plain alacritty: what the terminal emits
+
+Raw captured output (verbatim):
+
+```
+captured: b'\x1b[O\x1b[I\x1b[104;1:2u\x1b[O\x1b[I\x1b[104;1:2u\x1b[O'
+```
+
+Decoded:
+
+```
+\x1b[O          = CSI O  -> focus lost
+\x1b[I          = CSI I  -> focus gained
+\x1b[104;1:2u   = keycode 104 ('h'), modifier 1 (none), event 2 (repeat)
+```
+
+Full sequence, split per cycle:
+
+```
+switch away: CSI O
+return with alt+h: CSI I , CSI 104;1:2u   <- focus gained, leaked h as a repeat
+switch away: CSI O
+return with alt+h: CSI I , CSI 104;1:2u
+switch away: CSI O
+```
+
+Two focus-gain events, each immediately followed by a leaked `h` as a kitty REPEAT
+event. No matching press appears anywhere: the real press was swallowed by GlazeWM
+while the window was unfocused, so only the auto-repeat of the still-held key reaches
+the newly focused window. This is the raw terminal behavior; inside herdr (capture
+above) herdr decodes the same leaked event and the pane receives a bare printable
+`h`.
+
 Interpretation for the issue:
 
-- The leaked event is a plain printable keydown emitted at focus-gain, with no kitty
-  press/release encoding and no matching press. It is not a `CSI-u` release leak.
+- The leaked event is a keydown delivered at focus-gain, with no matching press.
+  Outside herdr the terminal emits it kitty-encoded as a repeat (`CSI 104;1:2u`);
+  inside herdr the pane receives it as a bare printable `h`. It is not a `CSI-u`
+  release leak.
 - It appears only when keyboard/focus protocols are enabled, which is why herdr alone
   is affected.
 - The likely fix location is the outer terminal (do not emit a keydown byte for a key
@@ -288,17 +331,25 @@ focused pane (alt+h -> h, alt+3 -> 3). Bare shell and tmux are unaffected. Only 
 3. A stray h lands in herdr's focused pane. In a pane: stty raw -echo; cat -v shows
    a bare h with no preceding escape sequence.
 
-## Capture (outside herdr, same terminal, protocols enabled)
+## Captures (same script; it enables the protocols itself)
 <the python script>
-Raw: <the captured: line>
-Decoded: five CSI I (focus gained) each immediately followed by a bare h, then CSI O
-(focus lost). No kitty press/release encoding and no matching press for the h.
+
+Outside herdr, plain alacritty (what the terminal emits):
+Raw: captured: b'\x1b[O\x1b[I\x1b[104;1:2u\x1b[O\x1b[I\x1b[104;1:2u\x1b[O'
+Decoded: two focus-gain events (CSI I), each immediately followed by CSI 104;1:2u, a
+kitty key-REPEAT of 'h' with no matching press anywhere.
+
+Inside herdr (what the pane receives):
+Raw: <the first captured: line>
+Decoded: five focus-gain events (CSI I), each immediately followed by a bare
+printable h, then CSI O (focus lost).
 
 ## Analysis
-This refines #3316. It is not a CSI-u release mis-translation: the outer terminal
-emits a bare printable keydown at focus-gain, and only because keyboard/focus
-protocols are active. herdr forwards a byte indistinguishable from a real keypress.
-Bare shell/tmux do not negotiate these protocols, so the terminal discards the event.
+This refines #3316. It is not a CSI-u release mis-translation: at focus-gain the
+outer terminal emits the still-held key as a repeat event with no matching press,
+and only when keyboard/focus protocols are active. herdr decodes it and forwards a
+byte indistinguishable from a real keypress to the pane. Bare shell/tmux do not
+negotiate these protocols, so the terminal discards the event.
 
 Links: #3316 (previous report, closed for missing capture), #1746, #4184, #4856.
 ```
