@@ -43,7 +43,7 @@ export _ZO_ECHO=1
 eval "$(zoxide init bash --no-cmd)"
 alias z="__zoxide_z"
 
-todo() { nvim "$HOME/todo.md"; }
+todo() { mkdir -p "$HOME/todo" && touch "$HOME/todo/todo.md"; nvim "$HOME/todo/todo.md"; }
 
 # atuin history
 eval "$(atuin init bash --disable-up-arrow)"
