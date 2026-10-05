@@ -37,6 +37,7 @@
     uv
     wget
     whisper-cpp
+    wl-clipboard
     zip
     zoxide
   ];

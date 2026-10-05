@@ -84,7 +84,6 @@ async function titleStillAccurate(title: string, history: string): Promise<boole
 async function generateTopic(ctx: ExtensionContext, pi: ExtensionAPI): Promise<void> {
     const history = buildFocusText(ctx.sessionManager.getBranch());
     if (!history.trim()) {
-        console.error("[session-focus] no history yet");
         return;
     }
 

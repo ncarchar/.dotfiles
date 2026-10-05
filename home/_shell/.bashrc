@@ -36,7 +36,7 @@ export GDK_DPI_SCALE=1.4
 eval "$(direnv hook bash)"
 
 # prompt
-eval "$(starship init bash)"
+eval "$(starship init bash --print-full-init)"
 
 # manually alias zoxide
 export _ZO_ECHO=1
