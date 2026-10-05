@@ -75,11 +75,11 @@ export default function voice(pi: ExtensionAPI) {
                 ["--file-format=wav", "--format=s16le", "--rate=16000", "--channels=1", WAV],
                 { stdio: "ignore" },
             );
-            ctx.ui.setStatus("voice", "recording (/voice or alt+g to stop)");
+            ctx.ui.setStatus("voice", "recording (/voice or f10 to stop)");
         }
     }
 
-    pi.registerShortcut("alt+g", {
+    pi.registerShortcut("f10", {
         description: "Voice: press to start recording, press again to stop and submit",
         handler: toggle,
     });
