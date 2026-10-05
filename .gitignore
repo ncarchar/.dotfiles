@@ -6,6 +6,10 @@
 # guard in case any are ever copied into the _pi stow package.
 # (settings.json and sandbox.json ARE committed intentionally. settings
 #  references installed packages; sandbox.json holds the shared sandbox policy.)
+# settings.json is `git update-index --skip-worktree`d locally: pi rewrites it
+# on every thinking toggle / version bump, so git status ignores those edits.
+# To commit a real settings change: git update-index --no-skip-worktree
+# home/_pi/.pi/agent/settings.json, commit, then re-run --skip-worktree.
 home/_pi/.pi/agent/auth.json
 home/_pi/.pi/agent/models-store.json
 home/_pi/.pi/agent/sessions/

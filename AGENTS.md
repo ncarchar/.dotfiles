@@ -28,5 +28,10 @@ Git-versioned dotfiles, managed with GNU stow and a Nix flake.
   exclude cover `.env*`, credentials, and pi state.
 - pi-sandbox makes `~/.pi` read-only inside an agent session, so `just stow`
   must run outside the sandbox.
+- `home/_pi/.pi/agent/settings.json` is locally `git update-index --skip-worktree`d.
+  pi rewrites it on every thinking toggle / version bump, so git status ignores
+  those edits and `just _commit` will not pick them up. To commit a real settings
+  change, first `git update-index --no-skip-worktree home/_pi/.pi/agent/settings.json`,
+  commit, then re-run `--skip-worktree`.
 - Char-device stubs at the repo root (`.bashrc`, `.zshrc`, `.gitconfig`, `.env`,
   `.mcp.json`) are `/dev/null` sandbox mounts, not repo files; ignore them.
