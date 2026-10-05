@@ -47,6 +47,17 @@ reconstruct the original value.
 - No em dashes, en dashes, or emojis, anywhere.
 - Read only what the task needs; ask before a large or read-heavy step.
 
+# asking questions
+
+- Ask early: if a decision would change what gets built or how, and the user
+  can answer in seconds, call `ask_user_question` right away instead of
+  probing, trying several approaches, or looping.
+- Do not overthink the wording: write the question the way you would in chat,
+  with short option labels, and move on. Perfect wording costs more than it
+  saves; the user can type a custom answer if no option fits.
+- Batch related questions into one call; do not re-ask what the request
+  already answers or what you can safely default.
+
 # code style
 
 - Self-documenting code; comment only what is not obvious.
