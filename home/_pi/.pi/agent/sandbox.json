@@ -49,11 +49,7 @@
             "~/.config/gh",
             "~/.netrc",
             "~/.git-credentials",
-            ".env",
-            ".env.*",
-            "*.pem",
-            "*.key",
-            "*.gpg"
+            ".env"
         ]
     }
 }
