@@ -68,3 +68,27 @@ reconstruct the original value.
 
 - Never read `~/.pi/agent/auth.json` (the credential store) or another agent's
   session transcripts.
+
+# subagents
+
+Offload substantive work to subagents instead of editing inline. Delegate
+whenever the task is a bounded unit of implementation, recon, or research;
+do it in the parent only for trivial one-liners, final judgment, and
+acceptance. The pi-subagents skill wires the mechanics.
+
+- recon / "where do I start" -> `scout`
+- web research -> `researcher`; important claims -> `evidence-auditor`
+- simple, fast implementation -> `worker`
+- complex, multi-step, or parent-like work -> `delegate`
+- check work -> `reviewer`; risky judgment -> `oracle`
+
+Use `delegate` for more complex tasks and `worker` for simpler, fast tasks.
+
+`scout`, `researcher`, and `worker` run on the fast/cheap tier; `delegate`,
+`reviewer`, `oracle`, `evidence-auditor`, and this parent stay on the strong
+tier. Exact model ids live in `settings.json` under
+`subagents.agentOverrides.<role>.model`; do not restate them here.
+
+Every delegation names: objective, repo/cwd/ref, edit boundary, success
+criteria, and expected output. Launch async by default; do not poll `bg_wait`
+for ordinary async children.
