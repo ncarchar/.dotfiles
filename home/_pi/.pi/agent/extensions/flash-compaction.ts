@@ -1,13 +1,14 @@
 /*
- * Runs pi's auto-compaction summaries on a cheap model instead of the main
+ * Runs pi's auto-compaction summaries on a flash model instead of the main
  * conversation model. The main model's output pricing is the expensive part of
  * every compaction, so a flash model makes each summary far cheaper.
  *
- * Falls back to pi's default compactor whenever the cheap model is missing,
+ * Falls back to pi's default compactor whenever the flash model is missing,
  * unauthenticated, empty, or errors, so compaction never silently breaks.
  */
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { convertToLlm, serializeConversation } from "@earendil-works/pi-coding-agent";
+import { Text } from "@earendil-works/pi-tui";
 
 const COMPACT_MODEL = { provider: "openrouter", modelId: "deepseek/deepseek-v4-flash-0731" };
 
@@ -39,7 +40,31 @@ function computeFileLists(fileOps: {
     return { readFiles, modifiedFiles };
 }
 
-export default function cheapCompaction(pi: ExtensionAPI) {
+interface FlashCompactionCost {
+    cost: number | null;
+    input: number;
+    output: number;
+}
+
+export default function flashCompaction(pi: ExtensionAPI) {
+    pi.registerEntryRenderer<FlashCompactionCost>("flash-compaction", (entry, _options, theme) => {
+        const d = entry.data;
+        if (!d) return undefined;
+        const costLabel = d.cost != null ? `$${d.cost.toFixed(4)}` : "cost unavailable";
+        const line = `${theme.fg("accent", "[flash compaction]")} ${theme.fg("muted", `${costLabel} (${d.input} in / ${d.output} out tokens)`)}`;
+        return new Text(line, 0, 0);
+    });
+
+    pi.on("session_compact", (event) => {
+        if (!event.fromExtension) return;
+        const usage = event.compactionEntry.usage;
+        pi.appendEntry<FlashCompactionCost>("flash-compaction", {
+            cost: usage?.cost?.total ?? null,
+            input: usage?.input ?? 0,
+            output: usage?.output ?? 0,
+        });
+    });
+
     pi.on("session_before_compact", async (event, ctx) => {
         const { preparation, signal, customInstructions } = event;
         const { messagesToSummarize, turnPrefixMessages, tokensBefore, firstKeptEntryId, previousSummary } = preparation;
@@ -104,7 +129,7 @@ export default function cheapCompaction(pi: ExtensionAPI) {
             };
         } catch (error) {
             const message = error instanceof Error ? error.message : String(error);
-            ctx.ui.notify(`Cheap compaction failed (${message}), using default compactor`, "error");
+            ctx.ui.notify(`Flash compaction failed (${message}), using default compactor`, "error");
             return;
         }
     });
