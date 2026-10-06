@@ -71,30 +71,27 @@ reconstruct the original value.
 
 # subagents
 
-Offload substantive work to subagents instead of editing inline. Delegate
-whenever the task is a bounded unit of implementation, recon, or research;
-do it in the parent only for trivial one-liners, final judgment, and
-acceptance. The pi-subagents skill wires the mechanics.
+Offload substantive work to subagents via the `acp_delegate` tool instead of
+editing inline. Delegate whenever the task is a bounded unit of
+implementation, recon, or research; do it in the parent only for trivial
+one-liners, final judgment, and acceptance.
 
-- recon / "where do I start" -> `scout`
-- web research -> `researcher`; important claims -> `evidence-auditor`
-- simple, fast implementation -> `worker`
-- complex, multi-step, or parent-like work -> `delegate`
-- check work -> `reviewer`; risky judgment -> `oracle`
+- code review (bugs/risks) -> `reviewer`
+- codebase recon / "where do I start" -> `researcher`
+- make code changes -> `worker`
+- propose a step-by-step plan -> `planner`
+- answer questions / risky judgment -> `oracle`
 
-Use `delegate` for more complex tasks and `worker` for simpler, fast tasks.
-
-`scout`, `researcher`, and `worker` run on the fast/cheap tier; `delegate`,
-`reviewer`, `oracle`, `evidence-auditor`, and this parent stay on the strong
-tier. Exact model ids live in `settings.json` under
-`subagents.agentOverrides.<role>.model`; do not restate them here.
+Complex, multi-step, or parent-like work stays in this parent. All roles
+inherit the parent model by default; pin per-role models in `acp.json` under
+`delegate.agents.<role>.model`.
 
 Every delegation names: objective, repo/cwd/ref, edit boundary, success
-criteria, and expected output. Launch async by default; do not poll `bg_wait`
-for ordinary async children.
+criteria, and expected output. Launch async by default; fetch the result with
+a single `acp_delegate_wait` call, never poll.
 
 Root-cause diagnosis stays in the parent (or a bounded read-only `oracle`),
-never a cheap async worker. Give a worker a hypothesis plus the concrete edit
+never an async worker. Give a worker a hypothesis plus the concrete edit
 plus the one check that verifies it, not "go diagnose". If the cause may live
 in a dependency (node_modules rendered DOM, framework internals), say so in
 the prompt and cap the dig: "read app code only; if the cause is inside a

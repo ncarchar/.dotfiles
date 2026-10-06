@@ -2,7 +2,7 @@
   "preserveRecentTools": ["read"],
   "autoUpdate": false,
   "compress": {
-    "maxContextLimit": 0.5,
-    "nudgeGrowthTokens": 30000
+    "maxContextLimit": 0.45,
+    "nudgeGrowthTokens": 25000
   }
 }
