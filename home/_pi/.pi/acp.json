@@ -1,4 +1,8 @@
 {
   "preserveRecentTools": ["read"],
-  "autoUpdate": false
+  "autoUpdate": false,
+  "compress": {
+    "maxContextLimit": 0.5,
+    "nudgeGrowthTokens": 30000
+  }
 }
