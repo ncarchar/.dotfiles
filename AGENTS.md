@@ -49,6 +49,11 @@ Conventions:
   over the repo-root dotfiles, so `just stow` and `just _commit` (its
   `git add .` fails with "can only add regular files") must run outside the
   sandbox. Agent toggles `--skip-worktree`; operator runs `just _commit`.
+- If a git, file, or shell command fails inside an agent session, assume the
+  sandbox (read-only mounts, `/dev/null` stubs, denied paths) is the cause
+  before blaming the command or the repo. Do not keep retrying or work around
+  it silently; escalate to the user with the exact command to run and handle
+  whatever parts do work in-sandbox yourself.
 - `home/_pi/.pi/agent/settings.json` is locally `git update-index --skip-worktree`d.
   pi rewrites it on every thinking toggle / version bump, so git status ignores
   those edits and `just _commit` will not pick them up. To commit a real settings
