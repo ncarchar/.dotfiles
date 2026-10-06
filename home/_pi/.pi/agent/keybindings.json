@@ -3,5 +3,7 @@
   "app.tools.expand": "ctrl+e",
   "app.tree.filter.cycleForward": [],
   "app.model.cycleForward": "ctrl+p",
-  "app.thinking.cycle": []
+  "app.thinking.cycle": "ctrl+\\",
+  "tui.altScreen.top": [],
+  "tui.altScreen.bottom": []
 }
