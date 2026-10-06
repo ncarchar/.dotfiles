@@ -1,11 +1,10 @@
 /*
- * Approval Modes Extension - Claude Code-style plan/manual/auto edit approvals.
+ * Approval Modes Extension - Claude Code-style plan/auto edit approvals.
  *
  * /plan    - read-only: write/edit and non-read-only bash are blocked, and the
  *            model is steered to produce a structured implementation plan.
- * /manual  - each write/edit (and non-read-only bash) prompts Approve/Reject.
  * /auto    - write/edit and known-safe bash apply automatically (default).
- * shift+tab - cycles auto -> manual -> plan -> auto.
+ * shift+tab - cycles auto -> plan -> auto.
  *
  * Bash classification (readonlyBash / unsafePatterns) loads from
  * ~/.pi/agent/bash-classification.json.
@@ -141,9 +140,9 @@ function classifyBash(command: string, cfg: BashConfig): BashClassification {
     return { cls: "safe", command: seg ? commandName(seg) : undefined };
 }
 
-type Mode = "auto" | "manual" | "plan";
+type Mode = "auto" | "plan";
 
-const MODES: Mode[] = ["auto", "manual", "plan"];
+const MODES: Mode[] = ["auto", "plan"];
 
 interface ModeState {
     mode: Mode;
@@ -151,14 +150,12 @@ interface ModeState {
 
 const MODE_GUIDELINES: Record<Mode, string> = {
     auto: "Auto mode: apply edits and safe commands automatically.",
-    manual: "Manual mode: each edit requires approval; state what you intend to change before editing.",
     plan: "Plan mode: read-only. Investigate the codebase and produce a structured implementation plan as your final response. Do not call write, edit, or non-read-only bash.",
 };
 
 /* Short human-facing summaries, distinct from the long model guidelines above. */
 const MODE_SUMMARIES: Record<Mode, string> = {
     auto: "edits and safe commands apply automatically",
-    manual: "approve each edit before it applies",
     plan: "read-only; produce a plan instead of editing",
 };
 
@@ -372,9 +369,7 @@ export default function approvalModes(pi: ExtensionAPI): void {
         const color =
             mode === "auto"
                 ? ctx.ui.theme.fg("error", label)
-                : mode === "plan"
-                  ? ctx.ui.theme.fg("accent", label)
-                  : ctx.ui.theme.fg("warning", label);
+                : ctx.ui.theme.fg("accent", label);
         ctx.ui.setStatus(statusKey, color);
     }
 
@@ -401,7 +396,7 @@ export default function approvalModes(pi: ExtensionAPI): void {
     }
 
     pi.registerShortcut("shift+tab", {
-        description: "Cycle auto/manual/plan approval mode",
+        description: "Cycle auto/plan approval mode",
         handler: async (ctx) => cycleMode(ctx),
     });
 
@@ -433,7 +428,7 @@ export default function approvalModes(pi: ExtensionAPI): void {
                 const data = entry.data as ModeState | undefined;
                 if (
                     data &&
-                    (data.mode === "auto" || data.mode === "manual" || data.mode === "plan")
+                    (data.mode === "auto" || data.mode === "plan")
                 ) {
                     mode = data.mode;
                 }
@@ -455,11 +450,9 @@ export default function approvalModes(pi: ExtensionAPI): void {
         let decision: "allow" | "prompt" | "block";
         if (event.toolName === "bash") {
             if (effective === "plan") decision = "block";
-            else if (effective === "manual") decision = "prompt";
             else decision = classification?.cls === "safe" ? "allow" : "prompt";
         } else {
             if (effective === "plan") decision = "block";
-            else if (effective === "manual") decision = "prompt";
             else decision = "allow";
         }
 
@@ -480,12 +473,7 @@ export default function approvalModes(pi: ExtensionAPI): void {
         }
 
         const flaggedCmd = classification?.command ?? "command";
-        const reason =
-            event.toolName === "bash"
-                ? effective === "manual"
-                    ? `manual mode: \`${flaggedCmd}\` requires approval`
-                    : `auto mode: \`${flaggedCmd}\` classified unsafe`
-                : "manual mode requires approval for file edits";
+        const reason = `auto mode: \`${flaggedCmd}\` classified unsafe`;
 
         const result = await showApprovalPrompt(
             ctx,

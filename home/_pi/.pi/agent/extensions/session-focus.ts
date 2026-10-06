@@ -23,8 +23,6 @@ const TITLE_ACCURATE_THRESHOLD = 0.4;
 const MAX_HISTORY_CHARS = 3000;
 const MAX_TOPIC_WORDS = 4;
 
-const TOPIC_MODEL: { provider: string; modelId: string } | undefined = undefined;
-
 type Entry = { type?: string; message?: { role?: string; content?: unknown } };
 
 export function extractText(content: unknown): string {
@@ -92,9 +90,7 @@ async function generateTopic(ctx: ExtensionContext, pi: ExtensionAPI): Promise<v
         return;
     }
 
-    const model = TOPIC_MODEL
-        ? ctx.modelRegistry.find(TOPIC_MODEL.provider, TOPIC_MODEL.modelId)
-        : ctx.model;
+    const model = ctx.model;
     if (!model || !ctx.modelRegistry.hasConfiguredAuth(model)) {
         console.error("[session-focus] no authed model:", model?.id ?? "none");
         return;

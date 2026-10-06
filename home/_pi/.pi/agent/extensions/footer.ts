@@ -140,9 +140,6 @@ function renderFooter(
     else if (percent !== "?" && percentValue > 70) ctxColored = theme.fg("warning", ctxValue);
     group.push(`CTX: ${ctxColored}`);
     parts.push(`(${group.join(" ")})`);
-    if (process.env.PI_EXPERIMENTAL === "1") {
-        parts.push(`${theme.fg("dim", "•")} ${theme.bold(theme.fg("warning", "xp"))}`);
-    }
 
     let statsLeft = parts.join(" ");
     let statsLeftWidth = visibleWidth(statsLeft);
