@@ -92,3 +92,17 @@ tier. Exact model ids live in `settings.json` under
 Every delegation names: objective, repo/cwd/ref, edit boundary, success
 criteria, and expected output. Launch async by default; do not poll `bg_wait`
 for ordinary async children.
+
+Root-cause diagnosis stays in the parent (or a bounded read-only `oracle`),
+never a cheap async worker. Give a worker a hypothesis plus the concrete edit
+plus the one check that verifies it, not "go diagnose". If the cause may live
+in a dependency (node_modules rendered DOM, framework internals), say so in
+the prompt and cap the dig: "read app code only; if the cause is inside a
+dependency, report it in one sentence plus the single change you would make,
+then stop."
+
+Enforce the stop rule: for read-only diagnosis set
+`toolBudget: { soft: 6, hard: 8, block: "*" }` (no more tool calls after 8;
+the final answer is still allowed) and `control: { activeNoticeAfterTurns: 12 }`
+so an active spin surfaces instead of running silently. Do not hard-cap a
+mutation worker; give it a narrow task, a timeout, and a checkpoint instead.
