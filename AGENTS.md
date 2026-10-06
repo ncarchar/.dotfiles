@@ -45,8 +45,10 @@ Conventions:
 - Never commit runtime state or secrets. `~/.pi/agent/` holds real runtime
   files (sessions, git, npm, auth.json); `.gitignore` and the git global
   exclude cover `.env*`, credentials, and pi state.
-- pi-sandbox makes `~/.pi` read-only inside an agent session, so `just stow`
-  must run outside the sandbox.
+- pi-sandbox makes `~/.pi` read-only and mounts `/dev/null` char-device stubs
+  over the repo-root dotfiles, so `just stow` and `just _commit` (its
+  `git add .` fails with "can only add regular files") must run outside the
+  sandbox. Agent toggles `--skip-worktree`; operator runs `just _commit`.
 - `home/_pi/.pi/agent/settings.json` is locally `git update-index --skip-worktree`d.
   pi rewrites it on every thinking toggle / version bump, so git status ignores
   those edits and `just _commit` will not pick them up. To commit a real settings
