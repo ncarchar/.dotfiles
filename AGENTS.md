@@ -19,6 +19,25 @@ Git-versioned dotfiles, managed with GNU stow and a Nix flake.
 3. `just main` / `just cov` rebuild a host and commit.
 4. `just _commit` commits and pushes a timestamped commit (use after manual edits).
 
+## Todo (`~/todo/todo.md`)
+
+The `todo` command (`home/_shell/.bashrc`) opens `~/todo/todo.md` in nvim.
+All todo behavior lives in nvim config:
+
+- `home/_nvim/.config/nvim/lua/config/key_bindings.lua` - `<leader>st`
+  (telescope search over `~/todo`), `<leader>ta`/`:TodoArchive`, `:TodoSort`,
+  and auto-archive on `BufWritePre`. `<leader>st`/`<leader>ta` bind only in the
+  `~/todo/todo.md` buffer (path-matched, not filetype).
+- `home/_nvim/.config/nvim/lua/plugin/vim_simple_todo.lua` - markdown
+  checkbox keymaps (`<leader>i`/`o`/`O`/`x`).
+
+Conventions:
+- Tasks are `- [ ]` / `- [x]`; archive headings are `## YYYY-Www`.
+- Archive: newest week first; within a week newest completed first; one blank
+  line before and after each heading (matches the markdown formatter).
+- `TodoSort` sorts the whole buffer and is not archive-aware; do not auto-apply
+  it to a file that already has `## YYYY-Www` sections.
+
 ## Rules
 
 - This file documents conventions, not an inventory. A new package is just

@@ -88,6 +88,194 @@ vim.keymap.set(
     ":edit ~/.todo/TODO.md<CR>",
     { desc = "Edit TODO.md", noremap = true, silent = true }
 )
+local todo_dir = vim.fn.expand("~/todo")
+local todo_file = todo_dir .. "/todo.md"
+
+local function is_todo_buffer(bufnr)
+    local name = vim.api.nvim_buf_get_name(bufnr or 0)
+    return vim.fn.fnamemodify(name, ":p") == vim.fn.fnamemodify(todo_file, ":p")
+end
+
+local function is_task(line)
+    return line:match("^%s*[-+*]%s+%[[ xX]%]") ~= nil
+end
+
+local function is_done(line)
+    return line:match("^%s*[-+*]%s+%[[xX]%]") ~= nil
+end
+
+local function task_text(line)
+    return line:gsub("^%s*[-+*]%s+%[[ xX]%]%s*", "")
+end
+
+local function todo_sort()
+    if not is_todo_buffer(0) then
+        vim.notify("only in todo.md", vim.log.levels.WARN)
+        return
+    end
+    local buf = vim.api.nvim_get_current_buf()
+    local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
+    local tasks = {}
+    for _, line in ipairs(lines) do
+        if is_task(line) then
+            table.insert(tasks, { line = line, text = task_text(line), done = is_done(line) })
+        end
+    end
+    table.sort(tasks, function(a, b)
+        if a.done ~= b.done then
+            return not a.done
+        end
+        return a.text < b.text
+    end)
+    local n = 1
+    for i, line in ipairs(lines) do
+        if is_task(line) then
+            lines[i] = tasks[n].line
+            n = n + 1
+        end
+    end
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+    vim.notify("sorted " .. #tasks .. " tasks", vim.log.levels.INFO)
+end
+
+local function todo_archive()
+    if not is_todo_buffer(0) then
+        vim.notify("only in todo.md", vim.log.levels.WARN)
+        return
+    end
+    local buf = vim.api.nvim_get_current_buf()
+    local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
+    local week = os.date("%G-W%V")
+
+    -- Everything from the first "## YYYY-Www" header down is already archived.
+    local archive_start = nil
+    for i, line in ipairs(lines) do
+        if line:match("^## %d+-W%d+$") then
+            archive_start = i
+            break
+        end
+    end
+
+    local active, archive = {}, {}
+    if archive_start then
+        for i = 1, archive_start - 1 do
+            active[#active + 1] = lines[i]
+        end
+        for i = archive_start, #lines do
+            archive[#archive + 1] = lines[i]
+        end
+    else
+        for _, line in ipairs(lines) do
+            active[#active + 1] = line
+        end
+    end
+
+    local kept, done = {}, {}
+    for _, line in ipairs(active) do
+        if is_done(line) then
+            done[#done + 1] = line
+        else
+            kept[#kept + 1] = line
+        end
+    end
+    if #done == 0 then
+        return
+    end
+    while #kept > 0 and kept[#kept]:match("^%s*$") do
+        table.remove(kept)
+    end
+
+    -- Most recently completed closest to the top.
+    local reversed_done = {}
+    for i = #done, 1, -1 do
+        reversed_done[#reversed_done + 1] = done[i]
+    end
+    done = reversed_done
+
+    local week_header = "## " .. week
+
+    -- Parse existing archive into week sections (blank lines get regenerated).
+    local sections = {}
+    local current = nil
+    for _, line in ipairs(archive) do
+        local header = line:match("^(## %d+-W%d+)$")
+        if header then
+            current = { header = header, items = {} }
+            sections[#sections + 1] = current
+        elseif current and not line:match("^%s*$") then
+            current.items[#current.items + 1] = line
+        end
+    end
+
+    -- Put this week's done items at the top of their section, or add the section.
+    local found = false
+    for _, sec in ipairs(sections) do
+        if sec.header == week_header then
+            local merged_items = {}
+            for _, d in ipairs(done) do
+                merged_items[#merged_items + 1] = d
+            end
+            for _, item in ipairs(sec.items) do
+                merged_items[#merged_items + 1] = item
+            end
+            sec.items = merged_items
+            found = true
+            break
+        end
+    end
+    if not found then
+        table.insert(sections, 1, { header = week_header, items = done })
+    end
+
+    -- Canonical layout: blank before each header, blank after each header.
+    local out = {}
+    for _, line in ipairs(kept) do
+        out[#out + 1] = line
+    end
+    if #sections > 0 then
+        if #out > 0 and out[#out]:match("%S") then
+            out[#out + 1] = ""
+        end
+        for i, sec in ipairs(sections) do
+            if i > 1 then
+                out[#out + 1] = ""
+            end
+            out[#out + 1] = sec.header
+            out[#out + 1] = ""
+            for _, item in ipairs(sec.items) do
+                out[#out + 1] = item
+            end
+        end
+    end
+
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, out)
+    vim.notify("archived " .. #done .. " tasks to week " .. week, vim.log.levels.INFO)
+end
+
+vim.api.nvim_create_autocmd({ "BufReadPost", "BufEnter" }, {
+    callback = function(args)
+        if not is_todo_buffer(args.buf) then
+            return
+        end
+        local opts = { buffer = args.buf, silent = true }
+        vim.keymap.set("n", "<leader>st", function()
+            vim.fn.mkdir(todo_dir, "p")
+            require("telescope.builtin").live_grep({ cwd = todo_dir })
+        end, opts)
+        vim.keymap.set("n", "<leader>ta", todo_archive, opts)
+    end,
+})
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+    callback = function(args)
+        if is_todo_buffer(args.buf) then
+            todo_archive()
+        end
+    end,
+})
+
+vim.api.nvim_create_user_command("TodoArchive", todo_archive, {})
+vim.api.nvim_create_user_command("TodoSort", todo_sort, {})
 -- Make executable
 vim.api.nvim_create_autocmd("FileType", {
     pattern = { "sh", "zsh" },

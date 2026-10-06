@@ -12,6 +12,7 @@ return {
                     local opts = { buffer = true, silent = true }
                     vim.keymap.set("n", "<leader>i", "<Plug>(simple-todo-new-start-of-line)", opts)
                     vim.keymap.set("n", "<leader>o", "<Plug>(simple-todo-below)", opts)
+                    vim.keymap.set("n", "<leader>O", "<Plug>(simple-todo-above)", opts)
                     vim.keymap.set("n", "<leader>x", "<Plug>(simple-todo-mark-switch)", opts)
                 end,
             })
