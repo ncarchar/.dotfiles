@@ -11,7 +11,7 @@
     "z-ai/glm-5.3",
     "z-ai/glm-5.3-flash"
   ],
-  "defaultThinkingLevel": "medium",
+  "defaultThinkingLevel": "low",
   "packages": [
     "npm:pi-web-access",
     "npm:@juicesharp/rpiv-ask-user-question",
