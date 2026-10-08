@@ -19,5 +19,5 @@
     "git:github.com/DietrichGebert/ponytail",
     "npm:billion-context-pi"
   ],
-  "hideThinkingBlock": false
+  "hideThinkingBlock": true
 }
