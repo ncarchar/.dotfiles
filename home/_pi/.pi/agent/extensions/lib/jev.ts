@@ -43,11 +43,13 @@ export interface JevResult {
 
 export class JevError extends Error {
     readonly status: number;
+    readonly detail: string;
 
     constructor(status: number, body: string) {
-        super(`jev HTTP ${status}: ${body.slice(0, 500)}`);
+        super(`jev HTTP ${status}`);
         this.name = "JevError";
         this.status = status;
+        this.detail = body.slice(0, 500);
     }
 }
 
@@ -57,7 +59,7 @@ export async function decide(
     state: unknown,
     questions: Record<string, JevQuestion>,
     model = "typesafe/jev-1.13",
-    timeoutMs = 2000,
+    timeoutMs = 15000,
 ): Promise<JevResult> {
     const key = process.env.OPENROUTER_API_KEY;
     if (!key) throw new Error("OPENROUTER_API_KEY is not set");

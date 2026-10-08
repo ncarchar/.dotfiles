@@ -96,8 +96,9 @@ async function titleStillAccurate(title: string, history: string): Promise<boole
 
         console.error("[session-focus] jev: unexpected answer", JSON.stringify(answer));
         return false;
-    } catch (error) {
-        console.error("[session-focus] jev check failed, regenerating:", error);
+    } catch {
+        // Jev failure (timeout, HTTP error) is non-fatal: fall through and
+        // regenerate the title. Silent by design so it never reaches the prompt.
         return false;
     }
 }
@@ -177,7 +178,7 @@ export default function sessionFocus(pi: ExtensionAPI) {
         running = true;
         generateTopic(ctx, pi)
             .catch((error) => {
-                console.error("[session-focus] topic generation failed:", error);
+                console.error("[session-focus] topic generation failed:", error instanceof Error ? error.message : String(error));
             })
             .finally(() => {
                 renameTmuxWindow(pi.getSessionName());
