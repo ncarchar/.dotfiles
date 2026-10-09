@@ -41,7 +41,15 @@
             "~/.pi/agent",
             "/nix/store"
         ],
-        "allowWrite": [".", "/tmp", "~/.cache", "~/.local/share", "~/.pnpm/", "~/code"],
+        "allowWrite": [
+            ".",
+            "/tmp",
+            "~/.cache",
+            "~/.local/share",
+            "~/.pnpm/",
+            "~/code",
+            "~/.gradle/wrapper/dists"
+        ],
         "denyWrite": [
             "~/.ssh",
             "~/.gnupg",
