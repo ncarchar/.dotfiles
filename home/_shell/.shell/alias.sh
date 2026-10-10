@@ -6,7 +6,7 @@ alias nvim-min="nvim -u ~/.config/nvim/init-min.lua"
 alias _npm="$(command -v npm)"
 alias npm="pnpm"
 
-if command -v exa >/dev/null 2>&1; then
+if command -v eza >/dev/null 2>&1; then
     alias ls="eza --all --group-directories-first -F --icons=always --width 80"
     alias ll="eza --all --group-directories-first -F --git -l"
     alias lldu="eza --all --group-directories-first -F --git -l --total-size"

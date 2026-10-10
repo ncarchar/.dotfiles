@@ -39,7 +39,7 @@ for_window [class="^steam_app_"] border none, fullscreen disable
 for_window [instance="^steam_app_"] border none, fullscreen disable
 
 exec gammastep -l 40:-80 -b 1:0.92 -t 6500:5800
-exec swaybg -i /home/ncarchar/.config/feh/.leaves.jpg -m fill
+exec swaybg -i /home/ncarchar/.config/wallpapers/.leaves.jpg -m fill
 
 bindsym $mod+m exec pkill -SIGUSR1 waybar
 

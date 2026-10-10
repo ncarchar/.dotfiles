@@ -4,7 +4,6 @@
 [[ $- == *i* ]] || return
 
 export PATH="$HOME/.scripts:$PATH"
-export PATH="/home/cvhew/.local/bin:$PATH"
 
 # Secrets (not committed); may be absent on some systems
 [[ -f ~/.env ]] && source ~/.env
@@ -49,6 +48,7 @@ todo() { mkdir -p "$HOME/todo" && touch "$HOME/todo/todo.md"; nvim "$HOME/todo/t
 eval "$(atuin init bash --disable-up-arrow)"
 
 if [[ $HOSTNAME == COV* ]]; then
+    export PATH="/home/cvhew/.local/bin:$PATH"
     alias ps-copy="/mnt/c/WINDOWS/system32/clip.exe"
     export BROWSER="/mnt/c/Users/CVHEW/AppData/Local/Mozilla Firefox/firefox.exe"
     export JAVA_TOOL_OPTIONS="-Djavax.net.ssl.trustStore=$HOME/.certs-java/ca-trust.p12 -Djavax.net.ssl.trustStorePassword=changeit"
