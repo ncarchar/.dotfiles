@@ -64,7 +64,6 @@
     bambu-studio
     chromium
     discord
-    faugus-launcher
     librewolf
     obsidian
     pavucontrol
