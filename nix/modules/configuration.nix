@@ -24,6 +24,9 @@
   boot.loader.systemd-boot.configurationLimit = 5;
   boot.loader.timeout = 0;
   boot.initrd.systemd.enable = true;
+
+  # Keep the dGPU (7900 XTX) out of runtime suspend; its BACO resume hangs.
+  boot.kernelParams = [ "amdgpu.runpm=0" ];
   systemd.network.wait-online.enable = false;
 
   # network manager
@@ -39,6 +42,7 @@
 
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
+    DRI_PRIME = "1";
   };
 
   # docker
@@ -117,6 +121,14 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+    wireplumber.extraConfig = {
+      "51-hdmi-default-profile"."monitor.alsa.rules" = [
+        {
+          matches = [ { "device.name" = "alsa_card.pci-0000_6c_00.1"; } ];
+          actions.update-props."device.profile" = "output:hdmi-stereo";
+        }
+      ];
+    };
   };
 
   # run unpatched dynamic binaries

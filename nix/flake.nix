@@ -16,7 +16,7 @@
       # Certain tools are only usable from unstable, so pull them from
       # nixpkgs-unstable until fixes backport to 26.05.
       unstableOverlay = final: prev: {
-        pi-coding-agent = nixpkgs-unstable.legacyPackages.${prev.system}.pi-coding-agent;
+        pi-coding-agent = nixpkgs-unstable.legacyPackages.${prev.stdenv.hostPlatform.system}.pi-coding-agent;
       };
 
       mkPkgs =

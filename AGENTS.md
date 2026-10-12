@@ -61,3 +61,19 @@ Conventions:
   commit, then re-run `--skip-worktree`.
 - Char-device stubs at the repo root (`.bashrc`, `.zshrc`, `.gitconfig`, `.env`,
   `.mcp.json`) are `/dev/null` sandbox mounts, not repo files; ignore them.
+
+## GPU (Radeon RX 7900 XTX)
+
+Sapphire RX 7900 XTX (Navi 31, PCI `0000:03:00.0`): display output is dead - all
+4 ports read "disconnected" even when the card is active with a monitor
+attached, and POST shows a white VGA LED on both BIOS chips. Compute is healthy,
+so the card is being RMA'd but still works for rendering. Display runs off the
+iGPU (Raphael, PCI `0000:6c:00.0`) via USB-C; the dGPU renders via PRIME offload.
+
+Config that supports this (in `nix/modules/configuration.nix`):
+- `boot.kernelParams = [ "amdgpu.runpm=0" ]` - dGPU must stay out of runtime
+  suspend; BACO resume hangs (`gfx resume -110`).
+- `environment.sessionVariables.DRI_PRIME = "1"` - render everything on the
+  dGPU by default, so no per-game `%command%` launch options.
+
+On a new GPU: re-check or drop `runpm=0` and `DRI_PRIME=1`, and clear this section.
