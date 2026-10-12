@@ -21,6 +21,7 @@ import {
     type ExtensionAPI,
     type ExtensionContext,
 } from "@earendil-works/pi-coding-agent";
+import { Type } from "@earendil-works/pi-ai";
 import { Input, Key, matchesKey, truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -150,7 +151,7 @@ interface ModeState {
 
 const MODE_GUIDELINES: Record<Mode, string> = {
     auto: "Auto mode: apply edits and safe commands automatically.",
-    plan: "Plan mode: read-only. Investigate the codebase and produce a structured implementation plan as your final response. Do not call write, edit, or non-read-only bash.",
+    plan: "Plan mode: read-only. Investigate the codebase and produce a structured implementation plan. When your plan is complete, call plan_next to ask the user whether to implement or collect feedback. Do not call write, edit, or non-read-only bash yourself.",
 };
 
 /* Short human-facing summaries, distinct from the long model guidelines above. */
@@ -582,24 +583,63 @@ export default function approvalModes(pi: ExtensionAPI): void {
         updateStatus(ctx);
     });
 
-    /* At the end of a plan-mode turn, ask what to do next. Choosing
-     * "implement" flips to auto mode and kicks off a follow-up turn.
+    /* Agent calls this when its plan is complete: ask the user to switch to
+     * auto mode and implement, or collect feedback. The tool result carries the
+     * choice back to the model, so no follow-up turn is needed; switching mode
+     * here also lifts the plan-mode block for any edits later in the same turn.
      */
-    pi.on("agent_end", async (_event, ctx) => {
-        if (effectiveMode(ctx) !== "plan" || !ctx.hasUI) return;
+    pi.registerTool({
+        name: "plan_next",
+        label: "Plan next step",
+        description:
+            "After presenting a plan, ask the user what to do next: switch to auto mode and implement, or provide feedback. Call once, only when the plan is complete and before editing.",
+        parameters: Type.Object({}),
+        exposure: "model-only",
+        async execute(_toolCallId, _params, _signal, _onUpdate, ctx) {
+            if (ctx.mode !== "tui") {
+                return {
+                    content: [
+                        {
+                            type: "text",
+                            text: "No interactive UI is available; present the plan as a normal message instead.",
+                        },
+                    ],
+                    details: {},
+                };
+            }
 
-        const result = await showPlanPrompt(ctx, "Plan mode - what next?");
-        if (!result || result.action === "cancel") return;
+            const result = await showPlanPrompt(ctx, "Plan mode - what next?");
+            if (!result || result.action === "cancel") {
+                return {
+                    content: [
+                        {
+                            type: "text",
+                            text: "The user dismissed the prompt. Stay in plan mode and present the plan as a normal message.",
+                        },
+                    ],
+                    details: {},
+                };
+            }
 
-        if (result.action === "implement") {
-            setMode("auto", ctx);
-            const message = result.note
-                ? `Implement the plan now. Apply the changes described in the plan you just produced.\n\nAdditional context: ${result.note}`
-                : "Implement the plan now. Apply the changes described in the plan you just produced.";
-            pi.sendUserMessage(message, { deliverAs: "followUp" });
-        } else if (result.note) {
-            pi.sendUserMessage(result.note, { deliverAs: "followUp" });
-        }
+            if (result.action === "implement") {
+                setMode("auto", ctx);
+                const note = result.note ? `\n\nAdditional context: ${result.note}` : "";
+                return {
+                    content: [
+                        {
+                            type: "text",
+                            text: `The user chose to switch to auto mode and implement. You are now in auto mode; the read-only plan restriction is lifted. Apply the changes described in your plan.${note}`,
+                        },
+                    ],
+                    details: {},
+                };
+            }
+
+            const feedback = result.note
+                ? `The user provided feedback on your plan. Stay in plan mode and revise or respond based on it:\n\n${result.note}`
+                : 'The user chose to provide feedback but entered none. Stay in plan mode and ask what they would like to change.';
+            return { content: [{ type: "text", text: feedback }], details: {} };
+        },
     });
 
     pi.on("tool_call", async (event, ctx) => {
