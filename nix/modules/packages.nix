@@ -61,7 +61,7 @@
 
   desktop = with pkgs; [
     alacritty
-    bambu-studio
+    # bambu-studio
     chromium
     discord
     librewolf
