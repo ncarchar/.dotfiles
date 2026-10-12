@@ -25,6 +25,16 @@ Stages and commits changes to a local git repository using conventional commit s
 - Ask about any changes which are unrelated or you are unsure about.
     - If asked to commit those changes infer the message
 
+## Commit Failures
+
+If `git commit` fails because of a lint step or git hook (Husky, ESLint,
+Prettier, etc.):
+
+- Try the project's basic lint-fix command first (usually a `lint` or `format`
+  script in `package.json`, e.g. `npm run lint -- --fix`).
+- If that does not resolve the failure, stop and report the issue to the user.
+- Do NOT attempt to fix the lint errors yourself.
+
 ## Conventional Commit Format
 
 ```
