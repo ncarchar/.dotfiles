@@ -437,6 +437,31 @@ export default function approvalModes(pi: ExtensionAPI): void {
         updateStatus(ctx);
     });
 
+    /* At the end of a plan-mode turn, ask what to do next. Choosing
+     * "implement" flips to auto mode and kicks off a follow-up turn.
+     */
+    pi.on("agent_end", async (_event, ctx) => {
+        if (effectiveMode(ctx) !== "plan" || !ctx.hasUI) return;
+
+        const choice = await ctx.ui.select("Plan mode - what next?", [
+            "Switch to auto mode and implement",
+            "Provide feedback",
+        ]);
+
+        if (choice?.startsWith("Switch")) {
+            setMode("auto", ctx);
+            pi.sendUserMessage(
+                "Implement the plan now. Apply the changes described in the plan you just produced.",
+                { deliverAs: "followUp" }
+            );
+        } else if (choice?.startsWith("Provide")) {
+            const feedback = await ctx.ui.input("Feedback:", "");
+            if (feedback?.trim()) {
+                pi.sendUserMessage(feedback.trim(), { deliverAs: "followUp" });
+            }
+        }
+    });
+
     pi.on("tool_call", async (event, ctx) => {
         if (!WRITE_TOOLS.has(event.toolName)) return undefined;
 
