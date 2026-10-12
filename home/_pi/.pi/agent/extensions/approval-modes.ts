@@ -351,6 +351,151 @@ function showApprovalPrompt(
     });
 }
 
+type PlanPromptAction = "implement" | "feedback" | "cancel";
+
+interface PlanPromptResult {
+    action: PlanPromptAction;
+    note?: string;
+}
+
+const PLAN_PROMPT_OPTIONS: { label: string; key: string; action: PlanPromptAction }[] = [
+    { label: "Switch to auto mode and implement", key: "1", action: "implement" },
+    { label: "Provide feedback", key: "2", action: "feedback" },
+];
+
+/* Two-choice prompt with an optional note field toggled by tab, adding
+ * context to send back to the agent for either selection.
+ */
+function showPlanPrompt(
+    ctx: ExtensionContext,
+    heading: string
+): Promise<PlanPromptResult | undefined> {
+    return ctx.ui.custom<PlanPromptResult>((tui, theme, _kb, done) => {
+        const input = new Input();
+        let selectedIndex = 0;
+        let editing = false;
+        let componentFocused = false;
+
+        const selectedOption = (): (typeof PLAN_PROMPT_OPTIONS)[number] =>
+            PLAN_PROMPT_OPTIONS[selectedIndex]!;
+        const readNote = (): string | undefined => {
+            const value = input.getValue().trim();
+            return value.length > 0 ? value : undefined;
+        };
+        const updateFocus = (): void => {
+            input.focused = componentFocused && editing;
+        };
+
+        return {
+            get focused(): boolean {
+                return componentFocused;
+            },
+            set focused(value: boolean) {
+                componentFocused = value;
+                updateFocus();
+            },
+            render(width: number): string[] {
+                const out: string[] = [
+                    truncateToWidth(theme.fg("warning", heading), width),
+                    "",
+                ];
+                for (let i = 0; i < PLAN_PROMPT_OPTIONS.length; i++) {
+                    const option = PLAN_PROMPT_OPTIONS[i]!;
+                    const isSelected = i === selectedIndex;
+                    const prefix = isSelected ? " → " : "   ";
+                    const keyHint = theme.fg("accent", `[${option.key}]`);
+                    let label = option.label;
+                    if (editing && isSelected) {
+                        const base = `${prefix}${keyHint} ${label} `;
+                        const inputWidth = Math.max(1, width - visibleWidth(base));
+                        label += `${theme.fg("accent", input.render(inputWidth)[0] ?? "")}`;
+                    }
+                    out.push(truncateToWidth(`${prefix}${keyHint} ${label}`, width));
+                }
+                out.push("");
+                out.push(
+                    truncateToWidth(
+                        theme.fg(
+                            "dim",
+                            editing
+                                ? "enter confirm · esc discard note · ↑↓ move selection"
+                                : "↑↓ navigate · 1/2 select · tab add context · enter confirm · esc cancel"
+                        ),
+                        width
+                    )
+                );
+                return out;
+            },
+            handleInput(data: string): void {
+                if (matchesKey(data, Key.ctrl("c"))) {
+                    done({ action: "cancel" });
+                    return;
+                }
+                if (editing) {
+                    if (matchesKey(data, Key.escape)) {
+                        editing = false;
+                        updateFocus();
+                        tui.requestRender();
+                        return;
+                    }
+                    if (matchesKey(data, Key.enter)) {
+                        done({ action: selectedOption().action, note: readNote() });
+                        return;
+                    }
+                    if (matchesKey(data, Key.up) || matchesKey(data, Key.down)) {
+                        const delta = matchesKey(data, Key.up) ? -1 : 1;
+                        selectedIndex = Math.max(
+                            0,
+                            Math.min(PLAN_PROMPT_OPTIONS.length - 1, selectedIndex + delta)
+                        );
+                        editing = false;
+                        updateFocus();
+                        tui.requestRender();
+                        return;
+                    }
+                    input.handleInput(data);
+                    tui.requestRender();
+                    return;
+                }
+                if (matchesKey(data, Key.escape)) {
+                    done({ action: "cancel" });
+                    return;
+                }
+                if (matchesKey(data, Key.tab)) {
+                    editing = true;
+                    updateFocus();
+                    tui.requestRender();
+                    return;
+                }
+                if (matchesKey(data, Key.enter)) {
+                    done({ action: selectedOption().action });
+                    return;
+                }
+                if (matchesKey(data, Key.up)) {
+                    selectedIndex = Math.max(0, selectedIndex - 1);
+                    tui.requestRender();
+                    return;
+                }
+                if (matchesKey(data, Key.down)) {
+                    selectedIndex = Math.min(PLAN_PROMPT_OPTIONS.length - 1, selectedIndex + 1);
+                    tui.requestRender();
+                    return;
+                }
+                for (const option of PLAN_PROMPT_OPTIONS) {
+                    if (data === option.key) {
+                        done({ action: option.action });
+                        return;
+                    }
+                }
+            },
+            invalidate(): void {
+                input.invalidate();
+            },
+            dispose(): void {},
+        };
+    });
+}
+
 let mode: Mode = "auto";
 
 function effectiveMode(ctx: ExtensionContext): Mode {
@@ -443,22 +588,17 @@ export default function approvalModes(pi: ExtensionAPI): void {
     pi.on("agent_end", async (_event, ctx) => {
         if (effectiveMode(ctx) !== "plan" || !ctx.hasUI) return;
 
-        const choice = await ctx.ui.select("Plan mode - what next?", [
-            "Switch to auto mode and implement",
-            "Provide feedback",
-        ]);
+        const result = await showPlanPrompt(ctx, "Plan mode - what next?");
+        if (!result || result.action === "cancel") return;
 
-        if (choice?.startsWith("Switch")) {
+        if (result.action === "implement") {
             setMode("auto", ctx);
-            pi.sendUserMessage(
-                "Implement the plan now. Apply the changes described in the plan you just produced.",
-                { deliverAs: "followUp" }
-            );
-        } else if (choice?.startsWith("Provide")) {
-            const feedback = await ctx.ui.input("Feedback:", "");
-            if (feedback?.trim()) {
-                pi.sendUserMessage(feedback.trim(), { deliverAs: "followUp" });
-            }
+            const message = result.note
+                ? `Implement the plan now. Apply the changes described in the plan you just produced.\n\nAdditional context: ${result.note}`
+                : "Implement the plan now. Apply the changes described in the plan you just produced.";
+            pi.sendUserMessage(message, { deliverAs: "followUp" });
+        } else if (result.note) {
+            pi.sendUserMessage(result.note, { deliverAs: "followUp" });
         }
     });
 
