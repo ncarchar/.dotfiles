@@ -5,6 +5,8 @@ alias git-prune="~/.scripts/git-prune.sh"
 alias nvim-min="nvim -u ~/.config/nvim/init-min.lua"
 alias _npm="$(command -v npm)"
 alias npm="pnpm"
+alias _npx="$(command -v npx)"
+alias npx="pnpm dlx"
 
 if command -v eza >/dev/null 2>&1; then
     alias ls="eza --all --group-directories-first -F --icons=always --width 80"
