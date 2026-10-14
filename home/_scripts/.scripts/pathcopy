@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+path="$(realpath "${1:-.}")"
+
+if [[ "$HOSTNAME" == COV* ]]; then
+    printf '%s' "$path" | /mnt/c/WINDOWS/system32/clip.exe
+else
+    printf '%s' "$path" | wl-copy
+fi
