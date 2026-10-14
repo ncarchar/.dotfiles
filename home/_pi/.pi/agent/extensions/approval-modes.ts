@@ -1,10 +1,8 @@
 /*
  * Approval Modes Extension - Claude Code-style plan/auto edit approvals.
  *
- * /plan    - read-only: write/edit and non-read-only bash are blocked, except
- *            write/edit under a "__" scratch directory, which is always
- *            allowed (plan files). The model is steered to produce a
- *            structured implementation plan.
+ * /plan    - read-only: write/edit and non-read-only bash are blocked, and the
+ *            model is steered to produce a structured implementation plan.
  * /auto    - write/edit and known-safe bash apply automatically (default).
  * shift+tab - cycles auto -> plan -> auto.
  *
@@ -26,7 +24,7 @@ import {
 import { Type } from "@earendil-works/pi-ai";
 import { Input, Key, matchesKey, truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
 import { existsSync, readFileSync } from "node:fs";
-import { isAbsolute, join, relative, resolve, sep } from "node:path";
+import { join } from "node:path";
 
 const WRITE_TOOLS = new Set<string>(["edit", "write", "bash"]);
 
@@ -153,13 +151,13 @@ interface ModeState {
 
 const MODE_GUIDELINES: Record<Mode, string> = {
     auto: "Auto mode: apply edits and safe commands automatically.",
-    plan: "Plan mode: read-only except writing/editing files under a __* scratch directory (e.g. __<slug>/PLAN.md). Investigate the codebase and produce a structured implementation plan. When your plan is complete, call plan_next to ask the user whether to implement or collect feedback. Do not run bash, and do not write or edit outside a __* directory yourself.",
+    plan: "Plan mode: read-only. Investigate the codebase and produce a structured implementation plan. When your plan is complete, call plan_next to ask the user whether to implement or collect feedback. Do not call write, edit, or non-read-only bash yourself.",
 };
 
 /* Short human-facing summaries, distinct from the long model guidelines above. */
 const MODE_SUMMARIES: Record<Mode, string> = {
     auto: "edits and safe commands apply automatically",
-    plan: "read-only except __* writes; produce a plan",
+    plan: "read-only; produce a plan instead of editing",
 };
 
 function truncate(text: string, maxLines: number): string {
@@ -181,16 +179,6 @@ function colorize(code: string, lang: string | undefined, maxLines: number): str
 function describeEdit(input: Record<string, unknown>): string {
     if (typeof input.path === "string") return input.path;
     return "(unknown path)";
-}
-
-/* Plan scratch dirs (`__<slug>/`) stay writable in plan mode: the top-level
- * segment must start with `__`, matching the gitignored `__`-prefixed dirs.
- */
-function isScratchWrite(p: string, cwd: string): boolean {
-    const abs = resolve(cwd, p);
-    const rel = relative(cwd, abs);
-    if (rel === "" || rel.startsWith("..") || isAbsolute(rel)) return false;
-    return (rel.split(sep)[0] ?? "").startsWith("__");
 }
 
 function formatEdit(toolName: string, input: Record<string, unknown>): string {
@@ -668,11 +656,9 @@ export default function approvalModes(pi: ExtensionAPI): void {
         if (event.toolName === "bash") {
             if (effective === "plan") decision = "block";
             else decision = classification?.cls === "safe" ? "allow" : "prompt";
-        } else if (effective === "plan") {
-            const path = String(event.input.path ?? "");
-            decision = isScratchWrite(path, ctx.cwd) ? "allow" : "block";
         } else {
-            decision = "allow";
+            if (effective === "plan") decision = "block";
+            else decision = "allow";
         }
 
         if (decision === "allow") return undefined;
