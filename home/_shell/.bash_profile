@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 if [ -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
   . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
@@ -11,3 +11,7 @@ fi
 export PATH="$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:$PATH"
 
 [[ -f ~/.bashrc ]] && . ~/.bashrc
+
+if [[ $HOSTNAME == COV* ]]; then
+    login.sh
+fi
