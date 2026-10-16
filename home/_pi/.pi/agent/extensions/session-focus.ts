@@ -152,11 +152,7 @@ async function generateTopic(ctx: ExtensionContext, pi: ExtensionAPI): Promise<v
         .filter((c): c is { type: "text"; text: string } => c.type === "text")
         .map((c) => c.text)
         .join(" ");
-    const thinking = response.content
-        .filter((c): c is { type: "thinking"; thinking: string } => c.type === "thinking")
-        .map((c) => c.thinking)
-        .join(" ");
-    const topic = (text || thinking).replace(/\s+/g, " ").trim().toLowerCase();
+    const topic = text.replace(/\s+/g, " ").trim().toLowerCase();
     if (!topic) {
         console.error(
             "[session-focus] empty topic; content types:",
