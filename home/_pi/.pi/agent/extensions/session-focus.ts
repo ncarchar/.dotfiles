@@ -26,6 +26,7 @@ const TITLE_ACCURATE_THRESHOLD = 0.4;
  */
 const MAX_HISTORY_CHARS = 3000;
 const MAX_TOPIC_WORDS = 3;
+const TITLE_PREFIX = "π - ";
 
 /* Mirror the pi session name into the tmux window title (the tab name).
  * rename-window defaults to the *focused* window, so target pi's own pane via
@@ -33,16 +34,33 @@ const MAX_TOPIC_WORDS = 3;
  * a no-op (and a missing TMUX_PANE is treated the same way, rather than
  * renaming the wrong window).
  */
-function renameTmuxWindow(name: string) {
+function withTmuxWindow(cb: (window: string) => void) {
     const pane = process.env.TMUX_PANE;
-    if (!process.env.TMUX || !pane || !name) return;
+    if (!process.env.TMUX || !pane) return;
     execFile(
         "tmux",
         ["display-message", "-p", "-F", "#{window_id}", "-t", pane],
         (_err, stdout) => {
             const window = stdout.trim();
-            if (window) execFile("tmux", ["rename-window", "-t", window, name], () => {});
+            if (window) cb(window);
         }
+    );
+}
+
+function renameTmuxWindow(name: string) {
+    if (!name) return;
+    withTmuxWindow((window) =>
+        execFile("tmux", ["rename-window", "-t", window, name], () => {})
+    );
+}
+
+/* rename-window marks the window as manually named, disabling tmux's
+ * automatic-rename. Re-enable it on exit so the tab resumes tracking the
+ * foreground command (bash, nvim, ...).
+ */
+function restoreTmuxWindowName() {
+    withTmuxWindow((window) =>
+        execFile("tmux", ["set-option", "-w", "-t", window, "automatic-rename", "on"], () => {})
     );
 }
 
@@ -170,7 +188,7 @@ async function generateTopic(ctx: ExtensionContext, pi: ExtensionAPI): Promise<v
     }
 
     // Keep the footer title current; this overrides any manually-set name.
-    pi.setSessionName(topic);
+    pi.setSessionName(TITLE_PREFIX + topic);
 }
 
 export default function sessionFocus(pi: ExtensionAPI) {
@@ -197,6 +215,10 @@ export default function sessionFocus(pi: ExtensionAPI) {
     pi.on("turn_end", async (_event, ctx) => {
         turns += 1;
         if (turns === 1 || turns % REFRESH_EVERY_TURNS === 0) refresh(ctx);
+    });
+
+    pi.on("session_shutdown", () => {
+        restoreTmuxWindowName();
     });
 }
 
