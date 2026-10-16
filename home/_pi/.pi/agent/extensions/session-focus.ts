@@ -165,6 +165,14 @@ async function generateTopic(ctx: ExtensionContext, pi: ExtensionAPI): Promise<v
         return;
     }
 
+    const wordCount = topic.split(/\s+/).filter(Boolean).length;
+    if (wordCount > MAX_TOPIC_WORDS) {
+        console.error(
+            `[session-focus] title too long (${wordCount} > ${MAX_TOPIC_WORDS} words), skipping update: "${topic.slice(0, 80)}"`
+        );
+        return;
+    }
+
     // Keep the footer title current; this overrides any manually-set name.
     pi.setSessionName(topic);
 }
