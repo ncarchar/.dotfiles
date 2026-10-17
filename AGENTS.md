@@ -58,6 +58,7 @@ so the card is being RMA'd but still works for rendering. Display runs off the
 iGPU (Raphael, PCI `0000:6c:00.0`) via USB-C; the dGPU renders via PRIME offload.
 
 Config that supports this (in `nix/modules/configuration.nix`):
+
 - `boot.kernelParams = [ "amdgpu.runpm=0" ]` - dGPU must stay out of runtime
   suspend; BACO resume hangs (`gfx resume -110`).
 - `environment.sessionVariables.DRI_PRIME = "1"` - render everything on the

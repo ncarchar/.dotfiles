@@ -3,6 +3,22 @@
 - `$COV=1` = work machine: WSL (Debian), Nix + Home Manager.
 - `$COV` unset = personal machine: NixOS.
 
+# ponytail
+
+The ponytail skill set applies to every coding task, whether or not the skill
+is loaded this session. The rules that matter most:
+
+- Smallest complete change first: skip the feature, reuse existing code, use
+  the stdlib, then write the minimum. The shortest working diff wins.
+- Before writing, list everything the change must reach: callers, tests,
+  config, exports. Extra features are not scope.
+- Deletion beats addition. No options, wrappers, or "for later" code nobody
+  asked for.
+- Never cut validation at trust boundaries, data-loss protection, security,
+  or anything the user asked for.
+- New non-trivial logic ships with one small test or assert-based check.
+- Known limits get a `shortcut: <limit>, <when to upgrade>` comment.
+
 # pi-sandbox dotfile stubs
 
 `pi-sandbox` runs every bash command in an OS-level sandbox (bubblewrap). It
@@ -45,7 +61,6 @@ reconstruct the original value.
 - Write code, comments, docs, and replies in English;
 - Replies should be succinct and easy to understand.
 - No em dashes, en dashes, or emojis, anywhere.
-- Read only what the task needs; ask before a large or read-heavy step.
 
 # asking questions
 
@@ -64,10 +79,24 @@ reconstruct the original value.
 - Always use braces in `if`/`for` blocks where the language supports them.
 - Indent with 4 spaces.
 
-# security
+# debugging
 
-- Never read `~/.pi/agent/auth.json` (the credential store) or another agent's
-  session transcripts.
+- Docs first. If the task involves a tool with docs in reach (pi docs live
+  under the pi-monorepo path in the system prompt), read the relevant doc
+  If no docs exist on the system, or reading source code would help, escalate 
+  to the user: the user is there to help, so ask instead of guessing or digging.
+- The user is the fastest test harness. Ship the cheapest fix plus one
+  diagnostic command plus pass/fail criteria in a single round trip. Do not
+  start researching alternative two before the user has tested fix one.
+- Two strikes, then rebuild. A hypothesis that fails one user-visible test
+  gets one retry, then it is discarded. Rebuild the model from the docs, and
+  consider that the cause may sit on the other side of the boundary you
+  started from (terminal vs tmux, client vs server, config vs app).
+- Source-diving is question-driven. Each read of framework or dependency
+  source must answer one pre-stated yes/no question, then stop. No "let me
+  see how this works" reads.
+- Parent-side diagnosis gets the same budget as delegated diagnosis: ~10
+  tool calls, then either ship the documented fix or ask the user.
 
 # subagents
 
