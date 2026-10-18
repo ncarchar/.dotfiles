@@ -45,6 +45,8 @@
     DRI_PRIME = "1";
   };
 
+  hardware.bluetooth.enable = true;
+
   # docker
   virtualisation.docker.enable = true;
   virtualisation.docker.enableOnBoot = false;
