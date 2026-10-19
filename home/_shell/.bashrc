@@ -37,6 +37,13 @@ eval "$(direnv hook bash)"
 # prompt
 eval "$(starship init bash --print-full-init)"
 
+# pi (and other TUIs) set the terminal title via OSC 0 and never clear it on exit;
+# restore a neutral title whenever tmux shows this shell's prompt again.
+if [[ $- == *i* && -n $TMUX ]]; then
+    __pi_reset_title() { printf '\033]0;%s\007' "${HOSTNAME}"; }
+    PROMPT_COMMAND="__pi_reset_title${PROMPT_COMMAND:+; $PROMPT_COMMAND}"
+fi
+
 # manually alias zoxide
 export _ZO_ECHO=1
 eval "$(zoxide init bash --no-cmd)"
