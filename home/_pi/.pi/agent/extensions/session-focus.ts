@@ -112,7 +112,6 @@ async function titleStillAccurate(title: string, history: string): Promise<boole
             return answer.noul >= TITLE_ACCURATE_THRESHOLD;
         }
 
-        console.error("[session-focus] jev: unexpected answer", JSON.stringify(answer));
         return false;
     } catch {
         // Jev failure (timeout, HTTP error) is non-fatal: fall through and
@@ -134,7 +133,6 @@ async function generateTopic(ctx: ExtensionContext, pi: ExtensionAPI): Promise<v
 
     const model = ctx.model;
     if (!model || !ctx.modelRegistry.hasConfiguredAuth(model)) {
-        console.error("[session-focus] no authed model:", model?.id ?? "none");
         return;
     }
 
@@ -172,18 +170,11 @@ async function generateTopic(ctx: ExtensionContext, pi: ExtensionAPI): Promise<v
         .join(" ");
     const topic = text.replace(/\s+/g, " ").trim().toLowerCase();
     if (!topic) {
-        console.error(
-            "[session-focus] empty topic; content types:",
-            JSON.stringify(response.content.map((c) => (c as { type?: string }).type))
-        );
         return;
     }
 
     const wordCount = topic.split(/\s+/).filter(Boolean).length;
     if (wordCount > MAX_TOPIC_WORDS) {
-        console.error(
-            `[session-focus] title too long (${wordCount} > ${MAX_TOPIC_WORDS} words), skipping update: "${topic.slice(0, 80)}"`
-        );
         return;
     }
 
@@ -199,9 +190,7 @@ export default function sessionFocus(pi: ExtensionAPI) {
         if (running) return;
         running = true;
         generateTopic(ctx, pi)
-            .catch((error) => {
-                console.error("[session-focus] topic generation failed:", error instanceof Error ? error.message : String(error));
-            })
+            .catch(() => {})
             .finally(() => {
                 renameTmuxWindow(pi.getSessionName());
                 running = false;
