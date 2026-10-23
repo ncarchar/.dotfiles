@@ -12,8 +12,8 @@ return {
             vim.g.neoformat_verbose = 0
 
             vim.g.neoformat_htmlangular_prettier = {
-                exe = "npx",
-                args = { "prettier", "--stdin-filepath", "%:p" },
+                exe = "pnpm",
+                args = { "dlx", "prettier", "--stdin-filepath", "%:p" },
                 stdin = 1,
             }
             vim.g.neoformat_sql_sqlformatter = {
