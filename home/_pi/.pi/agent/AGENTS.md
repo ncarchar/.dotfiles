@@ -31,6 +31,13 @@ A name that does not exist yet becomes a mount point: a char device (`c`),
 These hold no data and are not repo files, secrets, or leaked host dotfiles.
 Do not read, edit, or commit them, and do not flag them as leaks. Ignore them.
 
+# concurrent changes
+
+The user or another agent may edit this repo while you are working on it.
+Treat this as normal, not an error. Do not panic, revert, or force-push.
+Re-read a file before relying on its earlier contents, and check `git status`
+before assuming the state you saw is still current.
+
 # file reading
 
 Read files with the `read` tool only; never `sed`, `awk`, `perl`, or `cut`.
