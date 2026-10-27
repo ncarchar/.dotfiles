@@ -11,7 +11,3 @@ fi
 export PATH="$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:$PATH"
 
 [[ -f ~/.bashrc ]] && . ~/.bashrc
-
-if [[ $HOSTNAME == COV* ]]; then
-    login.sh
-fi
