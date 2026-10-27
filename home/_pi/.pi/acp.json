@@ -3,6 +3,6 @@
   "autoUpdate": false,
   "compress": {
     "maxContextLimit": "75%",
-    "nudgeGrowthTokens": 80000
+    "nudgeGrowthTokens": 60000
   }
 }
