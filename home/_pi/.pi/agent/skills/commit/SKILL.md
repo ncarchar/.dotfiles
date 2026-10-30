@@ -30,9 +30,19 @@ Stages and commits changes to a local git repository using conventional commit s
 If `git commit` fails because of a lint step or git hook (Husky, ESLint,
 Prettier, etc.):
 
-- Try the project's basic lint-fix command first (usually a `lint` or `format`
-  script in `package.json`, e.g. `npm run lint -- --fix`).
-- If that does not resolve the failure, stop and report the issue to the user.
+1. First, raise the error to the user and ask which they prefer:
+   a) run the lint tool, or
+   b) bypass the tool.
+   Remember this answer and apply it to future commit failures for the rest
+   of the session, until the user says otherwise.
+
+2. If the user chooses to run the lint tool (or has not yet answered for the
+   session), try the project's basic lint-fix command (usually a `lint` or
+   `format` script in `package.json`, e.g. `npm run lint -- --fix`). If that
+   does not resolve the failure, stop and report the issue to the user.
+
+3. If the user chooses to bypass the tool, use `git commit --no-verify`.
+
 - Do NOT attempt to fix the lint errors yourself.
 
 ## Conventional Commit Format

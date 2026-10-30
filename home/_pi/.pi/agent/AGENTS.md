@@ -3,6 +3,12 @@
 - `$COV=1` = work machine: WSL (Debian), Nix + Home Manager.
 - `$COV` unset = personal machine: NixOS.
 
+# sandbox build artifacts
+
+When running `ng build` on `$COV=1`, the build may warn "Inlining of fonts
+failed". This is a sandbox artifact, not a real problem. Ignore it, or
+escalate the command to the user to run outside the sandbox.
+
 # ponytail
 
 The ponytail skill set applies to every coding task, whether or not the skill
