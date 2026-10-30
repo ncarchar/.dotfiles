@@ -21,9 +21,9 @@ gitignored plan directory, write an implementation plan, STOP for approval, then
 
 1. If there is no git repo (`.git` is absent), stop and ask the user before
    creating anything.
-2. Read `.gitignore` and check for a line `/__*/`.
+2. Read `.gitignore` and check for a line `__*/`.
    - Present: continue to Phase 1.
-   - Missing: append `/__*/` on its own line, then commit ONLY that `.gitignore`
+   - Missing: append `__*/` on its own line, then commit ONLY that `.gitignore`
      change using the `commit` skill (run `/commit`). Do not bundle other changes
      into this commit.
 
