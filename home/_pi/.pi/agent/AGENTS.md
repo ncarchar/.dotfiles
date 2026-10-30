@@ -5,10 +5,9 @@
 
 # sandbox build artifacts
 
-On `$COV=1` when working with Angular, a build may error with
-"Inlining of fonts failed". This is an artifact of the sandbox, not a real
-problem. Ignore it, or escalate the build command to the user to run outside
-the sandbox.
+When running `ng build` on `$COV=1`, the build may warn "Inlining of fonts
+failed". This is a sandbox artifact, not a real problem. Ignore it, or
+escalate the command to the user to run outside the sandbox.
 
 # ponytail
 
