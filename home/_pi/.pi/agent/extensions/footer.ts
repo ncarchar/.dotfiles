@@ -138,7 +138,14 @@ function renderFooter(
     let ctxColored = ctxValue;
     if (percent !== "?" && percentValue > 90) ctxColored = theme.fg("error", ctxValue);
     else if (percent !== "?" && percentValue > 70) ctxColored = theme.fg("warning", ctxValue);
-    group.push(`CTX: ${ctxColored}`);
+    const ctxTokens = contextUsage?.tokens;
+    group.push(
+        `CTX: ${ctxColored}${
+            ctxTokens === null || ctxTokens === undefined
+                ? ""
+                : ` (${formatTokens(ctxTokens)}/${formatTokens(contextUsage!.contextWindow)})`
+        }`,
+    );
     parts.push(`(${group.join(" ")})`);
 
     let statsLeft = parts.join(" ");
