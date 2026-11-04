@@ -12,7 +12,7 @@ import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { readdirSync, statSync, rmSync, rmdirSync } from "node:fs";
 import { basename, dirname, join } from "node:path";
 
-const RETENTION_DAYS = 14;
+const RETENTION_DAYS = 30;
 
 const SIDECAR_SUFFIX = ".acp.json";
 
