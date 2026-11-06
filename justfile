@@ -32,6 +32,14 @@ stow:
 ansible:
     ansible-playbook ./ansible/main.yml --ask-vault-pass --ask-become-pass
 
+# Commit pi settings.json: pi rewrites it on every thinking toggle /
+# version bump, so it lives behind --skip-worktree; lift the flag, commit,
+# restore it.
+commit-settings:
+    git update-index --no-skip-worktree home/_pi/.pi/agent/settings.json
+    just _commit
+    git update-index --skip-worktree home/_pi/.pi/agent/settings.json
+
 _commit:
     if [ -n "$(git status --porcelain)" ]; then \
         check="$(date -u +%Y%m%d-%H%M%S) $(hostname)"; \

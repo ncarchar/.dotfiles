@@ -4,5 +4,14 @@
   "compress": {
     "maxContextLimit": "75%",
     "nudgeGrowthTokens": 60000
+  },
+  "delegate": {
+    "agents": {
+      "reviewer": { "model": "openrouter/anthropic/claude-sonnet-5.5", "thinkingLevel": "high" },
+      "planner": { "model": "openrouter/anthropic/claude-sonnet-5.5", "thinkingLevel": "high" },
+      "oracle": { "model": "openrouter/anthropic/claude-sonnet-5.5", "thinkingLevel": "high" },
+      "researcher": { "model": "openrouter/anthropic/claude-haiku-5.5", "thinkingLevel": "high" },
+      "worker": { "model": "openrouter/anthropic/claude-haiku-5.5", "thinkingLevel": "high" }
+    }
   }
 }
