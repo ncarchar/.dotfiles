@@ -46,12 +46,19 @@ export default function voice(pi: ExtensionAPI) {
             child.once("close", () => resolve());
             child.kill("SIGTERM");
         });
-        const text = execSync(
-            `whisper-cli -m ${modelPath(modelName)} -f ${WAV} -nt -np 2>/dev/null`,
-            { encoding: "utf8" },
-        ).trim();
-        transcribing = false;
-        ctx.ui.setStatus("voice", undefined);
+        let text = "";
+        try {
+            text = execSync(
+                `whisper-cli -m ${modelPath(modelName)} -f ${WAV} -nt -np 2>/dev/null`,
+                { encoding: "utf8" },
+            ).trim();
+        } catch {
+            ctx.ui.notify("Transcription failed (see /voice-help)", "error");
+            return;
+        } finally {
+            transcribing = false;
+            ctx.ui.setStatus("voice", undefined);
+        }
         if (!text) {
             ctx.ui.notify("No speech detected", "warning");
             return;

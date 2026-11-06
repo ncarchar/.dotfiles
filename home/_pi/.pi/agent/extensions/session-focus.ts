@@ -54,16 +54,6 @@ function renameTmuxWindow(name: string) {
     );
 }
 
-/* rename-window marks the window as manually named, disabling tmux's
- * automatic-rename. Re-enable it on exit so the tab resumes tracking the
- * foreground command (bash, nvim, ...).
- */
-function restoreTmuxWindowName() {
-    withTmuxWindow((window) =>
-        execFile("tmux", ["set-option", "-w", "-t", window, "automatic-rename", "on"], () => {})
-    );
-}
-
 type Entry = { type?: string; message?: { role?: string; content?: unknown } };
 
 export function extractText(content: unknown): string {
@@ -185,15 +175,20 @@ async function generateTopic(ctx: ExtensionContext, pi: ExtensionAPI): Promise<v
 export default function sessionFocus(pi: ExtensionAPI) {
     let turns = 0;
     let running = false;
+    let stopped = false;
 
     const refresh = (ctx: ExtensionContext): void => {
-        if (running) return;
+        if (running || stopped) return;
         running = true;
         generateTopic(ctx, pi)
             .catch(() => {})
             .finally(() => {
-                renameTmuxWindow(pi.getSessionName());
                 running = false;
+                // After shutdown pi.* throws on the stale ctx, which would crash the process.
+                if (stopped) return;
+                try {
+                    renameTmuxWindow(pi.getSessionName());
+                } catch {}
             });
     };
 
@@ -207,7 +202,7 @@ export default function sessionFocus(pi: ExtensionAPI) {
     });
 
     pi.on("session_shutdown", () => {
-        restoreTmuxWindowName();
+        stopped = true;
     });
 }
 

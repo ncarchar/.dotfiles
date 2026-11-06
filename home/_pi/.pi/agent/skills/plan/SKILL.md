@@ -107,7 +107,7 @@ implement anything until the user approves or edits it. This is a hard gate.
 
 ## Phase 3 — Implement
 
-After explicit approval, work through the plan in order. After each item, update
+After explicit approval, ask whether to implement inline or run `/dispatch <slug>` (worker agents in worktrees). If inline, work through the plan in order. After each item, update
 its checkbox and note lines. Only check in with the user when an issue needs
 their decision or they explicitly asked to stop at each stage; otherwise keep
 going through the list.
