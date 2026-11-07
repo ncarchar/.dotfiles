@@ -7,7 +7,6 @@
     blesh
     btop
     bubblewrap
-    claude-code
     coreutils
     curl
     diffutils
