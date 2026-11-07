@@ -3,10 +3,12 @@ default:
 
 main:
     sudo nixos-rebuild switch --flake "path:./nix#nixos"
+    just _pi-settings main
     just _commit
 
 cov:
     home-manager switch --flake "./nix#cvhew"
+    just _pi-settings cov
     just _commit
 
 update:
@@ -32,13 +34,18 @@ stow:
 ansible:
     ansible-playbook ./ansible/main.yml --ask-vault-pass --ask-become-pass
 
-# Commit pi settings.json: pi rewrites it on every thinking toggle /
-# version bump, so it lives behind --skip-worktree; lift the flag, commit,
-# restore it.
-commit-settings:
-    git update-index --no-skip-worktree home/_pi/.pi/agent/settings.json
-    just _commit
-    git update-index --skip-worktree home/_pi/.pi/agent/settings.json
+# Build ~/.pi/agent/settings.json as { ...live, ...base, ...host }. Pi owns the
+# live file (runtime keys like hideThinkingBlock), the repo layers win.
+# shortcut: shallow merge, nested objects are replaced; use `jq -s '.[0] * .[1] * .[2]'` if needed.
+_pi-settings host:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    f=~/.pi/agent/settings.json
+    src=~/.dotfiles/home/_pi/settings
+    [ -L "$f" ] && { cp --remove-destination -L "$f" "$f.tmp" 2>/dev/null && mv "$f.tmp" "$f" || rm -f "$f"; }
+    [ -f "$f" ] || echo '{}' > "$f"
+    jq -s 'add' "$f" "$src/settings.base.json" "$src/settings.{{host}}.json" > "$f.tmp"
+    mv "$f.tmp" "$f"
 
 _commit:
     if [ -n "$(git status --porcelain)" ]; then \

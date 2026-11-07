@@ -1,0 +1,13 @@
+{
+    "theme": "one-dark",
+    "defaultProvider": "openrouter",
+    "defaultThinkingLevel": "high",
+    "packages": [
+        "npm:pi-web-access",
+        "npm:@juicesharp/rpiv-ask-user-question",
+        "npm:pi-sandbox",
+        "git:github.com/DietrichGebert/ponytail",
+        "npm:billion-context-pi",
+        "npm:@gotgenes/pi-anthropic-auth"
+    ]
+}

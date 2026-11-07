@@ -1,0 +1,10 @@
+{
+    "defaultModel": "claude-sonnet-5-5",
+    "enabledModels": [
+        "claude-sonnet-5-5",
+        "claude-opus-5-5",
+        "claude-haiku-5-5",
+        "deepseek-v4-pro",
+        "deepseek-flash"
+    ]
+}
