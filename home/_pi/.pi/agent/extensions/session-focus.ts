@@ -4,14 +4,10 @@
  * /resume lists something meaningful. Runs once at session start, then
  * refreshes every REFRESH_EVERY_TURNS turns, not every prompt, so the extra
  * model call costs almost nothing.
- *
- * The name is also mirrored into the tmux window title (the tab name) on each
- * refresh. When pi is not running inside tmux this is a no-op.
  */
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 
 import { decide } from "./lib/jev";
-import { execFile } from "node:child_process";
 
 const REFRESH_EVERY_TURNS = 3;
 
@@ -27,32 +23,6 @@ const TITLE_ACCURATE_THRESHOLD = 0.4;
 const MAX_HISTORY_CHARS = 3000;
 const MAX_TOPIC_WORDS = 3;
 const TITLE_PREFIX = "π - ";
-
-/* Mirror the pi session name into the tmux window title (the tab name).
- * rename-window defaults to the *focused* window, so target pi's own pane via
- * TMUX_PANE. process.env.TMUX is only set inside tmux, so outside it this is
- * a no-op (and a missing TMUX_PANE is treated the same way, rather than
- * renaming the wrong window).
- */
-function withTmuxWindow(cb: (window: string) => void) {
-    const pane = process.env.TMUX_PANE;
-    if (!process.env.TMUX || !pane) return;
-    execFile(
-        "tmux",
-        ["display-message", "-p", "-F", "#{window_id}", "-t", pane],
-        (_err, stdout) => {
-            const window = stdout.trim();
-            if (window) cb(window);
-        }
-    );
-}
-
-function renameTmuxWindow(name: string) {
-    if (!name) return;
-    withTmuxWindow((window) =>
-        execFile("tmux", ["rename-window", "-t", window, name], () => {})
-    );
-}
 
 type Entry = { type?: string; message?: { role?: string; content?: unknown } };
 
@@ -184,11 +154,6 @@ export default function sessionFocus(pi: ExtensionAPI) {
             .catch(() => {})
             .finally(() => {
                 running = false;
-                // After shutdown pi.* throws on the stale ctx, which would crash the process.
-                if (stopped) return;
-                try {
-                    renameTmuxWindow(pi.getSessionName());
-                } catch {}
             });
     };
 

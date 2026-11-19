@@ -12,6 +12,7 @@ allowed-tools:
     - Bash(git log *)
     - Bash(git diff *)
     - Bash(git rev-parse *)
+    - Bash(~/.pi/agent/skills/dispatch/scripts/*)
 ---
 
 # Dispatch
@@ -62,12 +63,17 @@ A worker's exit status and self-report prove nothing. A delegate can exit
 non-zero after finishing the work (extension crash at shutdown), or exit 0
 without doing it. Check git state in each worktree:
 
-1. `git status --short` is clean.
-2. `git log --oneline <base>..<unit>` shows the expected commits.
-3. `git diff --stat <base>..<unit>` touches only files inside the boundary.
-4. Read the changed files. Run the unit's success check, plus the project's
+1. Run the mechanical checks from the main checkout (clean worktree, expected
+   commits, diff inside the boundary; boundary entries are files or `dir/`):
+
+   ```
+   ~/.pi/agent/skills/dispatch/scripts/verify.sh <base> <unit> <boundary>...
+   ```
+
+   Exit 1 means fail; treat the printed `FAIL:` lines as the evidence.
+2. Read the changed files. Run the unit's success check, plus the project's
    build/lint/test if one exists.
-5. For non-trivial diffs, delegate a read-only `reviewer`.
+3. For non-trivial diffs, delegate a read-only `reviewer`.
 
 If verification fails: report it with the evidence. Allow one retry (resume
 the run with `resumeFrom`, or re-dispatch with the exact defect). A second
@@ -84,16 +90,15 @@ Do not merge without an answer.
 In the main checkout, per verified unit:
 
 ```
-git merge --ff-only <unit>
-git worktree remove ../<repo>-<unit>
-git branch -d <unit>
+~/.pi/agent/skills/dispatch/scripts/merge.sh <base> <unit> [--keep]
 ```
 
-- If `--ff-only` fails because base moved, ask whether to rebase the unit in
-  its worktree or merge normally. Do not choose silently.
-- "Merge only": skip the last two commands.
+It runs `git merge --ff-only`, removes the worktree, and deletes the branch.
+
+- Exit 2 means the base moved (or is not checked out): ask whether to rebase
+  the unit in its worktree or merge normally. Do not choose silently.
+- "Merge only": pass `--keep`.
 - If a plan was used, tick its checkboxes and note the commit SHAs.
-- Finish with `git log --oneline` for the merged commits.
 
 ## Escalation rules
 

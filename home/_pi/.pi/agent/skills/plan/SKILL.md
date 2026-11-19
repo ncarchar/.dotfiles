@@ -32,7 +32,9 @@ gitignored plan directory, write an implementation plan, STOP for approval, then
 1. Determine the slug. Use the `<slug>` argument if given; otherwise infer a short
    one from the task (lowercase, hyphens, no spaces, e.g. `add-oauth`).
 2. Create `__<slug>/`.
-3. Write `__<slug>/PLAN.md` using the template and writing rules below.
+3. If `__<slug>/RECON.md` exists (see the `scout` skill), read it first and
+   reuse it instead of re-exploring.
+4. Write `__<slug>/PLAN.md` using the template and writing rules below.
 
 ### PLAN.md template
 

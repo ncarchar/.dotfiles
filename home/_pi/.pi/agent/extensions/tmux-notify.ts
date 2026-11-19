@@ -12,9 +12,17 @@ import { homedir } from "node:os";
 
 const SOUND = `${homedir()}/.local/share/sounds/pi-turn.mp3`;
 
+function ring() {
+    process.stdout.write("\x07");
+    execFile("paplay", [SOUND], () => {});
+}
+
 export default function (pi: ExtensionAPI) {
-    pi.on("agent_settled", () => {
-        process.stdout.write("\x07");
-        execFile("paplay", [SOUND], () => {});
+    pi.on("agent_settled", ring);
+    // A pending question blocks the turn, so agent_settled never fires for it.
+    pi.on("tool_execution_start", (event) => {
+        if (event.toolName === "ask_user_question") {
+            ring();
+        }
     });
 }
