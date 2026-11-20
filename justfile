@@ -11,6 +11,9 @@ cov:
     just _pi-settings cov
     just _commit
 
+switch:
+    if [ "${COV:-}" = 1 ]; then just cov; else just main; fi
+
 update:
     nix flake update --flake "path:./nix"
 
