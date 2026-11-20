@@ -11,10 +11,15 @@ else
     echo "No Zscaler found, using on-site DNS"
 fi
 
-sudo chattr -i /etc/resolv.conf
-printf "$CONTENT\n" | sudo tee /etc/resolv.conf >/dev/null
-sudo chattr +i /etc/resolv.conf
+if cmp -s <(printf "$CONTENT\n") /etc/resolv.conf; then
+    echo "resolv.conf already up to date"
+else
+    sudo chattr -i /etc/resolv.conf
+    printf "$CONTENT\n" | sudo tee /etc/resolv.conf >/dev/null
+    sudo chattr +i /etc/resolv.conf
+    echo "Done."
+fi
 
-echo "Done. Current resolv.conf:"
+echo "Current resolv.conf:"
 echo ""
 cat /etc/resolv.conf
