@@ -1,7 +1,7 @@
 /*
  * Publishes the agent state as the tmux window option @pi_state
  * (run | ask | idle). "ask" = blocked on ask_user_question. The status bar
- * (.tmux.conf) and ~/.scripts/fleet.sh read it. Outside tmux this is a no-op.
+ * (.tmux.conf) reads it. Outside tmux this is a no-op.
  */
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { execFile } from "node:child_process";

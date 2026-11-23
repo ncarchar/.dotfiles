@@ -55,4 +55,5 @@ bindings = [
   { key = "Down", mods = "Shift", action = "ScrollLineDown" },
   { key = "Space", mods = "Control", chars = "\u0000" },
   { key = "Enter", mods = "Shift", chars = "\u001b[13;2u" },
+  { key = "T", mods = "Control|Shift", chars = "\u001b[116;6u" },
 ]
