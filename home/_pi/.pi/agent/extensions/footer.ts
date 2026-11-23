@@ -20,31 +20,9 @@ import type {
     ReadonlyFooterDataProvider,
     Theme,
 } from "@earendil-works/pi-coding-agent";
+import { accumulateUsage, type EntryLike, type UsageCache } from "./lib/session-usage";
 
-interface Totals {
-    input: number;
-    output: number;
-    cacheRead: number;
-    cacheWrite: number;
-    cost: number;
-}
-
-interface UsageLike {
-    input?: number;
-    output?: number;
-    cacheRead?: number;
-    cacheWrite?: number;
-    cost?: { total?: number };
-}
-
-function addUsage(totals: Totals, usage: UsageLike | null | undefined): void {
-    if (!usage) return;
-    totals.input += usage.input ?? 0;
-    totals.output += usage.output ?? 0;
-    totals.cacheRead += usage.cacheRead ?? 0;
-    totals.cacheWrite += usage.cacheWrite ?? 0;
-    totals.cost += usage.cost?.total ?? 0;
-}
+let usageCache: UsageCache | undefined;
 
 function formatTokens(count: number): string {
     if (count < 1000) return count.toString();
@@ -78,28 +56,12 @@ function renderFooter(
     const model = ctx.model;
 
     // Cumulative usage across all entries (same rules as the built-in footer).
-    const totals: Totals = { input: 0, output: 0, cacheRead: 0, cacheWrite: 0, cost: 0 };
-    let latestCacheHitRate: number | undefined;
-    for (const entry of ctx.sessionManager.getEntries()) {
-        if (entry.type === "usage") {
-            addUsage(totals, (entry as { usage?: UsageLike }).usage);
-        } else if (entry.type === "message") {
-            const msg = (entry as { message?: { role?: string; usage?: UsageLike } }).message;
-            if (msg?.role === "assistant") {
-                addUsage(totals, msg.usage);
-                if (msg.usage) {
-                    const promptTokens =
-                        (msg.usage.input ?? 0) + (msg.usage.cacheRead ?? 0) + (msg.usage.cacheWrite ?? 0);
-                    latestCacheHitRate =
-                        promptTokens > 0 ? ((msg.usage.cacheRead ?? 0) / promptTokens) * 100 : undefined;
-                }
-            } else if (msg?.role === "toolResult" && msg.usage) {
-                addUsage(totals, msg.usage);
-            }
-        } else if (entry.type === "branch_summary" || entry.type === "compaction") {
-            addUsage(totals, (entry as { usage?: UsageLike }).usage);
-        }
-    }
+    // Only entries appended since the last render are rescanned (lib/session-usage.ts).
+    const { totals, latestCacheHitRate, cache } = accumulateUsage(
+        ctx.sessionManager.getEntries() as EntryLike[],
+        usageCache
+    );
+    usageCache = cache;
 
     // Context usage; percent is null right after compaction, undefined before any usage.
     const contextUsage = ctx.getContextUsage();
