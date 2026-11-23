@@ -9,8 +9,6 @@
  *
  * Any extension can add a footer segment with ctx.ui.setStatus(key, text); it
  * renders on the last line sorted by key, so no change here is needed to add one.
- * The "approval-mode" segment (approval-modes.ts) is the exception: it is pulled
- * out of the last line and right-aligned on line 1 next to the cwd instead.
  */
 
 import { randomUUID } from "node:crypto";
@@ -192,39 +190,22 @@ function renderFooter(
     const dimRemainder = theme.fg("dim", statsLine.slice(statsLeft.length));
     const lines: string[] = [];
 
-    // Line 3 feed: extension statuses, sorted by key. The approval mode rides on
-    // line 1 (right-aligned), so it is excluded here.
+    // Line 3: extension statuses, sorted by key.
     const statuses = footerData.getExtensionStatuses();
-    const modeStatus = statuses.get("approval-mode");
 
-    // Line 1: cwd left, approval mode right-aligned. Truncate the cwd before
-    // dropping the mode entirely.
+    // Line 1: cwd, truncated to the terminal width.
     const dots = theme.fg("dim", "...");
-    const dimPwd = truncateToWidth(theme.fg("dim", pwd), width, dots);
-    if (modeStatus !== undefined) {
-        const modeWidth = visibleWidth(modeStatus);
-        const availForPwd = width - modeWidth - minPadding;
-        if (availForPwd >= 1) {
-            const truncatedPwd = truncateToWidth(theme.fg("dim", pwd), availForPwd, dots);
-            const pad = " ".repeat(Math.max(0, width - visibleWidth(truncatedPwd) - modeWidth));
-            lines.push(truncatedPwd + pad + modeStatus);
-        } else {
-            lines.push(dimPwd);
-        }
-    } else {
-        lines.push(dimPwd);
-    }
+    lines.push(truncateToWidth(theme.fg("dim", pwd), width, dots));
     lines.push(dimStatsLeft + dimRemainder);
     lines.push("");
 
     if (statuses.size > 0) {
-        const otherStatuses = Array.from(statuses.entries()).filter(([key]) => key !== "approval-mode");
-        if (otherStatuses.length > 0) {
-            const statusLine = otherStatuses
-                .sort(([a], [b]) => a.localeCompare(b))
-                .map(([, text]) => sanitizeStatusText(text))
-                .join(" ");
-            lines.push(truncateToWidth(statusLine, width, theme.fg("dim", "...")));
+        const statusLine = Array.from(statuses.entries())
+            .sort(([a], [b]) => a.localeCompare(b))
+            .map(([, text]) => sanitizeStatusText(text))
+            .join(" ");
+        if (statusLine !== "") {
+            lines.push(truncateToWidth(statusLine, width, dots));
         }
     }
 

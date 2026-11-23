@@ -114,8 +114,12 @@ async function fetchPricing(): Promise<Map<string, PricingEntry> | undefined> {
         const json = (await res.json()) as {
             data?: Array<{ id: string; pricing?: Record<string, string> }>;
         };
+        // An error body or an empty list must not overwrite the good cache.
+        if (!res.ok || !json.data || json.data.length === 0) {
+            return undefined;
+        }
         const map = new Map(
-            (json.data ?? []).map((m) => [
+            json.data.map((m) => [
                 m.id,
                 {
                     prompt: Number(m.pricing?.prompt ?? 0),

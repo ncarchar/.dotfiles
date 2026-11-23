@@ -1,164 +1,23 @@
 /*
- * Approval Modes Extension - Claude Code-style plan/auto edit approvals.
+ * Bash approval guard - confirm destructive commands before they run.
  *
- * /plan    - read-only: write/edit and non-read-only bash are blocked, and the
- *            model is steered to produce a structured implementation plan.
- * /auto    - write/edit and known-safe bash apply automatically (default).
- * shift+tab - cycles auto -> plan -> auto.
+ * edit/write always apply. A bash command runs too, unless it matches one of
+ * UNSAFE_PATTERNS (lib/unsafe-bash.ts). That opens an approve/reject prompt;
+ * both choices accept a note, which is attached to the tool result.
  *
- * Bash classification (readonlyBash / unsafePatterns) loads from
- * ~/.pi/agent/bash-classification.json.
- *
- * pi-sandbox is the real OS-level guard underneath (bwrap blocks writes to
- * paths outside allowWrite and blocks unlisted domains). unsafePatterns here
- * is belt-and-suspenders for high-signal destructive commands, not a sandbox.
+ * This is a guard, not a sandbox. pi-sandbox is the real OS-level boundary
+ * (bwrap blocks writes outside allowWrite and blocks unlisted domains). This
+ * catches the high-signal destructive commands the sandbox would otherwise
+ * allow: repo writes such as `git reset --hard`, and pushes over github.com.
  */
 
 import {
-    getAgentDir,
-    getLanguageFromPath,
     highlightCode,
     type ExtensionAPI,
     type ExtensionContext,
 } from "@earendil-works/pi-coding-agent";
-import { Type } from "@earendil-works/pi-ai";
 import { Input, Key, matchesKey, truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
-import { existsSync, readFileSync } from "node:fs";
-import { join } from "node:path";
-
-const WRITE_TOOLS = new Set<string>(["edit", "write", "bash"]);
-
-type BashClass = "readonly" | "safe" | "unsafe";
-
-interface BashConfig {
-    readonlyBash: string[];
-    unsafePatterns: string[];
-}
-
-/* Empty fallbacks: ~/.pi/agent/bash-classification.json holds the live lists.
- * When it is missing or malformed, empty lists classify every non-empty command
- * as unsafe, so it prompts rather than runs with no guardrails.
- */
-const DEFAULT_BASH: BashConfig = {
-    readonlyBash: [],
-    unsafePatterns: [],
-};
-
-/* Strip leading `VAR=value ` env assignments from a command segment. */
-const ENV_PREFIX = /^(?:[A-Za-z_][A-Za-z0-9_]*=[^\s]+\s+)+/;
-
-/* Split a command on shell operators (`&&`, `||`, `;`) and top-level newlines,
- * but not inside quotes. A multi-line `jq`/`awk` program is one segment, not a
- * pile of continuation lines (`[`, `test(`) that would classify as unsafe.
- */
-function splitSegments(command: string): string[] {
-    const segments: string[] = [];
-    let current = "";
-    let quote: "'" | '"' | null = null;
-    for (let i = 0; i < command.length; i++) {
-        const ch = command[i]!;
-        if (quote !== null) {
-            current += ch;
-            if (ch === quote) quote = null;
-            continue;
-        }
-        if (ch === "'" || ch === '"') {
-            quote = ch;
-            current += ch;
-            continue;
-        }
-        const two = command.slice(i, i + 2);
-        if (two === "&&" || two === "||") {
-            const seg = current.trim();
-            if (seg !== "") segments.push(seg);
-            current = "";
-            i++;
-            continue;
-        }
-        if (ch === ";" || ch === "\n") {
-            const seg = current.trim();
-            if (seg !== "") segments.push(seg);
-            current = "";
-            continue;
-        }
-        current += ch;
-    }
-    const last = current.trim();
-    if (last !== "") segments.push(last);
-    return segments;
-}
-
-function matchesCommand(segment: string, entry: string): boolean {
-    const seg = segment.replace(ENV_PREFIX, "");
-    return seg === entry || seg.startsWith(entry + " ");
-}
-
-function loadBashConfig(): BashConfig {
-    try {
-        const configPath = join(getAgentDir(), "bash-classification.json");
-        if (!existsSync(configPath)) return DEFAULT_BASH;
-        const parsed: unknown = JSON.parse(readFileSync(configPath, "utf-8"));
-        const record = (parsed ?? {}) as Record<string, unknown>;
-        const list = (key: keyof BashConfig): string[] => {
-            const value = record[key];
-            return Array.isArray(value) && value.every((item) => typeof item === "string")
-                ? (value as string[])
-                : DEFAULT_BASH[key];
-        };
-        return {
-            readonlyBash: list("readonlyBash"),
-            unsafePatterns: list("unsafePatterns"),
-        };
-    } catch {
-        return DEFAULT_BASH;
-    }
-}
-
-interface BashClassification {
-    cls: BashClass;
-    command?: string;
-}
-
-function commandName(segment: string): string {
-    const rest = segment.replace(ENV_PREFIX, "");
-    const word = rest.split(/\s+/)[0] ?? "";
-    return word.split("/").pop() || "command";
-}
-
-function classifyBash(command: string, cfg: BashConfig): BashClassification {
-    const segments = splitSegments(command);
-    if (segments.length === 0) return { cls: "readonly" };
-
-    for (const seg of segments) {
-        if (cfg.unsafePatterns.some((p) => seg.includes(p))) {
-            return { cls: "unsafe", command: commandName(seg) };
-        }
-    }
-    const isReadonly = (s: string): boolean =>
-        cfg.readonlyBash.some((e) => matchesCommand(s, e));
-    if (segments.every(isReadonly)) return { cls: "readonly" };
-    const seg = segments.find((s) => !isReadonly(s));
-    return { cls: "safe", command: seg ? commandName(seg) : undefined };
-}
-
-type Mode = "auto" | "plan";
-
-const MODES: Mode[] = ["auto", "plan"];
-
-interface ModeState {
-    mode: Mode;
-}
-
-const MODE_GUIDELINES: Record<Mode, string> = {
-    auto: "Auto mode: apply edits and safe commands automatically.",
-    plan: "Plan mode: read-only. Investigate the codebase and produce a structured implementation plan. When your plan is complete, call plan_next to ask the user whether to implement or collect feedback. Do not call write, edit, or non-read-only bash yourself.",
-};
-
-/* Short human-facing summaries, distinct from the long model guidelines above. */
-const MODE_SUMMARIES: Record<Mode, string> = {
-    auto: "edits and safe commands apply automatically",
-    plan: "read-only; produce a plan instead of editing",
-};
+import { isUnsafe } from "./lib/unsafe-bash";
 
 function truncate(text: string, maxLines: number): string {
     const lines = String(text).split("\n");
@@ -176,28 +35,8 @@ function colorize(code: string, lang: string | undefined, maxLines: number): str
     }
 }
 
-function describeEdit(input: Record<string, unknown>): string {
-    if (typeof input.path === "string") return input.path;
-    return "(unknown path)";
-}
-
-function formatEdit(toolName: string, input: Record<string, unknown>): string {
-    if (toolName === "bash") {
-        return `command:\n${colorize(String(input.command ?? ""), "bash", 30)}`;
-    }
-    if (toolName === "write") {
-        const path = describeEdit(input);
-        return `path: ${path}\n\n${colorize(String(input.content ?? ""), getLanguageFromPath(path), 40)}`;
-    }
-    const path = describeEdit(input);
-    const edits = Array.isArray(input.edits) ? (input.edits as Array<Record<string, unknown>>) : [];
-    const lang = getLanguageFromPath(path);
-    const parts = edits.map((e, i) => {
-        const oldText = colorize(String(e.oldText ?? ""), lang, 20);
-        const newText = colorize(String(e.newText ?? ""), lang, 20);
-        return `#${i + 1}\n- ${oldText}\n+ ${newText}`;
-    });
-    return `path: ${path}\n\n${parts.join("\n\n") || "(no diff)"}`;
+function formatBash(command: string): string {
+    return `command:\n${colorize(command, "bash", 30)}`;
 }
 
 type ApprovalAction = "approve" | "reject" | "cancel";
@@ -352,361 +191,45 @@ function showApprovalPrompt(
     });
 }
 
-type PlanPromptAction = "implement" | "feedback" | "cancel";
-
-interface PlanPromptResult {
-    action: PlanPromptAction;
-    note?: string;
-}
-
-const PLAN_PROMPT_OPTIONS: { label: string; key: string; action: PlanPromptAction }[] = [
-    { label: "Switch to auto mode and implement", key: "1", action: "implement" },
-    { label: "Provide feedback", key: "2", action: "feedback" },
-];
-
-/* Two-choice prompt with an optional note field toggled by tab, adding
- * context to send back to the agent for either selection.
- */
-function showPlanPrompt(
-    ctx: ExtensionContext,
-    heading: string
-): Promise<PlanPromptResult | undefined> {
-    return ctx.ui.custom<PlanPromptResult>((tui, theme, _kb, done) => {
-        const input = new Input();
-        let selectedIndex = 0;
-        let editing = false;
-        let componentFocused = false;
-
-        const selectedOption = (): (typeof PLAN_PROMPT_OPTIONS)[number] =>
-            PLAN_PROMPT_OPTIONS[selectedIndex]!;
-        const readNote = (): string | undefined => {
-            const value = input.getValue().trim();
-            return value.length > 0 ? value : undefined;
-        };
-        const updateFocus = (): void => {
-            input.focused = componentFocused && editing;
-        };
-
-        return {
-            get focused(): boolean {
-                return componentFocused;
-            },
-            set focused(value: boolean) {
-                componentFocused = value;
-                updateFocus();
-            },
-            render(width: number): string[] {
-                const out: string[] = [
-                    truncateToWidth(theme.fg("warning", heading), width),
-                    "",
-                ];
-                for (let i = 0; i < PLAN_PROMPT_OPTIONS.length; i++) {
-                    const option = PLAN_PROMPT_OPTIONS[i]!;
-                    const isSelected = i === selectedIndex;
-                    const prefix = isSelected ? " → " : "   ";
-                    const keyHint = theme.fg("accent", `[${option.key}]`);
-                    let label = option.label;
-                    if (editing && isSelected) {
-                        const base = `${prefix}${keyHint} ${label} `;
-                        const inputWidth = Math.max(1, width - visibleWidth(base));
-                        label += `${theme.fg("accent", input.render(inputWidth)[0] ?? "")}`;
-                    }
-                    out.push(truncateToWidth(`${prefix}${keyHint} ${label}`, width));
-                }
-                out.push("");
-                out.push(
-                    truncateToWidth(
-                        theme.fg(
-                            "dim",
-                            editing
-                                ? "enter confirm · esc discard note · ↑↓ move selection"
-                                : "↑↓ navigate · 1/2 select · tab add context · enter confirm · esc cancel"
-                        ),
-                        width
-                    )
-                );
-                return out;
-            },
-            handleInput(data: string): void {
-                if (matchesKey(data, Key.ctrl("c"))) {
-                    done({ action: "cancel" });
-                    return;
-                }
-                if (editing) {
-                    if (matchesKey(data, Key.escape)) {
-                        editing = false;
-                        updateFocus();
-                        tui.requestRender();
-                        return;
-                    }
-                    if (matchesKey(data, Key.enter)) {
-                        done({ action: selectedOption().action, note: readNote() });
-                        return;
-                    }
-                    if (matchesKey(data, Key.up) || matchesKey(data, Key.down)) {
-                        const delta = matchesKey(data, Key.up) ? -1 : 1;
-                        selectedIndex = Math.max(
-                            0,
-                            Math.min(PLAN_PROMPT_OPTIONS.length - 1, selectedIndex + delta)
-                        );
-                        editing = false;
-                        updateFocus();
-                        tui.requestRender();
-                        return;
-                    }
-                    input.handleInput(data);
-                    tui.requestRender();
-                    return;
-                }
-                if (matchesKey(data, Key.escape)) {
-                    done({ action: "cancel" });
-                    return;
-                }
-                if (matchesKey(data, Key.tab)) {
-                    editing = true;
-                    updateFocus();
-                    tui.requestRender();
-                    return;
-                }
-                if (matchesKey(data, Key.enter)) {
-                    done({ action: selectedOption().action });
-                    return;
-                }
-                if (matchesKey(data, Key.up)) {
-                    selectedIndex = Math.max(0, selectedIndex - 1);
-                    tui.requestRender();
-                    return;
-                }
-                if (matchesKey(data, Key.down)) {
-                    selectedIndex = Math.min(PLAN_PROMPT_OPTIONS.length - 1, selectedIndex + 1);
-                    tui.requestRender();
-                    return;
-                }
-                for (const option of PLAN_PROMPT_OPTIONS) {
-                    if (data === option.key) {
-                        done({ action: option.action });
-                        return;
-                    }
-                }
-            },
-            invalidate(): void {
-                input.invalidate();
-            },
-            dispose(): void {},
-        };
-    });
-}
-
-let mode: Mode = "auto";
-
-function effectiveMode(ctx: ExtensionContext): Mode {
-    return ctx.mode === "tui" ? mode : "auto";
-}
-
-export default function approvalModes(pi: ExtensionAPI): void {
-    const bash = loadBashConfig();
-
+export default function bashApproval(pi: ExtensionAPI): void {
     const pendingNotes = new Map<string, string>();
 
-    const statusKey = "approval-mode";
-
-    function updateStatus(ctx: ExtensionContext): void {
-        const label = mode;
-        const color =
-            mode === "auto"
-                ? ctx.ui.theme.fg("error", label)
-                : ctx.ui.theme.fg("accent", label);
-        ctx.ui.setStatus(statusKey, color);
-    }
-
-    function persist(): void {
-        pi.appendEntry(statusKey, { mode });
-    }
-
-    function setMode(next: Mode, ctx: ExtensionContext): void {
-        mode = next;
-        updateStatus(ctx);
-        persist();
-        ctx.ui.notify(`${next} mode: ${MODE_SUMMARIES[next]}`, "info");
-    }
-
-    function cycleMode(ctx: ExtensionContext): void {
-        setMode(MODES[(MODES.indexOf(mode) + 1) % MODES.length]!, ctx);
-    }
-
-    for (const m of MODES) {
-        pi.registerCommand(m, {
-            description: `${m} mode: ${MODE_SUMMARIES[m]}`,
-            handler: async (_args, ctx) => setMode(m, ctx),
-        });
-    }
-
-    pi.registerShortcut("shift+tab", {
-        description: "Cycle auto/plan approval mode",
-        handler: async (ctx) => cycleMode(ctx),
-    });
-
-    /* Steer the model with the active mode's hint. Toggling updates `mode`; the
-     * next turn swaps the current guideline into the system prompt, dropping any
-     * stale mode hint left over from a previous cycle.
-     */
-    pi.on("before_agent_start", async (event, ctx) => {
-        const opts = event.systemPromptOptions;
-        if (!Array.isArray(opts.promptGuidelines)) {
-            opts.promptGuidelines = [];
-        }
-        const guidelines = opts.promptGuidelines;
-        for (const stale of Object.values(MODE_GUIDELINES)) {
-            const index = guidelines.indexOf(stale);
-            if (index !== -1) guidelines.splice(index, 1);
-        }
-        guidelines.push(MODE_GUIDELINES[effectiveMode(ctx)]);
-    });
-
-    pi.on("session_start", async (_event, ctx) => {
-        /* Only the interactive session restores (and shows) its saved mode. A
-         * headless run or child session's entries must never flip the shared
-         * module state, and headless enforcement is auto regardless (effectiveMode).
-         */
-        if (ctx.mode !== "tui") return;
-        for (const entry of ctx.sessionManager.getEntries()) {
-            if (entry.type === "custom" && entry.customType === statusKey) {
-                const data = entry.data as ModeState | undefined;
-                if (
-                    data &&
-                    (data.mode === "auto" || data.mode === "plan")
-                ) {
-                    mode = data.mode;
-                }
-            }
-        }
-        updateStatus(ctx);
-    });
-
-    /* Agent calls this when its plan is complete: ask the user to switch to
-     * auto mode and implement, or collect feedback. The tool result carries the
-     * choice back to the model, so no follow-up turn is needed; switching mode
-     * here also lifts the plan-mode block for any edits later in the same turn.
-     */
-    pi.registerTool({
-        name: "plan_next",
-        label: "Plan next step",
-        description:
-            "After presenting a plan, ask the user what to do next: switch to auto mode and implement, or provide feedback. Call once, only when the plan is complete and before editing.",
-        parameters: Type.Object({}),
-        exposure: "model-only",
-        async execute(_toolCallId, _params, _signal, _onUpdate, ctx) {
-            if (ctx.mode !== "tui") {
-                return {
-                    content: [
-                        {
-                            type: "text",
-                            text: "No interactive UI is available; present the plan as a normal message instead.",
-                        },
-                    ],
-                    details: {},
-                };
-            }
-
-            const result = await showPlanPrompt(ctx, "Plan mode - what next?");
-            if (!result || result.action === "cancel") {
-                return {
-                    content: [
-                        {
-                            type: "text",
-                            text: "The user dismissed the prompt. Stay in plan mode and present the plan as a normal message.",
-                        },
-                    ],
-                    details: {},
-                };
-            }
-
-            if (result.action === "implement") {
-                setMode("auto", ctx);
-                const note = result.note ? `\n\nAdditional context: ${result.note}` : "";
-                return {
-                    content: [
-                        {
-                            type: "text",
-                            text: `The user chose to switch to auto mode and implement. You are now in auto mode; the read-only plan restriction is lifted. Apply the changes described in your plan.${note}`,
-                        },
-                    ],
-                    details: {},
-                };
-            }
-
-            const feedback = result.note
-                ? `The user provided feedback on your plan. Stay in plan mode and revise or respond based on it:\n\n${result.note}`
-                : 'The user chose to provide feedback but entered none. Stay in plan mode and ask what they would like to change.';
-            return { content: [{ type: "text", text: feedback }], details: {} };
-        },
-    });
-
     pi.on("tool_call", async (event, ctx) => {
-        if (!WRITE_TOOLS.has(event.toolName)) return undefined;
+        if (event.toolName !== "bash") return undefined;
 
-        let classification: BashClassification | undefined;
-        if (event.toolName === "bash") {
-            classification = classifyBash(String(event.input.command ?? ""), bash);
-            if (classification.cls === "readonly") return undefined;
-        }
-
-        const effective = effectiveMode(ctx);
-        let decision: "allow" | "prompt" | "block";
-        if (event.toolName === "bash") {
-            if (effective === "plan") decision = "block";
-            else decision = classification?.cls === "safe" ? "allow" : "prompt";
-        } else {
-            if (effective === "plan") decision = "block";
-            else decision = "allow";
-        }
-
-        if (decision === "allow") return undefined;
-
-        if (decision === "block") {
-            return {
-                block: true,
-                reason: `Plan mode: ${event.toolName} blocked (read-only; produce a plan instead)`,
-            };
-        }
+        const command = String(event.input.command ?? "");
+        const pattern = isUnsafe(command);
+        if (pattern === undefined) return undefined;
 
         if (!ctx.hasUI) {
             return {
                 block: true,
-                reason: `${effective} mode: ${event.toolName} blocked (no UI to confirm)`,
+                reason: `bash blocked (no UI to confirm unsafe pattern \`${pattern}\`)`,
             };
         }
 
-        const flaggedCmd = classification?.command ?? "command";
-        const reason = `auto mode: \`${flaggedCmd}\` classified unsafe`;
-
         const result = await showApprovalPrompt(
             ctx,
-            `Approve ${event.toolName}?`,
-            formatEdit(event.toolName, event.input as Record<string, unknown>),
-            reason
+            "Approve bash command?",
+            formatBash(command),
+            `unsafe pattern: \`${pattern}\``
         );
         const action = result?.action;
         const note = result?.note;
 
-        if (action === undefined || action === "cancel") {
-            return {
-                block: true,
-                reason: `${event.toolName} cancelled by user (${effective} mode)`,
-            };
+        if (action === "approve") {
+            if (note) {
+                pendingNotes.set(event.toolCallId, note);
+            }
+            return undefined;
         }
         if (action === "reject") {
             return {
                 block: true,
-                reason: note
-                    ? `${event.toolName} rejected: ${note}`
-                    : `${event.toolName} rejected by user (${effective} mode)`,
+                reason: note ? `bash rejected: ${note}` : "bash rejected by user",
             };
         }
-        if (note) {
-            pendingNotes.set(event.toolCallId, note);
-        }
-        return undefined;
+        return { block: true, reason: "bash cancelled by user" };
     });
 
     pi.on("tool_result", async (event) => {

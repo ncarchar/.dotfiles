@@ -1,5 +1,8 @@
-import { spawn, execSync, type ChildProcess } from "node:child_process";
+import { spawn, execFile, type ChildProcess } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { promisify } from "node:util";
+
+const execFileAsync = promisify(execFile);
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 
 // q5_0 is the default (size/quality sweet spot); q8_0 for max quality.
@@ -42,16 +45,23 @@ export default function voice(pi: ExtensionAPI) {
         recording = null;
         transcribing = true;
         ctx.ui.setStatus("voice", "transcribing...");
-        await new Promise<void>((resolve) => {
-            child.once("close", () => resolve());
-            child.kill("SIGTERM");
-        });
+        // "close" already fired if parecord died or never started; awaiting it then hangs forever.
+        const running = child.pid !== undefined && child.exitCode === null && child.signalCode === null;
+        if (running) {
+            await new Promise<void>((resolve) => {
+                child.once("close", () => resolve());
+                child.once("error", () => resolve());
+                child.kill("SIGTERM");
+            });
+        }
         let text = "";
         try {
-            text = execSync(
-                `whisper-cli -m ${modelPath(modelName)} -f ${WAV} -nt -np 2>/dev/null`,
+            const { stdout } = await execFileAsync(
+                "whisper-cli",
+                ["-m", modelPath(modelName), "-f", WAV, "-nt", "-np"],
                 { encoding: "utf8" },
-            ).trim();
+            );
+            text = stdout.trim();
         } catch {
             ctx.ui.notify("Transcription failed (see /voice-help)", "error");
             return;
