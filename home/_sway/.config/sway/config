@@ -41,7 +41,7 @@ for_window [instance="^steam_app_"] border none, fullscreen disable
 exec gammastep -l 40:-80 -b 1:0.92 -t 6500:5800
 exec swaybg -i /home/ncarchar/.config/wallpapers/.leaves.jpg -m fill
 
-bindsym $mod+m exec pkill -SIGUSR1 waybar
+bindsym $mod+Shift+m exec pkill -SIGUSR1 waybar
 
 # use pactl to adjust volume in PulseAudio.
 bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 10%+ --limit 1.0
