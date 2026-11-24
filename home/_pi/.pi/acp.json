@@ -10,8 +10,8 @@
       "reviewer": { "model": "openrouter/anthropic/claude-sonnet-5.5", "thinkingLevel": "high" },
       "planner": { "model": "openrouter/anthropic/claude-sonnet-5.5", "thinkingLevel": "high" },
       "oracle": { "model": "openrouter/anthropic/claude-sonnet-5.5", "thinkingLevel": "high" },
-      "researcher": { "model": "deepseek/deepseek-v4-flash-0731", "thinkingLevel": "high" },
-      "worker": { "model": "openrouter/anthropic/claude-haiku-5.5", "thinkingLevel": "high" }
+      "researcher": { "model": "openrouter/deepseek/deepseek-v4.1-flash-1017", "thinkingLevel": "high" },
+      "worker": { "model": "openrouter/deepseek/deepseek-v4.1-flash-1017", "thinkingLevel": "high" }
     }
   }
 }
