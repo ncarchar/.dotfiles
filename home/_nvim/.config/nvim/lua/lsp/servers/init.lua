@@ -22,6 +22,16 @@ return {
     marksman = {
         cmd = { "marksman", "server" },
     },
-    nil_ls = {},
+    nil_ls = {
+        settings = {
+            ["nil"] = {
+                nix = {
+                    flake = {
+                        autoArchive = true,
+                    },
+                },
+            },
+        },
+    },
     ts_ls = require("lsp.servers.ts_ls").setup(),
 }
